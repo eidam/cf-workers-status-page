@@ -1,0 +1,23 @@
+{
+  "name": "cf-workers-status-page",
+  "version": "1.0.0",
+  "author": "Adam Janiš <adam.janis@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "flareact dev",
+    "build": "flareact build",
+    "deploy": "flareact publish",
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "dependencies": {
+    "flareact": "^0.7.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2",
+    "yaml-loader": "^0.6.0"
+  }
+}

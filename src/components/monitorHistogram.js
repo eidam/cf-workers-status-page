@@ -1,8 +1,13 @@
 import config from '../../config.yaml'
 
-export default function MonitorHistogram({ kvMonitorsDaysMap, monitor }) {
+export default function MonitorHistogram({
+  kvMonitorsFailedDaysArray,
+  monitor,
+  kvMonitor,
+}) {
+  // create date and set date - daysInHistogram for the first day of the histogram
   let date = new Date()
-  date.setDate(date.getDate() - config.settings.daysInHistory)
+  date.setDate(date.getDate() - config.settings.daysInHistogram)
 
   if (typeof window !== 'undefined') {
     return (
@@ -10,7 +15,7 @@ export default function MonitorHistogram({ kvMonitorsDaysMap, monitor }) {
         key={`${monitor.id}-histogram`}
         className="horizontal flex histogram"
       >
-        {Array.from(Array(config.settings.daysInHistory).keys()).map(key => {
+        {Array.from(Array(config.settings.daysInHistogram + 1).keys()).map(key => {
           date.setDate(date.getDate() + 1)
           const dayInHistory = date.toISOString().split('T')[0]
           const dayInHistoryKey = 'h_' + monitor.id + '_' + dayInHistory
@@ -18,11 +23,15 @@ export default function MonitorHistogram({ kvMonitorsDaysMap, monitor }) {
           let bg = ''
           let dayInHistoryStatus = 'No data'
 
-          if (typeof kvMonitorsDaysMap[dayInHistoryKey] !== 'undefined') {
-            bg = kvMonitorsDaysMap[dayInHistoryKey] ? 'green' : 'orange'
-            dayInHistoryStatus = kvMonitorsDaysMap[dayInHistoryKey]
-              ? 'No outages'
-              : 'Some outages'
+          // filter all dates before first check, check the rest
+          if (kvMonitor && kvMonitor.firstCheck <= dayInHistory) {
+            if (!kvMonitorsFailedDaysArray.includes(dayInHistoryKey)) {
+              bg = 'green'
+              dayInHistoryStatus = 'No outage recorded'
+            } else {
+              bg = 'orange'
+              dayInHistoryStatus = 'Some outages'
+            }
           }
 
           return (

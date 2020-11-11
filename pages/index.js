@@ -13,7 +13,7 @@ import MonitorStatusLabel from '../src/components/monitorStatusLabel'
 export async function getEdgeProps() {
   // get KV data
   const kvMonitors = await getMonitors()
-  const kvMonitorsDays = await getMonitorsHistory()
+  const kvMonitorsFailedDays = await getMonitorsHistory()
   const kvLastUpdate = await getLastUpdate()
 
   // prepare data maps for components
@@ -24,16 +24,16 @@ export async function getEdgeProps() {
     if (x.metadata.operational === false) monitorsOperational = false
   })
 
-  let kvMonitorsDaysMap = {}
-  kvMonitorsDays.forEach(x => {
-    kvMonitorsDaysMap[x.name] = x.metadata.operational
+  // transform KV list to array of failed days
+  const kvMonitorsFailedDaysArray = kvMonitorsFailedDays.map(x => {
+    return x.name
   })
 
   return {
     props: {
       config,
       kvMonitorsMap,
-      kvMonitorsDaysMap,
+      kvMonitorsFailedDaysArray,
       monitorsOperational,
       kvLastUpdate,
     },
@@ -45,7 +45,7 @@ export async function getEdgeProps() {
 export default function Index({
   config,
   kvMonitorsMap,
-  kvMonitorsDaysMap,
+  kvMonitorsFailedDaysArray,
   monitorsOperational,
   kvLastUpdate,
 }) {
@@ -104,12 +104,13 @@ export default function Index({
               </div>
 
               <MonitorHistogram
-                kvMonitorsDaysMap={kvMonitorsDaysMap}
+                kvMonitorsFailedDaysArray={kvMonitorsFailedDaysArray}
                 monitor={monitor}
+                kvMonitor={kvMonitorsMap[monitor.id]}
               />
 
               <div className="horizontal flex between grey-text">
-                <div>{config.settings.daysInHistory} days ago</div>
+                <div>{config.settings.daysInHistogram} days ago</div>
                 <div>Today</div>
               </div>
             </div>

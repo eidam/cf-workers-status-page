@@ -1,6 +1,10 @@
 import config from '../../config.yaml'
 
-import { setKV, getKV, getKVWithMetadata, gcMonitors } from './helpers'
+import { setKV, getKVWithMetadata, gcMonitors, getKV } from './helpers'
+
+function getDate() {
+  return new Date().toISOString().split('T')[0]
+}
 
 export async function processCronTrigger(event) {
   for (const monitor of config.monitors) {
@@ -14,41 +18,43 @@ export async function processCronTrigger(event) {
       },
     }
 
-    const response = await fetch(monitor.url, init)
-    const monitorOperational = response.status === (monitor.expectStatus || 200)
-    const kvMonitor = await getKVWithMetadata('s_' + monitor.id)
+    const checkResponse = await fetch(monitor.url, init)
+    const kvState = await getKVWithMetadata('s_' + monitor.id)
 
     // metadata from monitor settings
-    const metadata = {
-      operational: monitorOperational,
-      statusCode: response.status,
+    const newMetadata = {
+      operational: checkResponse.status === (monitor.expectStatus || 200),
       id: monitor.id,
+      firstCheck: kvState.metadata ? kvState.metadata.firstCheck : getDate(),
     }
 
-    // write current status if status changed or for first time
+    // Write current status if status changed or for first time
     if (
-      !kvMonitor.metadata ||
-      kvMonitor.metadata.operational !== monitorOperational
+      !kvState.metadata ||
+      kvState.metadata.operational !== newMetadata.operational
     ) {
-      console.log('saving new results..')
+      console.log('Saving changed state..')
+
+      await setKV('s_' + monitor.id, null, newMetadata)
 
       if (typeof SECRET_SLACK_WEBHOOK !== 'undefined') {
-        await notifySlack(metadata)
+        await notifySlack(monitor, newMetadata)
       }
 
-      await setKV('s_' + monitor.id, null, metadata)
+      if (!newMetadata.operational) {
+        // try to get failed daily status first as KV read is cheaper than write
+        const kvFailedDayStatusKey = 'h_' + monitor.id + '_' + getDate()
+        const kvFailedDayStatus = await getKV(kvFailedDayStatusKey)
+
+        // write if not found
+        if (!kvFailedDayStatus) {
+          console.log('Saving new failed daily status..')
+          await setKV(kvFailedDayStatusKey, null)
+        }
+      }
     }
 
-    // check day status, write only on not operational or for first time
-    const kvDayStatusKey =
-      'h_' + monitor.id + '_' + new Date().toISOString().split('T')[0]
-    //console.log(kvDayStatusKey)
-    const kvDayStatus = await getKV(kvDayStatusKey)
-
-    if (!kvDayStatus || (kvDayStatus && !monitorOperational)) {
-      await setKV(kvDayStatusKey, null, metadata)
-    }
-
+    // save last check timestamp
     await setKV('lastUpdate', Date.now())
   }
   await gcMonitors(config)

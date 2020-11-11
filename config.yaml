@@ -1,7 +1,7 @@
 settings:
   title: "Status Page"
   logo: logo-192x192.png
-  daysInHistory: 90
+  daysInHistogram: 90
 
   allmonitorsOperational: "All Systems Operational"
   notAllmonitorsOperational: "Not All Systems Operational"

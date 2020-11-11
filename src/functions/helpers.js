@@ -4,7 +4,7 @@ export async function getMonitors() {
 }
 
 export async function getMonitorsHistory() {
-  const monitorsHistory = await listKV('h_', 600)
+  const monitorsHistory = await listKV('h_', 300)
   return monitorsHistory.keys
 }
 
@@ -14,10 +14,12 @@ export async function getLastUpdate() {
 
 export async function listKV(prefix = '', cacheTtl = false) {
   const cacheKey = 'list_' + prefix + '_' + process.env.BUILD_ID
-  const cachedResponse = await getKV(cacheKey)
 
-  if (cacheTtl && cachedResponse) {
-    return JSON.parse(cachedResponse)
+  if (cacheTtl) {
+    const cachedResponse = await getKV(cacheKey)
+    if (cachedResponse) {
+      return JSON.parse(cachedResponse)
+    }
   }
 
   let list = []
@@ -30,7 +32,7 @@ export async function listKV(prefix = '', cacheTtl = false) {
   } while (!res.list_complete)
 
   if (cacheTtl) {
-    await setKV(cacheKey, JSON.stringify({ keys: list }), null, 600)
+    await setKV(cacheKey, JSON.stringify({ keys: list }), null, cacheTtl)
   }
   return { keys: list }
 }

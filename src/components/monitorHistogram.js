@@ -15,22 +15,22 @@ export default function MonitorHistogram({
         key={`${monitor.id}-histogram`}
         className="horizontal flex histogram"
       >
-        {Array.from(Array(config.settings.daysInHistogram + 1).keys()).map(key => {
+        {Array.from(Array(config.settings.daysInHistogram).keys()).map(key => {
           date.setDate(date.getDate() + 1)
-          const dayInHistory = date.toISOString().split('T')[0]
-          const dayInHistoryKey = 'h_' + monitor.id + '_' + dayInHistory
+          const dayInHistogram = date.toISOString().split('T')[0]
+          const dayInHistogramKey = 'h_' + monitor.id + '_' + dayInHistogram
 
           let bg = ''
-          let dayInHistoryStatus = 'No data'
+          let dayInHistogramLabel = config.settings.dayInHistogramNoData
 
           // filter all dates before first check, check the rest
-          if (kvMonitor && kvMonitor.firstCheck <= dayInHistory) {
-            if (!kvMonitorsFailedDaysArray.includes(dayInHistoryKey)) {
+          if (kvMonitor && kvMonitor.firstCheck <= dayInHistogram) {
+            if (!kvMonitorsFailedDaysArray.includes(dayInHistogramKey)) {
               bg = 'green'
-              dayInHistoryStatus = 'No outage recorded'
+              dayInHistogramLabel = config.settings.dayInHistogramOperational
             } else {
               bg = 'orange'
-              dayInHistoryStatus = 'Some outages'
+              dayInHistogramLabel = config.settings.dayInHistogramNotOperational
             }
           }
 
@@ -38,7 +38,7 @@ export default function MonitorHistogram({
             <div key={key} className="hitbox">
               <div
                 className={`${bg} bar`}
-                data-tooltip={`${dayInHistory} - ${dayInHistoryStatus}`}
+                data-tooltip={`${dayInHistogram} - ${dayInHistogramLabel}`}
               />
             </div>
           )

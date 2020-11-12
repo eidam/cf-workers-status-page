@@ -1,3 +1,5 @@
+import config from '../../config.yaml'
+
 export async function getMonitors() {
   const monitors = await listKV('s_')
   return monitors.keys
@@ -73,18 +75,42 @@ export async function gcMonitors(config) {
   })
 }
 
-async function notifySlack(monitor, metadata) {
-  const blocks = [
-    {
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: `Some monitor is now in :this: status`,
+export async function notifySlack(monitor, newMetadata) {
+  const payload = {
+    attachments: [
+      {
+        color: newMetadata.operational ? '#36a64f' : '#f2c744',
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `Monitor *${monitor.name}* changed status to *${
+                newMetadata.operational
+                  ? config.settings.monitorLabelOperational
+                  : config.settings.monitorLabelNotOperational
+              }*`,
+            },
+          },
+          {
+            type: 'context',
+            elements: [
+              {
+                type: 'mrkdwn',
+                text: `${
+                  newMetadata.operational ? ':white_check_mark:' : ':x:'
+                } \`${monitor.method} ${monitor.url}\` - :eyes: <${
+                  config.settings.url
+                }|Status Page>`,
+              },
+            ],
+          },
+        ],
       },
-    },
-  ]
+    ],
+  }
   return fetch(SECRET_SLACK_WEBHOOK_URL, {
-    body: JSON.stringify({ blocks }),
+    body: JSON.stringify(payload),
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   })

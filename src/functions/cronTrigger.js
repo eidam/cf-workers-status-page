@@ -1,6 +1,12 @@
 import config from '../../config.yaml'
 
-import { setKV, getKVWithMetadata, gcMonitors, getKV } from './helpers'
+import {
+  setKV,
+  getKVWithMetadata,
+  gcMonitors,
+  getKV,
+  notifySlack,
+} from './helpers'
 
 function getDate() {
   return new Date().toISOString().split('T')[0]
@@ -14,7 +20,7 @@ export async function processCronTrigger(event) {
       method: monitor.method || 'GET',
       redirect: monitor.followRedirect ? 'follow' : 'manual',
       headers: {
-        'User-Agent': 'cf-worker-status-page',
+        'User-Agent': config.settings.user_agent || 'cf-worker-status-page',
       },
     }
 
@@ -28,29 +34,32 @@ export async function processCronTrigger(event) {
       firstCheck: kvState.metadata ? kvState.metadata.firstCheck : getDate(),
     }
 
-    // Write current status if status changed or for first time
+    // write current status if status changed or for first time
     if (
       !kvState.metadata ||
       kvState.metadata.operational !== newMetadata.operational
     ) {
       console.log('Saving changed state..')
 
-      await setKV('s_' + monitor.id, null, newMetadata)
-
-      if (typeof SECRET_SLACK_WEBHOOK !== 'undefined') {
+      // first try to notify Slack in case fetch() or other limit is reached
+      if (typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined') {
         await notifySlack(monitor, newMetadata)
       }
 
-      if (!newMetadata.operational) {
-        // try to get failed daily status first as KV read is cheaper than write
-        const kvFailedDayStatusKey = 'h_' + monitor.id + '_' + getDate()
-        const kvFailedDayStatus = await getKV(kvFailedDayStatusKey)
+      await setKV('s_' + monitor.id, null, newMetadata)
+    }
 
-        // write if not found
-        if (!kvFailedDayStatus) {
-          console.log('Saving new failed daily status..')
-          await setKV(kvFailedDayStatusKey, null)
-        }
+    // write daily status if monitor is not operational
+    if (!newMetadata.operational) {
+      // try to get failed daily status first as KV read is cheaper than write
+      const kvFailedDayStatusKey = 'h_' + monitor.id + '_' + getDate()
+      console.log(kvFailedDayStatusKey)
+      const kvFailedDayStatus = await getKV(kvFailedDayStatusKey)
+
+      // write if not found
+      if (!kvFailedDayStatus) {
+        console.log('Saving new failed daily status..')
+        await setKV(kvFailedDayStatusKey, null)
       }
     }
 

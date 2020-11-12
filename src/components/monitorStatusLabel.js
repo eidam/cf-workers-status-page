@@ -1,3 +1,5 @@
+import config from '../../config.yaml'
+
 export default function MonitorStatusLabel({ kvMonitorsMap, monitor }) {
   let labelColor = 'grey'
   let labelText = 'No data'
@@ -5,10 +7,10 @@ export default function MonitorStatusLabel({ kvMonitorsMap, monitor }) {
   if (typeof kvMonitorsMap[monitor.id] !== 'undefined') {
     if (kvMonitorsMap[monitor.id].operational) {
       labelColor = 'green'
-      labelText = 'Operational'
+      labelText = config.settings.monitorLabelOperational
     } else {
       labelColor = 'orange'
-      labelText = 'Not great not terrible'
+      labelText = config.settings.monitorLabelNotOperational
     }
   }
 

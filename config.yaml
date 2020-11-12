@@ -1,6 +1,7 @@
 settings:
   title: "Status Page"
-  logo: logo-192x192.png
+  url: "https://status-page.eidam.dev" # for Slack messages
+  logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90
 
   allmonitorsOperational: "All Systems Operational"
@@ -8,7 +9,9 @@ settings:
   monitorLabelOperational: "Operational"
   monitorLabelNotOperational: "Not great not terrible"
   monitorLabelNoData: "No data"
-
+  dayInHistogramNoData: "No data"
+  dayInHistogramOperational: "All good"
+  dayInHistogramNotOperational: "Some checks failed"
 
 monitors:
   - id: kiwi-com-homepage
@@ -71,13 +74,6 @@ monitors:
     method: GET
     expectStatus: 403
 
-  - id: google-com-2
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
-
   - id: cf-workers-status-page-2
     name: This Workers Status Page project made public
     description: /shrug
@@ -114,13 +110,6 @@ monitors:
     method: GET
     expectStatus: 403
 
-  - id: google-com-22
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
-
   - id: cf-workers-status-page-22
     name: This Workers Status Page project made public
     description: /shrug
@@ -146,7 +135,7 @@ monitors:
     name: Hello World
     url: 'http://cnn.cn/'
     method: GET
-    expectStatus: 200
+    expectStatus: 201
 
 
   - id: eidam-dev-333
@@ -155,13 +144,6 @@ monitors:
     url: 'https://eidam.dev'
     method: GET
     expectStatus: 403
-
-  - id: google-com-333
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
 
   - id: cf-workers-status-page-333
     name: This Workers Status Page project made public
@@ -206,13 +188,6 @@ monitors:
     method: GET
     expectStatus: 403
 
-  - id: 25-google-com
-    name: Bing.com
-    description: Bing homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
-
   - id: 25-cf-workers-status-page
     name: This Workers Status Page project made public
     description: /shrug
@@ -251,12 +226,6 @@ monitors:
     method: GET
     expectStatus: 403
 
-  - id: 25-google-com-2
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
 
   - id: 25-cf-workers-status-page-2
     name: This Workers Status Page project made public
@@ -294,13 +263,6 @@ monitors:
     method: GET
     expectStatus: 403
 
-  - id: 25-google-com-22
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
-
   - id: 25-cf-workers-status-page-22
     name: This Workers Status Page project made public
     description: /shrug
@@ -336,12 +298,6 @@ monitors:
     method: GET
     expectStatus: 403
 
-  - id: 25-google-com-333
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
 
   - id: 25-cf-workers-status-page-333
     name: This Workers Status Page project made public

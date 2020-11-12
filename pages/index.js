@@ -24,6 +24,8 @@ export async function getEdgeProps() {
     if (x.metadata.operational === false) monitorsOperational = false
   })
 
+  console.log(JSON.stringify(kvMonitorsMap))
+
   // transform KV list to array of failed days
   const kvMonitorsFailedDaysArray = kvMonitorsFailedDays.map(x => {
     return x.name
@@ -79,9 +81,13 @@ export default function Index({
                 ? config.settings.allmonitorsOperational
                 : config.settings.notAllmonitorsOperational}
             </div>
-            <div className="black-text">
-              checked {Math.round((Date.now() - kvLastUpdate) / 1000)} sec ago
-            </div>
+            {typeof window !== 'undefined' ? (
+              <div className="black-text">
+                checked {Math.round((Date.now() - kvLastUpdate) / 1000)} sec ago
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
         {config.monitors.map((monitor, key) => {

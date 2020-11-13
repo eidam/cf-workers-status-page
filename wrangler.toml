@@ -1,19 +1,8 @@
 name = "cf-workers-status-page"
-type = "webpack"
-account_id = ""
 workers_dev = true
-route = ""
-zone_id = ""
+account_id = ""
+type = "webpack"
 webpack_config = "node_modules/flareact/webpack"
-
-# uncomment and adjust following if you are not using GitHub Actions
-# kv_namespaces = [{binding="KV_GITHUB_RELEASES", id="xxxx"}]
-# preview_id = "9581809385634861ae93b0e01677b44d"
-
-# delete afterwards
-kv-namespaces = [
- { binding = "KV_STATUS_PAGE", id = "c27344947ebb476880fa2ba0ef9bbd10", preview_id = "c27344947ebb476880fa2ba0ef9bbd10" }
-]
 
 [triggers]
 crons = ["* * * * *"]
@@ -21,3 +10,9 @@ crons = ["* * * * *"]
 [site]
 bucket = "out"
 entry-point = "./"
+
+# uncomment and adjust following if you are not using GitHub Actions
+#[env.production]
+#kv-namespaces = [{binding="KV_GITHUB_RELEASES", id="xxxx", preview_id=""}]
+#zone_id="xxx"
+#route="xxx"

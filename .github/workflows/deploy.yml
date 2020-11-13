@@ -1,6 +1,11 @@
 name: Deploy
+
 on:
-  - repository_dispatch
+  push:
+    branches:
+      - main
+  repository_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,9 +18,18 @@ jobs:
     - run: yarn install
     - run: yarn build
     - name: Publish
-      uses: cloudflare/wrangler-action@1.2.0
+      uses: cloudflare/wrangler-action@1.3.0
       with:
         apiToken: ${{ secrets.CF_API_TOKEN }}
+        preCommands: |
+          wrangler kv:namespace create KV_STATUS_PAGE
+          apt-get update && apt-get install -y jq
+          kv_namespace_id=$(wrangler kv:namespace list | jq -c 'map(select(.title | contains("KV_STATUS_PAGE")))' | jq ".[0].id")
+          echo "[env.production]" >> wrangler.toml
+          echo "kv_namespaces = [{binding=\"KV_STATUS_PAGE\", id=${kv_namespace_id}}]" >> wrangler.toml
+        secrets: |
+          SECRET_SLACK_WEBHOOK_URL
+        environment: production
       env:
         CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-        IS_WORKER: true
+        SECRET_SLACK_WEBHOOK_URL: ${{secrets.SECRET_SLACK_WEBHOOK_URL}}

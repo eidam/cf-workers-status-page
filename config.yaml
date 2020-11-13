@@ -1,334 +1,37 @@
 settings:
   title: "Status Page"
-  url: "https://status-page.eidam.dev" # for Slack messages
+  url: "https://status-page.eidam.dev" # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
-  daysInHistogram: 90
+  daysInHistogram: 90 # number of days you want to display in histogram
 
   allmonitorsOperational: "All Systems Operational"
   notAllmonitorsOperational: "Not All Systems Operational"
   monitorLabelOperational: "Operational"
-  monitorLabelNotOperational: "Not great not terrible"
+  monitorLabelNotOperational: "Not Operational"
   monitorLabelNoData: "No data"
   dayInHistogramNoData: "No data"
   dayInHistogramOperational: "All good"
   dayInHistogramNotOperational: "Some checks failed"
 
 monitors:
-  - id: kiwi-com-homepage
-    name: Kiwi.com homepage
-    description: Kiwi.com en homepage
-    url: 'https://www.kiwi.com/en/'
-    method: GET
-    expectStatus: 200
-    followRedirect: false
-
-  - id: eidam-dev
-    name: Cheesy Status Page
-    description: 'status-page.eidam.dev'
-    url: 'https://status-page.eidam.dev/'
-    method: GET
-    expectStatus: 200
-
-  - id: google-com
-    name: Google.com
-    description: Google homepage
-    url: 'https://www.google.com'
-    method: GET
-    expectStatus: 200
+  - id: status-page-eidam-dev # unique identifier
+    name: Eidam's Status Page
+    description: 'https://status-page.eidam.dev' # default=empty
+    url: 'https://status-page.eidam.dev/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: false # should fetch follow redirects, default=false
 
   - id: cf-workers-status-page
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
+    name: Github.com Cloudflare Workers Status Page
+    description: Is the Github repository public?
+    url: 'https://github.com/eidam/cf-workers-status-page'
     method: GET
     expectStatus: 200
 
-  - id: kiwicomapi-cn
-    name: Some other site
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: testy-testy
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: hello-world
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-
-
-
-
-  - id: eidam-dev-2
-    name: Eidam.dev
+  - id: eidam-dev
+    name: Eidam.dev (403)
     description: 'Eidam.dev homepage, there is none'
     url: 'https://eidam.dev'
     method: GET
     expectStatus: 403
-
-  - id: cf-workers-status-page-2
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: kiwicomapi-cn-2
-    name: Kiwi.com API CN
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: testy-testy-2
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: hello-world-2
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-
-
-  - id: eidam-dev-22
-    name: Eidam.dev
-    description: 'Eidam.dev homepage, there is none'
-    url: 'https://eidam.dev'
-    method: GET
-    expectStatus: 403
-
-  - id: cf-workers-status-page-22
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: kiwicomapi-cn-22
-    name: Kiwi.com API CN
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: testy-testy-22
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: hello-world-22
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 201
-
-
-  - id: eidam-dev-333
-    name: Eidam.dev
-    description: 'Eidam.dev homepage, there is none'
-    url: 'https://eidam.dev'
-    method: GET
-    expectStatus: 403
-
-  - id: cf-workers-status-page-333
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: kiwicomapi-cn-333
-    name: Kiwi.com API CN
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: testy-testy-333
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: hello-world-333
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-
-
-
-
-
-
-
-
-
-  - id: 25-eidam-dev
-    name: Eidam.dev
-    description: 'Eidam.dev homepage, there is none'
-    url: 'https://eidam.dev'
-    method: GET
-    expectStatus: 403
-
-  - id: 25-cf-workers-status-page
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-kiwicomapi-cn
-    name: Kiwi.com API CN
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-testy-testy
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-hello-world
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-
-
-
-
-  - id: 25-eidam-dev-2
-    name: Seznam.cz
-    description: 'Just seznam'
-    url: 'https://eidam.dev'
-    method: GET
-    expectStatus: 403
-
-
-  - id: 25-cf-workers-status-page-2
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-kiwicomapi-cn-2
-    name: Kiwi.com API CN
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-testy-testy-2
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-hello-world-2
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-
-
-  - id: 25-eidam-dev-22
-    name: Eidam.dev
-    description: 'Eidam.dev homepage, there is none'
-    url: 'https://eidam.dev'
-    method: GET
-    expectStatus: 403
-
-  - id: 25-cf-workers-status-page-22
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-kiwicomapi-cn-22
-    name: Something totally different
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-testy-testy-22
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-hello-world-22
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-
-  - id: 25-eidam-dev-333
-    name: Eidam.dev
-    description: 'Eidam.dev homepage, there is none'
-    url: 'https://eidam.dev'
-    method: GET
-    expectStatus: 403
-
-
-  - id: 25-cf-workers-status-page-333
-    name: This Workers Status Page project made public
-    description: /shrug
-    url: 'https://github.com/adam-janis/cf-workers-status-page'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-kiwicomapi-cn-333
-    name: Kiwi.com API CN
-    description: Is this done yet?
-    url: 'http://kiwicomapi.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-testy-testy-333
-    name: Testy testy
-    description: Something /shrug
-    url: 'http://kiwicomapiiii.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-hello-world-333
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-
-  - id: 25-hello-world-333
-    name: Hello World
-    url: 'http://cnn.cn/'
-    method: GET
-    expectStatus: 200
-

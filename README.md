@@ -2,6 +2,10 @@
 
 Monitor your websites, present the status including daily history, and get Slack notification whenever your website status changes. Using **Cloudflare Workers**, **CRON Triggers,** and **KV storage**.
 
+![Status Page](.gitbook/assets/status_page_screenshot.png)
+
+![Slack notifications](.gitbook/assets/slack_screenshot.png)
+
 ### Pre-requisites
 
 You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/workers) with

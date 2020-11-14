@@ -6,7 +6,7 @@ Monitor your websites, showcase status including daily history, and get Slack no
 
 ![Slack notifications](.gitbook/assets/slack_screenshot.png)
 
-### Pre-requisites
+## Pre-requisites
 
 You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/workers) with
 
@@ -19,11 +19,11 @@ Also, prepare the following secrets
 * Cloudflare API token with `Edit Cloudflare Workers` permissions
 * Slack incoming webhook \(optional\)
 
-### Getting started
+## Getting started
 
 You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or deploy on your own.
 
-#### Deploy with Cloudflare Deploy Button
+### Deploy with Cloudflare Deploy Button
 
 [![Deploy to Cloudflare Workers](https://camo.githubusercontent.com/1f3d0b4d44a2c3f12c78bd02bae907169430e04d728006db9f97a4befa64c886/68747470733a2f2f6465706c6f792e776f726b6572732e636c6f7564666c6172652e636f6d2f627574746f6e3f706169643d74727565)](https://deploy.workers.cloudflare.com/?url=https://github.com/eidam/cf-workers-status-page&paid=true)
 
@@ -63,9 +63,9 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
      - id: status-page-eidam-dev # unique identifier
        name: Eidam's Status Page
        description: 'https://status-page.eidam.dev' # default=empty
-       url: 'https://status-page.eidam.dev/' # URL to fetch
+       url: 'https://status-page.eidam.dev/' # URL to fetch
        method: GET # default=GET
-       expectStatus: 200 # operational status, default=200
+       expectStatus: 200 # operational status, default=200
        followRedirect: false # should fetch follow redirects, default=false
    ```
 
@@ -75,7 +75,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
    * e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
 7. _\(optional\)_ Edit [wrangler.toml](https://github.com/eidam/cf-workers-github-releases/blob/main/wrangler.toml) to adjust Worker settings or CRON Trigger schedule
 
-#### Deploy on your own
+### Deploy on your own
 
 You can clone the repository yourself and use Wrangler CLI to develop/deploy, extra list of things you need to take care of:
 
@@ -83,7 +83,7 @@ You can clone the repository yourself and use Wrangler CLI to develop/deploy, ex
 * create Worker secrets _\(optional\)_
   * `SECRET_SLACK_WEBHOOK_URL`
 
-### Known issues
+## Known issues
 
 * **Max 25 monitors to watch in case you are using Slack notifications**, due to the limit of subrequests Cloudflare Worker can make \(50\).
 

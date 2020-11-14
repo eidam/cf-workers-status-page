@@ -69,10 +69,10 @@ export async function gcMonitors(config) {
 
   const keysForRemoval = kvState.filter(x => !monitors.includes(x))
 
-  keysForRemoval.forEach(key => {
+  for (const key of keysForRemoval) {
     console.log('gc: deleting ' + checkKvPrefix + key)
-    deleteKV(checkKvPrefix + key)
-  })
+    await deleteKV(checkKvPrefix + key)
+  }
 }
 
 export async function notifySlack(monitor, newMetadata) {

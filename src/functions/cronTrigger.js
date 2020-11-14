@@ -53,7 +53,6 @@ export async function processCronTrigger(event) {
     if (!newMetadata.operational) {
       // try to get failed daily status first as KV read is cheaper than write
       const kvFailedDayStatusKey = 'h_' + monitor.id + '_' + getDate()
-      console.log(kvFailedDayStatusKey)
       const kvFailedDayStatus = await getKV(kvFailedDayStatusKey)
 
       // write if not found

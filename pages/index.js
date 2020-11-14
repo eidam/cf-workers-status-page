@@ -24,8 +24,6 @@ export async function getEdgeProps() {
     if (x.metadata.operational === false) monitorsOperational = false
   })
 
-  console.log(JSON.stringify(kvMonitorsMap))
-
   // transform KV list to array of failed days
   const kvMonitorsFailedDaysArray = kvMonitorsFailedDays.map(x => {
     return x.name

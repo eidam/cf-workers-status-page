@@ -27,6 +27,7 @@ jobs:
           kv_namespace_id=$(wrangler kv:namespace list | jq -c 'map(select(.title | contains("KV_STATUS_PAGE")))' | jq ".[0].id")
           echo "[env.production]" >> wrangler.toml
           echo "kv_namespaces = [{binding=\"KV_STATUS_PAGE\", id=${kv_namespace_id}}]" >> wrangler.toml
+          [ -z "$SECRET_SLACK_WEBHOOK_URL" ] && echo "Secret SECRET_SLACK_WEBHOOK_URL not set, creating dummy one..." && SECRET_SLACK_WEBHOOK_URL="default-gh-action-secret" || true
         secrets: |
           SECRET_SLACK_WEBHOOK_URL
         environment: production

@@ -42,7 +42,7 @@ export async function processCronTrigger(event) {
       console.log('Saving changed state..')
 
       // first try to notify Slack in case fetch() or other limit is reached
-      if (typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined') {
+      if (typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined' && SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret') {
         await notifySlack(monitor, newMetadata)
       }
 

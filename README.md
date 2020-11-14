@@ -1,6 +1,6 @@
 # Cloudflare Worker - Status Page
 
-Monitor your websites, present the status including daily history, and get Slack notification whenever your website status changes. Using **Cloudflare Workers**, **CRON Triggers,** and **KV storage**.
+Monitor your websites, showcase status including daily history, and get Slack notification whenever your website status changes. Using **Cloudflare Workers**, **CRON Triggers,** and **KV storage**.
 
 ![Status Page](.gitbook/assets/status_page_screenshot.png)
 
@@ -30,7 +30,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 1. Click the button and follow the instructions, you should end up with a clone of this repository
 2. Navigate to your new **GitHub repository &gt; Settings &gt; Secrets** and add the following secrets:
 
-   ```text
+   ```yaml
    - Name: CF_API_TOKEN (should be added automatically)
 
    - Name: CF_ACCOUNT_ID (should be added automatically)
@@ -41,7 +41,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 
 3. Edit [config.yaml](https://github.com/eidam/cf-workers-status-page/blob/main/config.yaml) to adjust configuration and list all of your websites/APIs you want to monitor
 
-   ```text
+   ```yaml
    settings:
      title: "Status Page"
      url: "https://status-page.eidam.dev" # used for Slack messages
@@ -62,7 +62,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
    monitors:
      - id: status-page-eidam-dev # unique identifier
        name: Eidam's Status Page
-       description: 'https://status-page.eidam.dev' # (optional)
+       description: 'https://status-page.eidam.dev' # default=empty
        url: 'https://status-page.eidam.dev/' # URL to fetch
        method: GET # default=GET
        expectStatus: 200 # operational status, default=200
@@ -73,6 +73,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 5. 🎉
 6. _\(optional\)_ Go to [Cloudflare Workers settings](https://dash.cloudflare.com/?to=/workers) and assign custom domain/route
    * e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
+7. _\(optional\)_ Edit [wrangler.toml](https://github.com/eidam/cf-workers-github-releases/blob/main/wrangler.toml) to adjust Worker settings or CRON Trigger schedule
 
 #### Deploy on your own
 

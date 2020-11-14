@@ -96,9 +96,11 @@ export default function Index({
                 style={{ marginBottom: '8px' }}
               >
                 <div className="ui marginless header">
-                  <span data-tooltip={monitor.description}>
-                    <i className="blue small info circle icon" />
-                  </span>
+                  {monitor.description && (
+                    <span data-tooltip={monitor.description}>
+                      <i className="blue small info circle icon" />
+                    </span>
+                  )}
                   <div className="content">{monitor.name}</div>
                 </div>
                 <MonitorStatusLabel

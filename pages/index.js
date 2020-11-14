@@ -133,7 +133,7 @@ export default function Index({
           </div>
           <div>
             <a
-              href="https://github.com/adam-janis/cf-workers-status-page"
+              href="https://github.com/eidam/cf-workers-status-page"
               target="_blank"
             >
               Get Your Status Page

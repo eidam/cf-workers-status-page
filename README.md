@@ -89,5 +89,6 @@ You can clone the repository yourself and use Wrangler CLI to develop/deploy, ex
 
   The plan is to support up to 49 by sending only one Slack notification per scheduled run.
 
-* **KV replication lag -** You might get Slack notification instantly, however it may take couple of more seconds to see the change on your status page as [Cron Triggers are usually running on underutilized quiet hours machines](https://blog.cloudflare.com/introducing-cron-triggers-for-cloudflare-workers/#how-are-you-able-to-offer-this-feature-at-no-additional-cost).
+* **KV replication lag** - You might get Slack notification instantly, however it may take couple of more seconds to see the change on your status page as [Cron Triggers are usually running on underutilized quiet hours machines](https://blog.cloudflare.com/introducing-cron-triggers-for-cloudflare-workers/#how-are-you-able-to-offer-this-feature-at-no-additional-cost).
 
+* **Initial delay (no data)** - It takes couple of minutes to schedule and run CRON Triggers for the first time

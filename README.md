@@ -35,11 +35,11 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 
    - Name: CF_ACCOUNT_ID (should be added automatically)
 
-   - Name: SECRET_SLACK_WEBHOOK_URL
+   - Name: SECRET_SLACK_WEBHOOK_URL (optional)
    - Value: your-slack-webhook-url
    ```
-
-3. Edit [config.yaml](https://github.com/eidam/cf-workers-status-page/blob/main/config.yaml) to adjust configuration and list all of your websites/APIs you want to monitor
+3. Navigate to the **Actions** settings in your repository and enable them
+4. Edit [config.yaml](https://github.com/eidam/cf-workers-status-page/blob/main/config.yaml) to adjust configuration and list all of your websites/APIs you want to monitor
 
    ```yaml
    settings:
@@ -69,11 +69,11 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
        followRedirect: false # should fetch follow redirects, default=false
    ```
 
-4. Push to `main` branch to trigger the deployment
-5. 🎉
-6. _\(optional\)_ Go to [Cloudflare Workers settings](https://dash.cloudflare.com/?to=/workers) and assign custom domain/route
+5. Push to `main` branch to trigger the deployment
+6. 🎉
+7. _\(optional\)_ Go to [Cloudflare Workers settings](https://dash.cloudflare.com/?to=/workers) and assign custom domain/route
    * e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
-7. _\(optional\)_ Edit [wrangler.toml](https://github.com/eidam/cf-workers-github-releases/blob/main/wrangler.toml) to adjust Worker settings or CRON Trigger schedule
+8. _\(optional\)_ Edit [wrangler.toml](https://github.com/eidam/cf-workers-github-releases/blob/main/wrangler.toml) to adjust Worker settings or CRON Trigger schedule
 
 ### Deploy on your own
 

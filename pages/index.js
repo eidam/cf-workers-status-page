@@ -79,12 +79,10 @@ export default function Index({
                 ? config.settings.allmonitorsOperational
                 : config.settings.notAllmonitorsOperational}
             </div>
-            {typeof window !== 'undefined' ? (
+            {kvLastUpdate.metadata && typeof window !== 'undefined' && (
               <div className="black-text">
-                checked {Math.round((Date.now() - kvLastUpdate) / 1000)} sec ago
+                checked {Math.round((Date.now() - kvLastUpdate.value) / 1000)} sec ago (from {kvLastUpdate.metadata.loc})
               </div>
-            ) : (
-              ''
             )}
           </div>
         </div>

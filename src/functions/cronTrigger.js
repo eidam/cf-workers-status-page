@@ -61,11 +61,16 @@ export async function processCronTrigger(event) {
         await setKV(kvFailedDayStatusKey, null)
       }
     }
-
-    // save last check timestamp
-    await setKV('lastUpdate', Date.now())
   }
-  await gcMonitors(config)
+
+  // save last check timestamp including PoP location
+  const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace")
+  const resText = await res.text()
+  const loc = /loc=([\w]{2})/.exec(resText)[1]
+  await setKV('lastUpdate', Date.now(), {loc})
+
+  // gc monitor statuses
+  event.waitUntil(gcMonitors(config))
 
   return new Response('OK')
 }

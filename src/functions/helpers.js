@@ -11,7 +11,7 @@ export async function getMonitorsHistory() {
 }
 
 export async function getLastUpdate() {
-  return await getKV('lastUpdate')
+  return await getKVWithMetadata('lastUpdate')
 }
 
 export async function listKV(prefix = '', cacheTtl = false) {

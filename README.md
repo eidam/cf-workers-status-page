@@ -12,6 +12,7 @@ You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/w
 
 * A workers domain set up
 * The Workers Bundled subscription \($5/mo\)
+    * [Try it now with the free tier!](https://blog.cloudflare.com/workers-kv-free-tier/) Stay tuned while we make some changes so it will completely fit in the Free Tier with a 5min check interval.
 * Some websites/APIs to watch 🙂
 
 Also, prepare the following secrets
@@ -25,7 +26,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 
 ### Deploy with Cloudflare Deploy Button
 
-[![Deploy to Cloudflare Workers](https://camo.githubusercontent.com/1f3d0b4d44a2c3f12c78bd02bae907169430e04d728006db9f97a4befa64c886/68747470733a2f2f6465706c6f792e776f726b6572732e636c6f7564666c6172652e636f6d2f627574746f6e3f706169643d74727565)](https://deploy.workers.cloudflare.com/?url=https://github.com/eidam/cf-workers-status-page&paid=true)
+[![Deploy to Cloudflare Workers](https://camo.githubusercontent.com/1f3d0b4d44a2c3f12c78bd02bae907169430e04d728006db9f97a4befa64c886/68747470733a2f2f6465706c6f792e776f726b6572732e636c6f7564666c6172652e636f6d2f627574746f6e3f706169643d74727565)](https://deploy.workers.cloudflare.com/?url=https://github.com/eidam/cf-workers-status-page)
 
 1. Click the button and follow the instructions, you should end up with a clone of this repository
 2. Navigate to your new **GitHub repository &gt; Settings &gt; Secrets** and add the following secrets:
@@ -43,27 +44,27 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 
    ```yaml
    settings:
-     title: "Status Page"
-     url: "https://status-page.eidam.dev" # used for Slack messages
+     title: 'Status Page'
+     url: 'https://status-page.eidam.dev' # used for Slack messages
      logo: logo-192x192.png # image in ./public/ folder
      daysInHistogram: 90 # number of days you want to display in histogram
 
      # configurable texts across the status page
-     allmonitorsOperational: "All Systems Operational"
-     notAllmonitorsOperational: "Not All Systems Operational"
-     monitorLabelOperational: "Operational"
-     monitorLabelNotOperational: "Not Operational"
-     monitorLabelNoData: "No data"
-     dayInHistogramNoData: "No data"
-     dayInHistogramOperational: "All good"
-     dayInHistogramNotOperational: "Some checks failed"
+     allmonitorsOperational: 'All Systems Operational'
+     notAllmonitorsOperational: 'Not All Systems Operational'
+     monitorLabelOperational: 'Operational'
+     monitorLabelNotOperational: 'Not Operational'
+     monitorLabelNoData: 'No data'
+     dayInHistogramNoData: 'No data'
+     dayInHistogramOperational: 'All good'
+     dayInHistogramNotOperational: 'Some checks failed'
 
    # list of monitors
    monitors:
-     - id: status-page-eidam-dev # unique identifier
-       name: Eidam's Status Page
-       description: 'https://status-page.eidam.dev' # default=empty
-       url: 'https://status-page.eidam.dev/' # URL to fetch
+     - id: workers-cloudflare-com # unique identifier
+       name: workers.cloudflare.com
+       description: 'You write code. They handle the rest.' # default=empty
+       url: 'https://workers.cloudflare.com/' # URL to fetch
        method: GET # default=GET
        expectStatus: 200 # operational status, default=200
        followRedirect: false # should fetch follow redirects, default=false

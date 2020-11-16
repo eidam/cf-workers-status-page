@@ -9,6 +9,7 @@ import {
 
 import config from '../config.yaml'
 import MonitorStatusLabel from '../src/components/monitorStatusLabel'
+import MonitorStatusHeader from '../src/components/monitorStatusHeader'
 
 export async function getEdgeProps() {
   // get KV data
@@ -68,24 +69,10 @@ export default function Index({
           />
           {config.settings.title}
         </h1>
-        <div
-          className={`ui inverted segment ${
-            monitorsOperational ? 'green' : 'yellow'
-          }`}
-        >
-          <div className="horizontal flex between">
-            <div className="ui marginless header black-text">
-              {monitorsOperational
-                ? config.settings.allmonitorsOperational
-                : config.settings.notAllmonitorsOperational}
-            </div>
-            {kvLastUpdate.metadata && typeof window !== 'undefined' && (
-              <div className="black-text">
-                checked {Math.round((Date.now() - kvLastUpdate.value) / 1000)} sec ago (from {kvLastUpdate.metadata.loc})
-              </div>
-            )}
-          </div>
-        </div>
+        <MonitorStatusHeader
+          operational={monitorsOperational}
+          lastUpdate={kvLastUpdate}
+        />
         {config.monitors.map((monitor, key) => {
           return (
             <div key={key} className="ui segment">

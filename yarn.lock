@@ -3902,6 +3902,16 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
+laco-react@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/laco-react/-/laco-react-1.1.0.tgz#8572117aabd245e9ff0000aab534c0f817da8238"
+  integrity sha512-RbN7dFUH7RsNpRMB46gWSjEMXo7WDhgkKl8HXpxn1o/bJItHj7FT0VsIWF963mrvORncIgI7bnZJ6KPcHV8fvA==
+
+laco@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/laco/-/laco-1.2.1.tgz#4acf24ab4ea7b2983d10c2fd982208e96a315158"
+  integrity sha512-fw3vWTR1L/u/XTReyBQt3bnhylMLMqp+YoIFEr52bb9NqRnwPcvTQuFH0TRMyvg0Zucbx+eRViO4wxoij6xzDg==
+
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-3.0.0.tgz#9742df0e10e3cf46e5c0381c2de90d3a7a2d7555"

@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "flareact": "^0.7.1",
+    "laco": "^1.2.1",
+    "laco-react": "^1.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

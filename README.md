@@ -12,7 +12,7 @@ You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/w
 
 * A workers domain set up
 * The Workers Bundled subscription \($5/mo\)
-    * [With KV Free Tier its free to try now!](https://blog.cloudflare.com/workers-kv-free-tier/) We are working on optimizations so it will completely fit in Free Tier for 5 minutes checks.
+    * [Try it now with the free tier!](https://blog.cloudflare.com/workers-kv-free-tier/) Stay tuned while we make some changes so it will completely fit in the Free Tier with a 5min check interval.
 * Some websites/APIs to watch 🙂
 
 Also, prepare the following secrets

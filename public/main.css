@@ -1,7 +1,6 @@
 body {
   background: #eeeeee;
 }
-
 .flex {
   display: flex;
   justify-content: center;
@@ -62,5 +61,8 @@ body {
   background: #f2711c;
 }
 span i.icon {
-  margin: 0 !important;
+  margin: 0 .25em .25em 0 !important;
+}
+.ui.title.header .ui.image {
+  margin-top: -.5em !important;
 }

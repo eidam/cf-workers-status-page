@@ -61,7 +61,7 @@ export default function Index({
         <link rel="stylesheet" href="./main.css" />
       </Head>
       <div className="ui basic segment container">
-        <h1 className="ui huge header">
+        <h1 className="ui huge title header">
           <img
             className="ui middle aligned tiny image"
             src={config.settings.logo}

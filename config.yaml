@@ -25,7 +25,7 @@ monitors:
   - id: www-cloudflare-com
     name: www.cloudflare.com
     description: 'Built for anything connected to the Internet.'
-    url: 'https://github.com/eidam/cf-workers-status-page'
+    url: 'https://www.cloudflare.com'
     method: GET
     expectStatus: 200
 

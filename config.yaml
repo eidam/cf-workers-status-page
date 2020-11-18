@@ -14,23 +14,87 @@ settings:
   dayInHistogramNotOperational: 'Some checks failed'
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
+  - id: mail.home31.pw # unique identifier
+    name: mail.home31.pw
+    description: 'Email server' # default=empty
+    url: 'https://mail.home31.pw/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
 
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
+  - id: tv.home31.pw
+    name: tv.home31.pw
+    description: 'Stream Movies and TV'
+    url: 'https://tv.home31.pw'
     method: GET
     expectStatus: 200
 
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
+  - id: register.home31.pw
+    name: register.home31.pw
+    description: 'Register to use the tv streaming service'
+    url: 'https://register.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: ombi.home31.pw
+    name: ombi.home31.pw
+    description: 'Request new TV series and Movies'
+    url: 'https://ombi.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: cloud.home31.pw
+    name: cloud.home31.pw
+    description: 'Cloud storage'
+    url: 'https://cloud.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: wiki.boixu.com
+    name: wiki.boixu.com
+    description: 'Wiki page'
+    url: 'https://wiki.boixu.com/'
+    method: GET
+    expectStatus: 200
+    
+  - id: bin.home31.pw
+    name: bin.home31.pw
+    description: 'Pastebin'
+    url: 'https://bin.home31.pw/'
+    method: GET
+    expectStatus: 200
+
+  - id: chat.home31.pw
+    name: chat.home31.pw
+    description: 'Matrix frontend'
+    url: 'https://chat.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: matrix.home31.pw
+    name: matrix.home31.pw
+    description: 'Federated communication server'
+    url: 'https://matrix.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: git.home31.pw
+    name: git.home31.pw
+    description: 'Gitlab instance'
+    url: 'https://git.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: dash.home31.pw
+    name: dash.home31.pw
+    description: 'Dashboard'
+    url: 'https://dash.home31.pw/'
+    method: GET
+    expectStatus: 200
+    
+  - id: pass.home31.pw
+    name: pass.home31.pw
+    description: 'Bitwarden password manager'
+    url: 'https://pass.home31.pw/'
     method: GET
     expectStatus: 200

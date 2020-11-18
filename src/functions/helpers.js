@@ -56,26 +56,6 @@ export async function deleteKV(key) {
   return KV_STATUS_PAGE.delete(key)
 }
 
-export async function gcMonitors(config) {
-  const checkKvPrefix = 's_'
-
-  const monitors = config.monitors.map(key => {
-    return key.id
-  })
-
-  const kvMonitors = await listKV(checkKvPrefix)
-  const kvState = kvMonitors.keys.map(key => {
-    return key.metadata.id
-  })
-
-  const keysForRemoval = kvState.filter(x => !monitors.includes(x))
-
-  for (const key of keysForRemoval) {
-    console.log('gc: deleting ' + checkKvPrefix + key)
-    await deleteKV(checkKvPrefix + key)
-  }
-}
-
 export async function notifySlack(monitor, newMetadata) {
   const payload = {
     attachments: [

@@ -12,7 +12,7 @@ You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/w
 
 * A workers domain set up
 * The Workers Bundled subscription \($5/mo\)
-    * [Try it now with the free tier!](https://blog.cloudflare.com/workers-kv-free-tier/) Stay tuned while we make some changes so it will completely fit in the Free Tier with a 5min check interval.
+    * [Try it now with the free tier!](https://blog.cloudflare.com/workers-kv-free-tier/) Check [more info](#workers-kv-free-tier) on how to run on Workers Free. 
 * Some websites/APIs to watch 🙂
 
 Also, prepare the following secrets
@@ -40,7 +40,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
    - Value: your-slack-webhook-url
    ```
 3. Navigate to the **Actions** settings in your repository and enable them
-4. Edit [config.yaml](https://github.com/eidam/cf-workers-status-page/blob/main/config.yaml) to adjust configuration and list all of your websites/APIs you want to monitor
+4. Edit [config.yaml](./config.yaml) to adjust configuration and list all of your websites/APIs you want to monitor
 
    ```yaml
    settings:
@@ -74,15 +74,19 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 6. 🎉
 7. _\(optional\)_ Go to [Cloudflare Workers settings](https://dash.cloudflare.com/?to=/workers) and assign custom domain/route
    * e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
-8. _\(optional\)_ Edit [wrangler.toml](https://github.com/eidam/cf-workers-github-releases/blob/main/wrangler.toml) to adjust Worker settings or CRON Trigger schedule
+8. _\(optional\)_ Edit [wrangler.toml](./wrangler.toml) to adjust Worker settings or CRON Trigger schedule, especially if you are on [Workers Free plan](#workers-kv-free-tier)
 
 ### Deploy on your own
 
 You can clone the repository yourself and use Wrangler CLI to develop/deploy, extra list of things you need to take care of:
 
-* create KV namespace and add the `KV_STATUS_PAGE` binding to [wrangler.toml](https://github.com/eidam/cf-workers-github-releases/blob/main/wrangler.toml)
+* create KV namespace and add the `KV_STATUS_PAGE` binding to [wrangler.toml](./wrangler.toml)
 * create Worker secrets _\(optional\)_
   * `SECRET_SLACK_WEBHOOK_URL`
+
+## Workers KV free tier
+The Workers Free plan includes limited KV usage, in order to not deplete the quota and still have enough room for monitor status changes we recommend the following changes:
+* Change the CRON trigger to 5 minutes interval (`crons = ["*/5 * * * *"]`) in [wrangler.toml](./wrangler.toml)
 
 ## Known issues
 
@@ -93,3 +97,10 @@ You can clone the repository yourself and use Wrangler CLI to develop/deploy, ex
 * **KV replication lag** - You might get Slack notification instantly, however it may take couple of more seconds to see the change on your status page as [Cron Triggers are usually running on underutilized quiet hours machines](https://blog.cloudflare.com/introducing-cron-triggers-for-cloudflare-workers/#how-are-you-able-to-offer-this-feature-at-no-additional-cost).
 
 * **Initial delay (no data)** - It takes couple of minutes to schedule and run CRON Triggers for the first time
+
+* **Slack message for monitor just removed from the config** - It takes a couple of minutes to schedule new version of CRON Triggers, so older version of the configuration might be scheduled after deployment/gc - just ignore it or re-run the latest Github Action after a couple of minutes again.
+
+## Future plans
+Stay tuned for more features coming in, like leveraging the fact that CRON instances are scheduled around the world during the day
+ so we can monitor the response times. However, we will most probably wait for the [Durable Objects](https://blog.cloudflare.com/introducing-workers-durable-objects/) to be in open beta
+ as they are better fit to reliably store such info.

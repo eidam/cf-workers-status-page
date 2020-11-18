@@ -3,7 +3,6 @@ import config from '../../config.yaml'
 import {
   setKV,
   getKVWithMetadata,
-  gcMonitors,
   getKV,
   notifySlack,
 } from './helpers'
@@ -69,9 +68,6 @@ export async function processCronTrigger(event) {
   })
   const loc = res.headers.get('cf-ray').split('-')[1]
   await setKV('lastUpdate', Date.now(), { loc })
-
-  // gc monitor statuses
-  event.waitUntil(gcMonitors(config))
 
   return new Response('OK')
 }

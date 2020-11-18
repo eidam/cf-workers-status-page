@@ -2947,10 +2947,10 @@ findup-sync@^3.0.0:
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
 
-flareact@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/flareact/-/flareact-0.8.0.tgz#c7653f7278abee04353c5bf087af4105b7895c0a"
-  integrity sha512-ewjFqrxSXPBppyZtVBTD3W4iIcMB2wORpYX1QofOa9QRuy7dJ2nK4oMvCNmPJPelqdN5MF+fUBTIfMGqO3A1OA==
+flareact@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/flareact/-/flareact-0.9.0.tgz#c16ded48f217010452a509e02b754f84eb26878c"
+  integrity sha512-YT1nGqusHTJDreU5gQezKQNU2Pszez+M3v5IrKIEtOD3ABQal+cVoWzRQGQTWMKryrUpWB0Z0nRhLYDutD8xdQ==
   dependencies:
     "@babel/core" "^7.11.0"
     "@babel/plugin-transform-runtime" "^7.11.0"
@@ -4353,6 +4353,11 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 node-forge@^0.10.0:
   version "0.10.0"

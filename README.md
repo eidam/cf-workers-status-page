@@ -98,8 +98,6 @@ The Workers Free plan includes limited KV usage, but the quota is sufficient for
 
 * **Initial delay (no data)** - It takes couple of minutes to schedule and run CRON Triggers for the first time
 
-* **Slack message for monitor just removed from the config** - It takes a couple of minutes to schedule new version of CRON Triggers, so older version of the configuration might be scheduled after deployment/gc - just ignore it or re-run the latest Github Action after a couple of minutes again.
-
 ## Future plans
 Stay tuned for more features coming in, like leveraging the fact that CRON instances are scheduled around the world during the day
  so we can monitor the response times. However, we will most probably wait for the [Durable Objects](https://blog.cloudflare.com/introducing-workers-durable-objects/) to be in open beta

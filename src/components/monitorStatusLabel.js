@@ -1,11 +1,11 @@
 import config from '../../config.yaml'
 
-export default function MonitorStatusLabel({ kvMonitorsMap, monitor }) {
+export default function MonitorStatusLabel({ kvMonitor }) {
   let labelColor = 'grey'
   let labelText = 'No data'
 
-  if (typeof kvMonitorsMap[monitor.id] !== 'undefined') {
-    if (kvMonitorsMap[monitor.id].operational) {
+  if (typeof kvMonitor !== 'undefined') {
+    if (kvMonitor.operational) {
       labelColor = 'green'
       labelText = config.settings.monitorLabelOperational
     } else {

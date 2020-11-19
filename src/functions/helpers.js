@@ -2,72 +2,29 @@ import config from '../../config.yaml'
 import {useEffect, useState} from 'react'
 
 export async function getMonitors() {
-  const monitors = await listKV('s_')
-  return monitors.keys
-}
-
-export async function getMonitorsHistory() {
-  const monitorsHistory = await listKV('h_', 300)
-  return monitorsHistory.keys
-}
-
-export async function getLastUpdate() {
-  return await getKVWithMetadata('lastUpdate')
-}
-
-export async function listKV(prefix = '', cacheTtl = false) {
-  const cacheKey = 'list_' + prefix + '_' + process.env.BUILD_ID
-
-  if (cacheTtl) {
-    const cachedResponse = await getKV(cacheKey)
-    if (cachedResponse) {
-      return JSON.parse(cachedResponse)
-    }
-  }
-
-  let list = []
-  let cursor = null
-  let res = {}
-  do {
-    res = await KV_STATUS_PAGE.list({ prefix: prefix, cursor })
-    list = list.concat(res.keys)
-    cursor = res.cursor
-  } while (!res.list_complete)
-
-  if (cacheTtl) {
-    await setKV(cacheKey, JSON.stringify({ keys: list }), null, cacheTtl)
-  }
-  return { keys: list }
+  return await getKVWithMetadata('monitors_data', "json")
 }
 
 export async function setKV(key, value, metadata, expirationTtl) {
   return KV_STATUS_PAGE.put(key, value, { metadata, expirationTtl })
 }
 
-export async function getKV(key, type = 'text') {
-  return KV_STATUS_PAGE.get(key, type)
+export async function getKVWithMetadata(key, type = 'text') {
+  return KV_STATUS_PAGE.getWithMetadata(key, type)
 }
 
-export async function getKVWithMetadata(key) {
-  return KV_STATUS_PAGE.getWithMetadata(key)
-}
-
-export async function deleteKV(key) {
-  return KV_STATUS_PAGE.delete(key)
-}
-
-export async function notifySlack(monitor, newMetadata) {
+export async function notifySlack(monitor, operational) {
   const payload = {
     attachments: [
       {
-        color: newMetadata.operational ? '#36a64f' : '#f2c744',
+        color: operational ? '#36a64f' : '#f2c744',
         blocks: [
           {
             type: 'section',
             text: {
               type: 'mrkdwn',
               text: `Monitor *${monitor.name}* changed status to *${
-                newMetadata.operational
+                operational
                   ? config.settings.monitorLabelOperational
                   : config.settings.monitorLabelNotOperational
               }*`,
@@ -79,7 +36,7 @@ export async function notifySlack(monitor, newMetadata) {
               {
                 type: 'mrkdwn',
                 text: `${
-                  newMetadata.operational ? ':white_check_mark:' : ':x:'
+                  operational ? ':white_check_mark:' : ':x:'
                 } \`${monitor.method ? monitor.method : "GET"} ${monitor.url}\` - :eyes: <${
                   config.settings.url
                 }|Status Page>`,

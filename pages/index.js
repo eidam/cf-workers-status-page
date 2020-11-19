@@ -2,9 +2,7 @@ import Head from 'flareact/head'
 import MonitorHistogram from '../src/components/monitorHistogram'
 
 import {
-  getLastUpdate,
   getMonitors,
-  getMonitorsHistory,
   useKeyPress,
 } from '../src/functions/helpers'
 
@@ -30,30 +28,13 @@ const filterByTerm = (term) => MonitorStore.set(
 
 export async function getEdgeProps() {
   // get KV data
-  const kvMonitors = await getMonitors()
-  const kvMonitorsFailedDays = await getMonitorsHistory()
-  const kvLastUpdate = await getLastUpdate()
-
-  // prepare data maps for components
-  let monitorsOperational = true
-  let kvMonitorsMap = {}
-  kvMonitors.forEach(x => {
-    kvMonitorsMap[x.metadata.id] = x.metadata
-    if (x.metadata.operational === false) monitorsOperational = false
-  })
-
-  // transform KV list to array of failed days
-  const kvMonitorsFailedDaysArray = kvMonitorsFailedDays.map(x => {
-    return x.name
-  })
+  const {value: kvMonitors, metadata: kvMonitorsMetadata } = await getMonitors()
 
   return {
     props: {
       config,
-      kvMonitorsMap,
-      kvMonitorsFailedDaysArray,
-      monitorsOperational,
-      kvLastUpdate,
+      kvMonitors: kvMonitors || {},
+      kvMonitorsMetadata: kvMonitorsMetadata || {}
     },
     // Revalidate these props once every x seconds
     revalidate: 5,
@@ -62,10 +43,8 @@ export async function getEdgeProps() {
 
 export default function Index({
   config,
-  kvMonitorsMap,
-  kvMonitorsFailedDaysArray,
-  monitorsOperational,
-  kvLastUpdate,
+  kvMonitors,
+  kvMonitorsMetadata,
 }) {
   const state = useStore(MonitorStore)
   const slash = useKeyPress('/')
@@ -96,8 +75,7 @@ export default function Index({
           />
         </div>
         <MonitorStatusHeader
-          operational={monitorsOperational}
-          lastUpdate={kvLastUpdate}
+          kvMonitorsMetadata={kvMonitorsMetadata}
         />
         {state.visible.map((monitor, key) => {
           return (
@@ -115,15 +93,13 @@ export default function Index({
                   <div className="content">{monitor.name}</div>
                 </div>
                 <MonitorStatusLabel
-                  kvMonitorsMap={kvMonitorsMap}
-                  monitor={monitor}
+                  kvMonitor={kvMonitors[monitor.id]}
                 />
               </div>
 
               <MonitorHistogram
-                kvMonitorsFailedDaysArray={kvMonitorsFailedDaysArray}
-                monitor={monitor}
-                kvMonitor={kvMonitorsMap[monitor.id]}
+                monitorId={monitor.id}
+                kvMonitor={kvMonitors[monitor.id]}
               />
 
               <div className="horizontal flex between grey-text">

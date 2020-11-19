@@ -1,8 +1,7 @@
 import config from '../../config.yaml'
 
 export default function MonitorHistogram({
-  kvMonitorsFailedDaysArray,
-  monitor,
+  monitorId,
   kvMonitor,
 }) {
   // create date and set date - daysInHistogram for the first day of the histogram
@@ -12,20 +11,19 @@ export default function MonitorHistogram({
   if (typeof window !== 'undefined') {
     return (
       <div
-        key={`${monitor.id}-histogram`}
+        key={`${monitorId}-histogram`}
         className="horizontal flex histogram"
       >
         {Array.from(Array(config.settings.daysInHistogram).keys()).map(key => {
           date.setDate(date.getDate() + 1)
           const dayInHistogram = date.toISOString().split('T')[0]
-          const dayInHistogramKey = 'h_' + monitor.id + '_' + dayInHistogram
 
           let bg = ''
           let dayInHistogramLabel = config.settings.dayInHistogramNoData
 
           // filter all dates before first check, check the rest
           if (kvMonitor && kvMonitor.firstCheck <= dayInHistogram) {
-            if (!kvMonitorsFailedDaysArray.includes(dayInHistogramKey)) {
+            if (!kvMonitor.failedDays.includes(dayInHistogram)) {
               bg = 'green'
               dayInHistogramLabel = config.settings.dayInHistogramOperational
             } else {
@@ -48,7 +46,7 @@ export default function MonitorHistogram({
   } else {
     return (
       <div
-        key={`${monitor.id}-histogram`}
+        key={`${monitorId}-histogram`}
         className="horizontal flex histogram"
       >
         <div className="grey-text">Loading histogram ...</div>

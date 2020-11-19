@@ -12,7 +12,7 @@ You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/w
 
 * A workers domain set up
 * The Workers Bundled subscription \($5/mo\)
-    * [Try it now with the free tier!](https://blog.cloudflare.com/workers-kv-free-tier/) Check [more info](#workers-kv-free-tier) on how to run on Workers Free. 
+    * [It works with Workers Free!](https://blog.cloudflare.com/workers-kv-free-tier/) Check [more info](#workers-kv-free-tier) on how to run on Workers Free. 
 * Some websites/APIs to watch 🙂
 
 Also, prepare the following secrets
@@ -85,8 +85,8 @@ You can clone the repository yourself and use Wrangler CLI to develop/deploy, ex
   * `SECRET_SLACK_WEBHOOK_URL`
 
 ## Workers KV free tier
-The Workers Free plan includes limited KV usage, in order to not deplete the quota and still have enough room for monitor status changes we recommend the following changes:
-* Change the CRON trigger to 5 minutes interval (`crons = ["*/5 * * * *"]`) in [wrangler.toml](./wrangler.toml)
+The Workers Free plan includes limited KV usage, but the quota is sufficient for 2-minute checks only 
+* Change the CRON trigger to 2 minutes interval (`crons = ["*/2 * * * *"]`) in [wrangler.toml](./wrangler.toml)
 
 ## Known issues
 

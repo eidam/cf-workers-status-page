@@ -3,7 +3,6 @@ import config from '../../config.yaml'
 import {
   setKV,
   getKVWithMetadata,
-  getKV,
   notifySlack,
 } from './helpers'
 
@@ -12,9 +11,29 @@ function getDate() {
 }
 
 export async function processCronTrigger(event) {
+  // Get monitors state from KV
+  let {value: monitorsState, metadata: monitorsStateMetadata} = await getKVWithMetadata('monitors_data', 'json')
+
+  // Create empty state objects if not exists in KV storage yet
+  if (!monitorsState) {
+    monitorsState = {}
+  }
+  if (!monitorsStateMetadata) {
+    monitorsStateMetadata = {}
+  }
+
+  // Reset default all monitors state to true
+  monitorsStateMetadata.monitorsOperational = true
+
   for (const monitor of config.monitors) {
+    // Create default monitor state if does not exist yet
+    if (typeof monitorsState[monitor.id] === 'undefined') {
+      monitorsState[monitor.id] = {failedDays: []}
+    }
+
     console.log(`Checking ${monitor.name} ...`)
 
+    // Fetch the monitors URL
     const init = {
       method: monitor.method || 'GET',
       redirect: monitor.followRedirect ? 'follow' : 'manual',
@@ -24,50 +43,40 @@ export async function processCronTrigger(event) {
     }
 
     const checkResponse = await fetch(monitor.url, init)
-    const kvState = await getKVWithMetadata('s_' + monitor.id)
+    const monitorOperational = checkResponse.status === (monitor.expectStatus || 200)
 
-    // metadata from monitor settings
-    const newMetadata = {
-      operational: checkResponse.status === (monitor.expectStatus || 200),
-      id: monitor.id,
-      firstCheck: kvState.metadata ? kvState.metadata.firstCheck : getDate(),
+    // Send Slack message on monitor change
+    if (monitorsState[monitor.id].operational !== monitorOperational && typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined' && SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret') {
+        event.waitUntil(notifySlack(monitor, monitorOperational))
     }
 
-    // write current status if status changed or for first time
-    if (
-      !kvState.metadata ||
-      kvState.metadata.operational !== newMetadata.operational
-    ) {
-      console.log('Saving changed state..')
+    monitorsState[monitor.id].operational = checkResponse.status === (monitor.expectStatus || 200)
+    monitorsState[monitor.id].firstCheck = monitorsState[monitor.id].firstCheck || getDate()
 
-      // first try to notify Slack in case fetch() or other limit is reached
-      if (typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined' && SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret') {
-        await notifySlack(monitor, newMetadata)
-      }
+    // Set monitorsOperational and push current day to failedDays
+    if (!monitorOperational) {
+      monitorsStateMetadata.monitorsOperational = false
 
-      await setKV('s_' + monitor.id, null, newMetadata)
-    }
-
-    // write daily status if monitor is not operational
-    if (!newMetadata.operational) {
-      // try to get failed daily status first as KV read is cheaper than write
-      const kvFailedDayStatusKey = 'h_' + monitor.id + '_' + getDate()
-      const kvFailedDayStatus = await getKV(kvFailedDayStatusKey)
-
-      // write if not found
-      if (!kvFailedDayStatus) {
-        console.log('Saving new failed daily status..')
-        await setKV(kvFailedDayStatusKey, null)
+      const failedDay = getDate()
+      if (!monitorsState[monitor.id].failedDays.includes(failedDay)) {
+        console.log('Saving new failed daily status ...')
+        monitorsState[monitor.id].failedDays.push(failedDay)
       }
     }
   }
 
-  // save last check timestamp including PoP location
+  // Get Worker PoP and save it to monitorsStateMetadata
   const res = await fetch('https://cloudflare-dns.com/dns-query', {
     method: 'OPTIONS',
   })
   const loc = res.headers.get('cf-ray').split('-')[1]
-  await setKV('lastUpdate', Date.now(), { loc })
+  monitorsStateMetadata.lastUpdate = {
+    loc,
+    time: Date.now()
+  }
+
+  // Save monitorsState and monitorsStateMetadata to KV storage
+  await setKV('monitors_data', JSON.stringify(monitorsState), monitorsStateMetadata)
 
   return new Response('OK')
 }

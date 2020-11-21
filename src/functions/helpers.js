@@ -1,8 +1,8 @@
 import config from '../../config.yaml'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 export async function getMonitors() {
-  return await getKVWithMetadata('monitors_data', "json")
+  return await getKVWithMetadata('monitors_data', 'json')
 }
 
 export async function setKV(key, value, metadata, expirationTtl) {
@@ -23,11 +23,10 @@ export async function notifySlack(monitor, operational) {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `Monitor *${monitor.name}* changed status to *${
-                operational
+              text: `Monitor *${monitor.name}* changed status to *${operational
                   ? config.settings.monitorLabelOperational
                   : config.settings.monitorLabelNotOperational
-              }*`,
+                }*`,
             },
           },
           {
@@ -35,11 +34,9 @@ export async function notifySlack(monitor, operational) {
             elements: [
               {
                 type: 'mrkdwn',
-                text: `${
-                  operational ? ':white_check_mark:' : ':x:'
-                } \`${monitor.method ? monitor.method : "GET"} ${monitor.url}\` - :eyes: <${
-                  config.settings.url
-                }|Status Page>`,
+                text: `${operational ? ':white_check_mark:' : ':x:'} \`${monitor.method ? monitor.method : 'GET'
+                  } ${monitor.url}\` - :eyes: <${config.settings.url
+                  }|Status Page>`,
               },
             ],
           },
@@ -59,24 +56,24 @@ export function useKeyPress(targetKey) {
 
   function downHandler({ key }) {
     if (key === targetKey) {
-      setKeyPressed(true);
+      setKeyPressed(true)
     }
   }
 
   const upHandler = ({ key }) => {
     if (key === targetKey) {
-      setKeyPressed(false);
+      setKeyPressed(false)
     }
   }
 
   useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-    window.addEventListener('keyup', upHandler);
+    window.addEventListener('keydown', downHandler)
+    window.addEventListener('keyup', upHandler)
 
     return () => {
-      window.removeEventListener('keydown', downHandler);
-      window.removeEventListener('keyup', upHandler);
-    };
+      window.removeEventListener('keydown', downHandler)
+      window.removeEventListener('keyup', upHandler)
+    }
   }, [])
 
   return keyPressed

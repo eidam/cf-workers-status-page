@@ -1,33 +1,40 @@
 import config from '../../config.yaml'
 
-import { setKV, getKVWithMetadata, notifySlack } from './helpers'
+import {
+  notifySlack,
+  getCheckLocation,
+  getKVMonitors,
+  setKVMonitors,
+} from './helpers'
 
 function getDate() {
   return new Date().toISOString().split('T')[0]
 }
 
 export async function processCronTrigger(event) {
+  // Get Worker PoP and save it to monitorsStateMetadata
+  const checkLocation = await getCheckLocation()
+  const checkDay = getDate()
+
   // Get monitors state from KV
-  let {
-    value: monitorsState,
-    metadata: monitorsStateMetadata,
-  } = await getKVWithMetadata('monitors_data', 'json')
+  let monitorsState = await getKVMonitors()
 
   // Create empty state objects if not exists in KV storage yet
   if (!monitorsState) {
-    monitorsState = {}
-  }
-  if (!monitorsStateMetadata) {
-    monitorsStateMetadata = {}
+    monitorsState = { lastUpdate: {}, monitors: {} }
   }
 
   // Reset default all monitors state to true
-  monitorsStateMetadata.monitorsOperational = true
+  monitorsState.lastUpdate.allOperational = true
 
   for (const monitor of config.monitors) {
     // Create default monitor state if does not exist yet
-    if (typeof monitorsState[monitor.id] === 'undefined') {
-      monitorsState[monitor.id] = { failedDays: [] }
+    if (typeof monitorsState.monitors[monitor.id] === 'undefined') {
+      monitorsState.monitors[monitor.id] = {
+        firstCheck: checkDay,
+        lastCheck: {},
+        checks: {},
+      }
     }
 
     console.log(`Checking ${monitor.name} ...`)
@@ -41,52 +48,90 @@ export async function processCronTrigger(event) {
       },
     }
 
+    // Perform a check and measure time
+    const requestStartTime = Date.now()
     const checkResponse = await fetch(monitor.url, init)
+    const requestTime = Math.round(Date.now() - requestStartTime)
+
+    // Determine whether operational and status changed
     const monitorOperational =
       checkResponse.status === (monitor.expectStatus || 200)
+    const monitorStatusChanged =
+      monitorsState.monitors[monitor.id].lastCheck.operational !==
+      monitorOperational
+
+    // Save monitor's last check response status
+    monitorsState.monitors[monitor.id].lastCheck = {
+      status: checkResponse.status,
+      statusText: checkResponse.statusText,
+      operational: monitorOperational,
+    }
 
     // Send Slack message on monitor change
     if (
-      monitorsState[monitor.id].operational !== monitorOperational &&
+      monitorStatusChanged &&
       typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined' &&
       SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret'
     ) {
       event.waitUntil(notifySlack(monitor, monitorOperational))
     }
 
-    monitorsState[monitor.id].operational =
-      checkResponse.status === (monitor.expectStatus || 200)
-    monitorsState[monitor.id].firstCheck =
-      monitorsState[monitor.id].firstCheck || getDate()
+    // make sure checkDay exists in checks in cases when needed
+    if (
+      (config.settings.collectResponseTimes || !monitorOperational) &&
+      !monitorsState.monitors[monitor.id].checks.hasOwnProperty(checkDay)
+    ) {
+      monitorsState.monitors[monitor.id].checks[checkDay] = {
+        fails: 0,
+        res: {},
+      }
+    }
 
-    // Set monitorsOperational and push current day to failedDays
-    if (!monitorOperational) {
-      monitorsStateMetadata.monitorsOperational = false
+    if (config.settings.collectResponseTimes && monitorOperational) {
+      // make sure location exists in current checkDay
+      if (
+        !monitorsState.monitors[monitor.id].checks[checkDay].res.hasOwnProperty(
+          checkLocation,
+        )
+      ) {
+        monitorsState.monitors[monitor.id].checks[checkDay].res[
+          checkLocation
+        ] = {
+          n: 0,
+          ms: 0,
+          a: 0,
+        }
+      }
 
-      const failedDay = getDate()
-      if (!monitorsState[monitor.id].failedDays.includes(failedDay)) {
-        console.log('Saving new failed daily status ...')
-        monitorsState[monitor.id].failedDays.push(failedDay)
+      // increment number of checks and sum of ms
+      const no = ++monitorsState.monitors[monitor.id].checks[checkDay].res[
+        checkLocation
+      ].n
+      const ms = (monitorsState.monitors[monitor.id].checks[checkDay].res[
+        checkLocation
+      ].ms += requestTime)
+
+      // save new average ms
+      monitorsState.monitors[monitor.id].checks[checkDay].res[
+        checkLocation
+      ].a = Math.round(ms / no)
+    } else if (!monitorOperational) {
+      // Save allOperational to false
+      monitorsState.lastUpdate.allOperational = false
+
+      // Increment failed checks, only on status change (maybe call it .incidents instead?)
+      if (monitorStatusChanged) {
+        monitorsState.monitors[monitor.id].checks[checkDay].fails++
       }
     }
   }
 
-  // Get Worker PoP and save it to monitorsStateMetadata
-  const res = await fetch('https://cloudflare-dns.com/dns-query', {
-    method: 'OPTIONS',
-  })
-  const loc = res.headers.get('cf-ray').split('-')[1]
-  monitorsStateMetadata.lastUpdate = {
-    loc,
-    time: Date.now(),
-  }
+  // Save last update information
+  monitorsState.lastUpdate.time = Date.now()
+  monitorsState.lastUpdate.loc = checkLocation
 
-  // Save monitorsState and monitorsStateMetadata to KV storage
-  await setKV(
-    'monitors_data',
-    JSON.stringify(monitorsState),
-    monitorsStateMetadata,
-  )
+  // Save monitorsState to KV storage
+  await setKVMonitors(monitorsState)
 
   return new Response('OK')
 }

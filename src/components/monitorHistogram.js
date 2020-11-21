@@ -16,14 +16,17 @@ export default function MonitorHistogram({ monitorId, kvMonitor }) {
         let bg = ''
         let dayInHistogramLabel = config.settings.dayInHistogramNoData
 
-        // filter all dates before first check, check the rest
+        // filter all dates before first check, then check the rest
         if (kvMonitor && kvMonitor.firstCheck <= dayInHistogram) {
-          if (!kvMonitor.failedDays.includes(dayInHistogram)) {
+          if (
+            kvMonitor.checks.hasOwnProperty(dayInHistogram) &&
+            kvMonitor.checks[dayInHistogram].fails > 0
+          ) {
+            bg = 'yellow'
+            dayInHistogramLabel = `${kvMonitor.checks[dayInHistogram].fails} ${config.settings.dayInHistogramNotOperational}`
+          } else {
             bg = 'green'
             dayInHistogramLabel = config.settings.dayInHistogramOperational
-          } else {
-            bg = 'yellow'
-            dayInHistogramLabel = config.settings.dayInHistogramNotOperational
           }
         }
 
@@ -36,6 +39,15 @@ export default function MonitorHistogram({ monitorId, kvMonitor }) {
               <span className="font-semibold text-sm">
                 {dayInHistogramLabel}
               </span>
+              {kvMonitor.checks.hasOwnProperty(dayInHistogram) &&
+                Object.keys(kvMonitor.checks[dayInHistogram].res).map((key) => {
+                  return (
+                    <>
+                      <br />
+                      {key}: {kvMonitor.checks[dayInHistogram].res[key].a}ms
+                    </>
+                  )
+                })}
             </div>
           </div>
         )

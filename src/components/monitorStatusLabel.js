@@ -12,7 +12,7 @@ export default function MonitorStatusLabel({ kvMonitor }) {
   let text = 'No data'
 
   if (typeof kvMonitor !== 'undefined') {
-    if (kvMonitor.operational) {
+    if (kvMonitor.lastCheck.operational) {
       color = 'green'
       text = config.settings.monitorLabelOperational
     } else {

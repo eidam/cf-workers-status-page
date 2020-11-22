@@ -77,6 +77,17 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
    - e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
 8. _\(optional\)_ Edit [wrangler.toml](./wrangler.toml) to adjust Worker settings or CRON Trigger schedule, especially if you are on [Workers Free plan](#workers-kv-free-tier)
 
+### Telegram notifications
+
+To enable telegram notifications, you'll need to take a few additional steps.
+
+1. [Create a new Bot](https://core.telegram.org/bots#creating-a-new-bot)
+2. Set the api token you received when creating the bot as content of the `SECRET_TELEGRAM_API_TOKEN` secret in your github repository.
+3. Send a message to the bot from the telegram account which should receive the alerts (Something more than `/start`)
+4. Get the chat id with `curl https://api.telegram.org/bot<YOUR TELEGRAM API TOKEN>/getUpdates | jq '.result[0] .message .chat .id'`
+5. Set the retrieved chat id in the `SECRET_TELEGRAM_CHAT_ID` secret variable
+6. Redeploy the status page using the github action
+
 ### Deploy on your own
 
 You can clone the repository yourself and use Wrangler CLI to develop/deploy, extra list of things you need to take care of:

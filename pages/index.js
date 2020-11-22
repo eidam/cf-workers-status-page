@@ -108,15 +108,6 @@ export default function Index({ config, kvMonitors, kvMonitorsLastUpdate }) {
             </a>
           </div>
         </div>
-        <script>
-          {`
-          function setTheme(theme) {
-            document.documentElement.classList.remove("dark", "light")
-            document.documentElement.classList.add(theme)
-            localStorage.theme = theme
-          }
-          `}
-        </script>
       </div>
     </div>
   )

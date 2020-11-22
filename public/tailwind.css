@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-50;
+  }
+
+  a {
+    @apply text-blue-500 dark:text-blue-400;
+  }
+}
+
+@layer components {
+  .card {
+    @apply p-4 bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 shadow rounded-lg p-4 mb-2;
+  }
+
+  .pill {
+    @apply px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full;
+  }
+
+  .histogram {
+    @apply h-6 w-full mx-auto;
+  }
+  .hitbox {
+    align-items: flex-end;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    padding: 1px;
+    border-radius: 3.75px;
+  }
+  .bar {
+    @apply bg-gray-300 dark:bg-gray-600;
+    padding-bottom: 1px;
+    height: 100%;
+    width: 85%;
+    border-radius: 100px;
+  }
+
+  .bar.green {
+    @apply bg-green-400 dark:bg-green-700;
+  }
+
+  .bar.red {
+    @apply bg-red-400 dark:bg-red-700;
+  }
+
+  .bar.yellow {
+    @apply bg-yellow-400 dark:bg-yellow-700;
+  }
+
+  .tooltip {
+    @apply relative;
+  }
+
+  .tooltip .content {
+    @apply invisible absolute z-50 inline-block;
+    @apply rounded-lg py-1 px-2 bg-gray-100 dark:bg-gray-800 shadow;
+    @apply opacity-0 transition-all duration-200 scale-50;
+  }
+
+  .tooltip:hover .content {
+    @apply visible opacity-100 scale-100;
+  }
+}

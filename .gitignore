@@ -133,3 +133,4 @@ worker/
 .direnv/
 out/
 package-lock.json
+public/style.css

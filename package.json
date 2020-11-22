@@ -7,21 +7,29 @@
   "private": true,
   "scripts": {
     "dev": "flareact dev",
-    "build": "flareact build",
-    "deploy": "flareact publish",
+    "build": "yarn css && flareact build",
+    "deploy": "yarn build && flareact publish",
     "kv-gc": "node ./src/cli/gcMonitors.js",
-    "format": "prettier --write '**/*.{js,css,json,md}'"
+    "format": "prettier --write '**/*.{js,css,json,md}'",
+    "css": "postcss public/tailwind.css -o public/style.css",
+    "postinstall": "patch-package"
   },
   "dependencies": {
-    "flareact": "^0.9.0",
+    "flareact": "0.9.0",
     "laco": "^1.2.1",
     "laco-react": "^1.1.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "autoprefixer": "^10.0.2",
     "node-fetch": "^2.6.1",
-    "prettier": "^1.18.2",
-    "yaml-loader": "^0.6.0"
+    "postcss": "^8.1.8",
+    "postcss-cli": "^8.3.0",
+    "prettier": "^2.2.0",
+    "tailwindcss": "^2.0.1",
+    "yaml-loader": "^0.6.0",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

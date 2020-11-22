@@ -10,7 +10,7 @@ import { processCronTrigger } from './src/functions/cronTrigger'
  */
 const DEBUG = false
 
-addEventListener('fetch', event => {
+addEventListener('fetch', (event) => {
   try {
     event.respondWith(
       handleEvent(event, require.context('./pages/', true, /\.js$/), DEBUG),
@@ -27,6 +27,6 @@ addEventListener('fetch', event => {
   }
 })
 
-addEventListener('scheduled', event => {
+addEventListener('scheduled', (event) => {
   event.waitUntil(processCronTrigger(event))
 })

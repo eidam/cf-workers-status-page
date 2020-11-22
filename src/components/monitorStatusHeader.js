@@ -1,28 +1,32 @@
 import config from '../../config.yaml'
 
-export default function MonitorStatusHeader({kvMonitorsMetadata}) {
-  let backgroundColor = 'green'
-  let headerText = config.settings.allmonitorsOperational
-  let textColor = 'black'
+const classes = {
+  green:
+    'bg-green-200 text-green-700 dark:bg-green-700 dark:text-green-200 border-green-300 dark:border-green-600',
+  yellow:
+    'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-200 border-yellow-300 dark:border-yellow-600',
+}
 
-  if (!kvMonitorsMetadata.monitorsOperational) {
-    backgroundColor = 'yellow'
-    headerText = config.settings.notAllmonitorsOperational
+export default function MonitorStatusHeader({ kvMonitorsLastUpdate }) {
+  let color = 'green'
+  let text = config.settings.allmonitorsOperational
+
+  if (!kvMonitorsLastUpdate.allOperational) {
+    color = 'yellow'
+    text = config.settings.notAllmonitorsOperational
   }
 
   return (
-    <div className={`ui inverted segment ${backgroundColor}`}>
-      <div className="horizontal flex between">
-        <div className={`ui marginless header ${textColor}-text`}>
-          {headerText}
-        </div>
-        {
-          kvMonitorsMetadata.lastUpdate && typeof window !== 'undefined' && (
-          <div className={`${textColor}-text`}>
-            checked {Math.round((Date.now() - kvMonitorsMetadata.lastUpdate.time) / 1000)} sec ago (from {kvMonitorsMetadata.lastUpdate.loc})
+    <div className={`card mb-4 font-semibold ${classes[color]}`}>
+      <div className="flex flex-row justify-between items-center">
+        <div>{text}</div>
+        {kvMonitorsLastUpdate.time && typeof window !== 'undefined' && (
+          <div className="text-xs font-light">
+            checked{' '}
+            {Math.round((Date.now() - kvMonitorsLastUpdate.time) / 1000)} sec
+            ago (from {kvMonitorsLastUpdate.loc})
           </div>
-          )
-        }
+        )}
       </div>
     </div>
   )

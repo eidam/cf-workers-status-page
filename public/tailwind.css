@@ -58,7 +58,7 @@
 
   .tooltip .content {
     @apply invisible absolute z-50 inline-block;
-    @apply rounded-full py-1 px-2 bg-gray-100 dark:bg-gray-800 shadow;
+    @apply rounded-lg py-1 px-2 bg-gray-100 dark:bg-gray-800 shadow;
     @apply opacity-0 transition-all duration-200 scale-50;
   }
 

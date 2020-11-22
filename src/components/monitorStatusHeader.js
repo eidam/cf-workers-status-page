@@ -7,11 +7,11 @@ const classes = {
     'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-200 border-yellow-300 dark:border-yellow-600',
 }
 
-export default function MonitorStatusHeader({ kvMonitorsMetadata }) {
+export default function MonitorStatusHeader({ kvMonitorsLastUpdate }) {
   let color = 'green'
   let text = config.settings.allmonitorsOperational
 
-  if (!kvMonitorsMetadata.monitorsOperational) {
+  if (!kvMonitorsLastUpdate.allOperational) {
     color = 'yellow'
     text = config.settings.notAllmonitorsOperational
   }
@@ -20,13 +20,11 @@ export default function MonitorStatusHeader({ kvMonitorsMetadata }) {
     <div className={`card mb-4 font-semibold ${classes[color]}`}>
       <div className="flex flex-row justify-between items-center">
         <div>{text}</div>
-        {kvMonitorsMetadata.lastUpdate && typeof window !== 'undefined' && (
+        {kvMonitorsLastUpdate.time && typeof window !== 'undefined' && (
           <div className="text-xs font-light">
             checked{' '}
-            {Math.round(
-              (Date.now() - kvMonitorsMetadata.lastUpdate.time) / 1000,
-            )}{' '}
-            sec ago (from {kvMonitorsMetadata.lastUpdate.loc})
+            {Math.round((Date.now() - kvMonitorsLastUpdate.time) / 1000)} sec
+            ago (from {kvMonitorsLastUpdate.loc})
           </div>
         )}
       </div>

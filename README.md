@@ -10,15 +10,15 @@ Monitor your websites, showcase status including daily history, and get Slack no
 
 You'll need a [Cloudflare Workers account](https://dash.cloudflare.com/sign-up/workers) with
 
-* A workers domain set up
-* The Workers Bundled subscription \($5/mo\)
-    * [It works with Workers Free!](https://blog.cloudflare.com/workers-kv-free-tier/) Check [more info](#workers-kv-free-tier) on how to run on Workers Free. 
-* Some websites/APIs to watch 🙂
+- A workers domain set up
+- The Workers Bundled subscription \($5/mo\)
+  - [It works with Workers Free!](https://blog.cloudflare.com/workers-kv-free-tier/) Check [more info](#workers-kv-free-tier) on how to run on Workers Free.
+- Some websites/APIs to watch 🙂
 
 Also, prepare the following secrets
 
-* Cloudflare API token with `Edit Cloudflare Workers` permissions
-* Slack incoming webhook \(optional\)
+- Cloudflare API token with `Edit Cloudflare Workers` permissions
+- Slack incoming webhook \(optional\)
 
 ## Getting started
 
@@ -39,6 +39,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
    - Name: SECRET_SLACK_WEBHOOK_URL (optional)
    - Value: your-slack-webhook-url
    ```
+
 3. Navigate to the **Actions** settings in your repository and enable them
 4. Edit [config.yaml](./config.yaml) to adjust configuration and list all of your websites/APIs you want to monitor
 
@@ -73,32 +74,35 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 5. Push to `main` branch to trigger the deployment
 6. 🎉
 7. _\(optional\)_ Go to [Cloudflare Workers settings](https://dash.cloudflare.com/?to=/workers) and assign custom domain/route
-   * e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
+   - e.g. `status-page.eidam.dev/*` _\(make sure you include `/*` as the Worker also serve static files\)_
 8. _\(optional\)_ Edit [wrangler.toml](./wrangler.toml) to adjust Worker settings or CRON Trigger schedule, especially if you are on [Workers Free plan](#workers-kv-free-tier)
 
 ### Deploy on your own
 
 You can clone the repository yourself and use Wrangler CLI to develop/deploy, extra list of things you need to take care of:
 
-* create KV namespace and add the `KV_STATUS_PAGE` binding to [wrangler.toml](./wrangler.toml)
-* create Worker secrets _\(optional\)_
-  * `SECRET_SLACK_WEBHOOK_URL`
+- create KV namespace and add the `KV_STATUS_PAGE` binding to [wrangler.toml](./wrangler.toml)
+- create Worker secrets _\(optional\)_
+  - `SECRET_SLACK_WEBHOOK_URL`
 
 ## Workers KV free tier
-The Workers Free plan includes limited KV usage, but the quota is sufficient for 2-minute checks only 
-* Change the CRON trigger to 2 minutes interval (`crons = ["*/2 * * * *"]`) in [wrangler.toml](./wrangler.toml)
+
+The Workers Free plan includes limited KV usage, but the quota is sufficient for 2-minute checks only
+
+- Change the CRON trigger to 2 minutes interval (`crons = ["*/2 * * * *"]`) in [wrangler.toml](./wrangler.toml)
 
 ## Known issues
 
-* **Max 25 monitors to watch in case you are using Slack notifications**, due to the limit of subrequests Cloudflare Worker can make \(50\).
+- **Max 25 monitors to watch in case you are using Slack notifications**, due to the limit of subrequests Cloudflare Worker can make \(50\).
 
   The plan is to support up to 49 by sending only one Slack notification per scheduled run.
 
-* **KV replication lag** - You might get Slack notification instantly, however it may take couple of more seconds to see the change on your status page as [Cron Triggers are usually running on underutilized quiet hours machines](https://blog.cloudflare.com/introducing-cron-triggers-for-cloudflare-workers/#how-are-you-able-to-offer-this-feature-at-no-additional-cost).
+- **KV replication lag** - You might get Slack notification instantly, however it may take couple of more seconds to see the change on your status page as [Cron Triggers are usually running on underutilized quiet hours machines](https://blog.cloudflare.com/introducing-cron-triggers-for-cloudflare-workers/#how-are-you-able-to-offer-this-feature-at-no-additional-cost).
 
-* **Initial delay (no data)** - It takes couple of minutes to schedule and run CRON Triggers for the first time
+- **Initial delay (no data)** - It takes couple of minutes to schedule and run CRON Triggers for the first time
 
 ## Future plans
+
 Stay tuned for more features coming in, like leveraging the fact that CRON instances are scheduled around the world during the day
- so we can monitor the response times. However, we will most probably wait for the [Durable Objects](https://blog.cloudflare.com/introducing-workers-durable-objects/) to be in open beta
- as they are better fit to reliably store such info.
+so we can monitor the response times. However, we will most probably wait for the [Durable Objects](https://blog.cloudflare.com/introducing-workers-durable-objects/) to be in open beta
+as they are better fit to reliably store such info.

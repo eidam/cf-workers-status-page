@@ -2,7 +2,7 @@ import { Store } from 'laco'
 import { useStore } from 'laco-react'
 import Head from 'flareact/head'
 
-import { getMonitors, useKeyPress, switchTheme } from '../src/functions/helpers'
+import { getKVMonitors, useKeyPress } from '../src/functions/helpers'
 import config from '../config.yaml'
 import MonitorCard from '../src/components/monitorCard'
 import MonitorFilter from '../src/components/monitorFilter'
@@ -24,23 +24,20 @@ const filterByTerm = (term) =>
 
 export async function getEdgeProps() {
   // get KV data
-  const {
-    value: kvMonitors,
-    metadata: kvMonitorsMetadata,
-  } = await getMonitors()
+  const kvMonitors = await getKVMonitors()
 
   return {
     props: {
       config,
-      kvMonitors: kvMonitors || {},
-      kvMonitorsMetadata: kvMonitorsMetadata || {},
+      kvMonitors: kvMonitors ? kvMonitors.monitors : {},
+      kvMonitorsLastUpdate: kvMonitors ? kvMonitors.lastUpdate : {},
     },
     // Revalidate these props once every x seconds
     revalidate: 5,
   }
 }
 
-export default function Index({ config, kvMonitors, kvMonitorsMetadata }) {
+export default function Index({ config, kvMonitors, kvMonitorsLastUpdate }) {
   const state = useStore(MonitorStore)
   const slash = useKeyPress('/')
 
@@ -81,7 +78,7 @@ export default function Index({ config, kvMonitors, kvMonitorsMetadata }) {
             <MonitorFilter active={slash} callback={filterByTerm} />
           </div>
         </div>
-        <MonitorStatusHeader kvMonitorsMetadata={kvMonitorsMetadata} />
+        <MonitorStatusHeader kvMonitorsLastUpdate={kvMonitorsLastUpdate} />
         {state.visible.map((monitor, key) => {
           return (
             <MonitorCard

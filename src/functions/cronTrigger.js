@@ -2,6 +2,7 @@ import config from '../../config.yaml'
 
 import {
   notifySlack,
+  notifyTelegram,
   getCheckLocation,
   getKVMonitors,
   setKVMonitors,
@@ -74,6 +75,15 @@ export async function processCronTrigger(event) {
       SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret'
     ) {
       event.waitUntil(notifySlack(monitor, monitorOperational))
+    }
+
+    // Send Telegram message on monitor change
+    if (
+      monitorStatusChanged
+      && typeof SECRET_TELEGRAM_API_TOKEN !== 'undefined' && SECRET_TELEGRAM_API_TOKEN !== 'default-gh-action-secret'
+      && typeof SECRET_TELEGRAM_CHAT_ID !== 'undefined' && SECRET_TELEGRAM_CHAT_ID !== 'default-gh-action-secret'
+    ) {
+      event.waitUntil(notifyTelegram(monitor, monitorOperational))
     }
 
     // make sure checkDay exists in checks in cases when needed

@@ -13,6 +13,12 @@ export async function setKVMonitors(data) {
   return setKV(kvDataKey, JSON.stringify(data))
 }
 
+const getOperationalLabel = operational => {
+  return operational
+    ? config.settings.monitorLabelOperational
+    : config.settings.monitorLabelNotOperational
+}
+
 export async function setKV(key, value, metadata, expirationTtl) {
   return KV_STATUS_PAGE.put(key, value, { metadata, expirationTtl })
 }
@@ -27,11 +33,7 @@ export async function notifySlack(monitor, operational) {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `Monitor *${monitor.name}* changed status to *${
-                operational
-                  ? config.settings.monitorLabelOperational
-                  : config.settings.monitorLabelNotOperational
-              }*`,
+              text: `Monitor *${monitor.name}* changed status to *${getOperationalLabel(operational)}*`,
             },
           },
           {
@@ -55,6 +57,22 @@ export async function notifySlack(monitor, operational) {
     body: JSON.stringify(payload),
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+  })
+}
+
+export async function notifyTelegram(monitor, operational) {
+  const text = `Monitor *${monitor.name.replace('-', '\\-')}* changed status to *${getOperationalLabel(operational)}*
+  ${operational ? '✅' : '❌'} \`${monitor.method ? monitor.method : "GET"} ${monitor.url}\` \\- 👀 [Status Page](${config.settings.url})`
+
+  const payload = new FormData()
+  payload.append('chat_id', SECRET_TELEGRAM_CHAT_ID)
+  payload.append('parse_mode', 'MarkdownV2')
+  payload.append('text', text)
+
+  const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
+  return fetch(telegramUrl, {
+    body: payload,
+    method: 'POST',
   })
 }
 

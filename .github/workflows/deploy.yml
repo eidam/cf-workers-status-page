@@ -38,6 +38,7 @@ jobs:
           SECRET_TELEGRAM_CHAT_ID
         environment: production
       env:
+        NODE_ENV: production
         CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
         SECRET_SLACK_WEBHOOK_URL: ${{secrets.SECRET_SLACK_WEBHOOK_URL}}
         SECRET_TELEGRAM_API_TOKEN: ${{secrets.SECRET_TELEGRAM_API_TOKEN}}

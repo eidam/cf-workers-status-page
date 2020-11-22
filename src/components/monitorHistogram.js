@@ -39,7 +39,8 @@ export default function MonitorHistogram({ monitorId, kvMonitor }) {
               <span className="font-semibold text-sm">
                 {dayInHistogramLabel}
               </span>
-              {kvMonitor && kvMonitor.checks.hasOwnProperty(dayInHistogram) &&
+              {kvMonitor &&
+                kvMonitor.checks.hasOwnProperty(dayInHistogram) &&
                 Object.keys(kvMonitor.checks[dayInHistogram].res).map((key) => {
                   return (
                     <>

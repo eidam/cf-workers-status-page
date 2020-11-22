@@ -13,7 +13,7 @@ export async function setKVMonitors(data) {
   return setKV(kvDataKey, JSON.stringify(data))
 }
 
-const getOperationalLabel = operational => {
+const getOperationalLabel = (operational) => {
   return operational
     ? config.settings.monitorLabelOperational
     : config.settings.monitorLabelNotOperational
@@ -33,7 +33,9 @@ export async function notifySlack(monitor, operational) {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `Monitor *${monitor.name}* changed status to *${getOperationalLabel(operational)}*`,
+              text: `Monitor *${
+                monitor.name
+              }* changed status to *${getOperationalLabel(operational)}*`,
             },
           },
           {
@@ -61,8 +63,13 @@ export async function notifySlack(monitor, operational) {
 }
 
 export async function notifyTelegram(monitor, operational) {
-  const text = `Monitor *${monitor.name.replace('-', '\\-')}* changed status to *${getOperationalLabel(operational)}*
-  ${operational ? '✅' : '❌'} \`${monitor.method ? monitor.method : "GET"} ${monitor.url}\` \\- 👀 [Status Page](${config.settings.url})`
+  const text = `Monitor *${monitor.name.replace(
+    '-',
+    '\\-',
+  )}* changed status to *${getOperationalLabel(operational)}*
+  ${operational ? '✅' : '❌'} \`${monitor.method ? monitor.method : 'GET'} ${
+    monitor.url
+  }\` \\- 👀 [Status Page](${config.settings.url})`
 
   const payload = new FormData()
   payload.append('chat_id', SECRET_TELEGRAM_CHAT_ID)

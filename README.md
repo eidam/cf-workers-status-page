@@ -49,6 +49,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
      url: 'https://status-page.eidam.dev' # used for Slack messages
      logo: logo-192x192.png # image in ./public/ folder
      daysInHistogram: 90 # number of days you want to display in histogram
+     collectResponseTimes: false # experimental feature, enable only for <5 monitors or on paid plans
 
      # configurable texts across the status page
      allmonitorsOperational: 'All Systems Operational'

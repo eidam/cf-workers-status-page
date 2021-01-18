@@ -1,9 +1,4 @@
-const locations = {
-  WAW: 'Warsaw',
-  SCL: 'Santiago de Chile',
-  MEL: 'Melbourne',
-  SIN: 'Singapore',
-}
+import { locations } from '../functions/helpers'
 
 export default function MonitorDayAverage({ location, avg }) {
   return (

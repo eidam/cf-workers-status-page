@@ -1,4 +1,5 @@
 import config from '../../config.yaml'
+import { locations } from '../functions/helpers'
 
 const classes = {
   green:
@@ -24,7 +25,8 @@ export default function MonitorStatusHeader({ kvMonitorsLastUpdate }) {
           <div className="text-xs font-light">
             checked{' '}
             {Math.round((Date.now() - kvMonitorsLastUpdate.time) / 1000)} sec
-            ago (from {kvMonitorsLastUpdate.loc})
+            ago (from{' '}
+            {locations[kvMonitorsLastUpdate.loc] || kvMonitorsLastUpdate.loc})
           </div>
         )}
       </div>

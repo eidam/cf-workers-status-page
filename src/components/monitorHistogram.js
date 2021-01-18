@@ -1,4 +1,6 @@
+import React from 'react'
 import config from '../../config.yaml'
+import MonitorDayAverage from './monitorDayAverage'
 
 export default function MonitorHistogram({ monitorId, kvMonitor }) {
   // create date and set date - daysInHistogram for the first day of the histogram
@@ -43,10 +45,10 @@ export default function MonitorHistogram({ monitorId, kvMonitor }) {
                 kvMonitor.checks.hasOwnProperty(dayInHistogram) &&
                 Object.keys(kvMonitor.checks[dayInHistogram].res).map((key) => {
                   return (
-                    <>
-                      <br />
-                      {key}: {kvMonitor.checks[dayInHistogram].res[key].a}ms
-                    </>
+                    <MonitorDayAverage
+                      location={key}
+                      avg={kvMonitor.checks[dayInHistogram].res[key].a}
+                    />
                   )
                 })}
             </div>

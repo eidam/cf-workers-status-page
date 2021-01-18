@@ -6,7 +6,7 @@ const accountId = process.env.CF_ACCOUNT_ID
 const namespaceId = process.env.KV_NAMESPACE_ID
 const apiToken = process.env.CF_API_TOKEN
 
-const kvPrefix = 's_'
+const kvMonitorsKey = 'monitors_data_v1_1'
 
 if (!accountId || !namespaceId || !apiToken) {
   console.error(
@@ -15,7 +15,7 @@ if (!accountId || !namespaceId || !apiToken) {
   process.exit(0)
 }
 
-async function getKvMonitors(kvPrefix) {
+async function getKvMonitors(kvMonitorsKey) {
   const init = {
     headers: {
       'Content-Type': 'application/json',
@@ -24,27 +24,29 @@ async function getKvMonitors(kvPrefix) {
   }
 
   const res = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/keys?limit=100&prefix=${kvPrefix}`,
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/${kvMonitorsKey}`,
     init,
   )
   const json = await res.json()
-  return json.result
+  return json
 }
 
-async function deleteKvBulk(keys) {
+async function saveKVMonitors(kvMonitorsKey, data) {
   const init = {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiToken}`,
     },
-    method: 'DELETE',
-    body: JSON.stringify(keys),
+    body: JSON.stringify(data),
   }
 
-  return await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/bulk`,
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}/values/${kvMonitorsKey}`,
     init,
   )
+
+  return res
 }
 
 function loadConfig() {
@@ -53,26 +55,37 @@ function loadConfig() {
   return JSON.parse(config)
 }
 
-getKvMonitors(kvPrefix)
+getKvMonitors(kvMonitorsKey)
   .then(async (kvMonitors) => {
+    let stateMonitors = kvMonitors
+
     const config = loadConfig()
-    const monitors = config.monitors.map((key) => {
+    const configMonitors = config.monitors.map((key) => {
       return key.id
     })
-    const kvState = kvMonitors.map((key) => {
-      return key.name
-    })
-    const keysForRemoval = kvState.filter(
-      (x) => !monitors.includes(x.replace(kvPrefix, '')),
-    )
 
-    if (keysForRemoval.length > 0) {
-      console.log(
-        `Removing following keys from KV storage as they are no longer in the config: ${keysForRemoval.join(
-          ', ',
-        )}`,
-      )
-      await deleteKvBulk(keysForRemoval)
+    Object.keys(stateMonitors.monitors).map((monitor) => {
+      // remove monitor data from state if missing in config
+      if (!configMonitors.includes(monitor)) {
+        delete stateMonitors.monitors[monitor]
+      }
+
+      // delete dates older than config.settings.daysInHistogram
+      let date = new Date()
+      date.setDate(date.getDate() - config.settings.daysInHistogram)
+      date.toISOString().split('T')[0]
+      const cleanUpDate = date.toISOString().split('T')[0]
+
+      Object.keys(stateMonitors.monitors[monitor].checks).map((checkDay) => {
+        if (checkDay < cleanUpDate) {
+          delete stateMonitors.monitors[monitor].checks[checkDay]
+        }
+      })
+    })
+
+    // sanity check + if good save the KV
+    if (configMonitors.length === Object.keys(stateMonitors.monitors).length) {
+      await saveKVMonitors(kvMonitorsKey, stateMonitors)
     }
   })
   .catch((e) => console.log(e))

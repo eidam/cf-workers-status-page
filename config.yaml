@@ -35,3 +35,10 @@ monitors:
     url: 'https://blog.cloudflare.com/'
     method: GET
     expectStatus: 200
+    
+    - id: api.vandealertodealer.com
+    name: Test Status Page
+    url: 'https://api.vandealertodealer.com/'
+    method: GET
+    expectStatus: 200
+

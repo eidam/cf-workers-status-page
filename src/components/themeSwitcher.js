@@ -45,11 +45,11 @@ export default function ThemeSwitcher() {
     setDark(!darkmode)
   }
 
-  const buttonColor = darkmode ? 'bg-gray-700' : 'bg-gray-200'
+  const buttonColor = darkmode ? 'bg-gray-700 focus:ring-gray-700' : 'bg-gray-200 focus:ring-gray-200'
 
   return (
     <button
-      className={`${buttonColor} rounded-full h-7 w-7 mr-4`}
+      className={`${buttonColor} rounded-full h-7 w-7 mr-4 focus:outline-none focus:ring-2 focus:ring-opacity-50`}
       onClick={changeTheme}
     >
       {darkmode ? sunIcon : moonIcon}

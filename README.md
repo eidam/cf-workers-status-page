@@ -19,6 +19,7 @@ Also, prepare the following secrets
 
 - Cloudflare API token with `Edit Cloudflare Workers` permissions
 - Slack incoming webhook \(optional\)
+- Discord incoming webhook \(optional\)
 
 ## Getting started
 
@@ -38,6 +39,9 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 
    - Name: SECRET_SLACK_WEBHOOK_URL (optional)
    - Value: your-slack-webhook-url
+
+   - Name: SECRET_DISCORD_WEBHOOK_URL (optional)
+   - Value: your-discord-webhook-url
    ```
 
 3. Navigate to the **Actions** settings in your repository and enable them
@@ -46,7 +50,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
    ```yaml
    settings:
      title: 'Status Page'
-     url: 'https://status-page.eidam.dev' # used for Slack messages
+     url: 'https://status-page.eidam.dev' # used for Slack & Discord messages
      logo: logo-192x192.png # image in ./public/ folder
      daysInHistogram: 90 # number of days you want to display in histogram
      collectResponseTimes: false # experimental feature, enable only for <5 monitors or on paid plans
@@ -96,6 +100,7 @@ You can clone the repository yourself and use Wrangler CLI to develop/deploy, ex
 - create KV namespace and add the `KV_STATUS_PAGE` binding to [wrangler.toml](./wrangler.toml)
 - create Worker secrets _\(optional\)_
   - `SECRET_SLACK_WEBHOOK_URL`
+  - `SECRET_DISCORD_WEBHOOK_URL`
 
 ## Workers KV free tier
 

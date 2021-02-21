@@ -90,6 +90,25 @@ export async function notifyTelegram(monitor, operational) {
   })
 }
 
+export async function notifyDiscord(monitor, operational) {
+  const payload = {
+    embeds: [
+      {
+        title: `${monitor.name} changed status to ${getOperationalLabel(operational)}`,
+        description: `${operational ? ':white_check_mark:' : ':x:'} \`${monitor.method ? monitor.method : 'GET'} 
+        ${monitor.url}\` - :eyes: [Status Page](${config.settings.url})`,
+        color: operational ? 3581519 : 13632027,
+        timestamp: new Date().toISOString(),
+      }
+    ]
+  }
+  return fetch(SECRET_DISCORD_WEBHOOK_URL, {
+    body: JSON.stringify(payload),
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
 export function useKeyPress(targetKey) {
   const [keyPressed, setKeyPressed] = useState(false)
 

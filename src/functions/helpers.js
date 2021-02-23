@@ -100,8 +100,9 @@ export async function notifyDiscord(monitor, operational) {
         title: `${monitor.name} is ${getOperationalLabel(operational)} ${
           operational ? ':white_check_mark:' : ':x:'
         }`,
-        description: `\`${monitor.method ? monitor.method : 'GET'} 
-        ${monitor.url}\` - :eyes: [Status Page](${config.settings.url})`,
+        description: `\`${monitor.method ? monitor.method : 'GET'} ${
+          monitor.url
+        }\` - :eyes: [Status Page](${config.settings.url})`,
         color: operational ? 3581519 : 13632027,
       },
     ],

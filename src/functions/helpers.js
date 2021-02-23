@@ -90,18 +90,21 @@ export async function notifyTelegram(monitor, operational) {
   })
 }
 
+// Visualize your payload using https://leovoel.github.io/embed-visualizer/
 export async function notifyDiscord(monitor, operational) {
   const payload = {
-    username: "Status Page",
-    avatar_url: "",
+    username: `${config.settings.title}`,
+    avatar_url: `${config.settings.url}/${config.settings.logo}`,
     embeds: [
       {
-        title: `${monitor.name} changed status to ${getOperationalLabel(operational)}`,
-        description: `${operational ? ':white_check_mark:' : ':x:'} \`${monitor.method ? monitor.method : 'GET'} 
+        title: `${monitor.name} is ${getOperationalLabel(operational)} ${
+          operational ? ':white_check_mark:' : ':x:'
+        }`,
+        description: `\`${monitor.method ? monitor.method : 'GET'} 
         ${monitor.url}\` - :eyes: [Status Page](${config.settings.url})`,
         color: operational ? 3581519 : 13632027,
-      }
-    ]
+      },
+    ],
   }
   return fetch(SECRET_DISCORD_WEBHOOK_URL, {
     body: JSON.stringify(payload),

@@ -6,6 +6,7 @@ import {
   getCheckLocation,
   getKVMonitors,
   setKVMonitors,
+  notifyDiscord,
 } from './helpers'
 
 function getDate() {
@@ -86,6 +87,15 @@ export async function processCronTrigger(event) {
       SECRET_TELEGRAM_CHAT_ID !== 'default-gh-action-secret'
     ) {
       event.waitUntil(notifyTelegram(monitor, monitorOperational))
+    }
+
+    // Send Discord message on monitor change
+    if (
+      monitorStatusChanged &&
+      typeof SECRET_DISCORD_WEBHOOK_URL !== 'undefined' &&
+      SECRET_DISCORD_WEBHOOK_URL !== 'default-gh-action-secret'
+    ) {
+      event.waitUntil(notifyDiscord(monitor, monitorOperational))
     }
 
     // make sure checkDay exists in checks in cases when needed

@@ -35,8 +35,3 @@ monitors:
     url: 'https://blog.cloudflare.com/'
     method: GET
     expectStatus: 200
-  - id: mumbai-wallkanda
-    name: Test website
-    url: 'https://mumbai.wallkanda.art'
-    method: GET
-    expectStatus: 200

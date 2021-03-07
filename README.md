@@ -120,6 +120,6 @@ The Workers Free plan includes limited KV usage, but the quota is sufficient for
 
 ## Future plans
 
-Stay tuned for more features coming in, like leveraging the fact that CRON instances are scheduled around the world during the day
-so we can monitor the response times. However, we will most probably wait for the [Durable Objects](https://blog.cloudflare.com/introducing-workers-durable-objects/) to be in open beta
-as they are better fit to reliably store such info.
+WIP - Support for Durable Objects - Cloudflare's product for low-latency coordination and consistent storage for the Workers platform. There is a working prototype, however, we are waiting for at least open beta.
+
+There is also a managed version of this project, currently in beta. Feel free to check it out https://statusflare.com (https://twitter.com/statusflare_com).

@@ -90,7 +90,7 @@ export default function Index({ config, kvMonitors, kvMonitorsLastUpdate }) {
         })}
         <div className="flex flex-row justify-between mt-4 text-sm">
           <div>
-            Powered by{' '}
+            技術是由{' '}
             <a href="https://workers.cloudflare.com/" target="_blank">
               Cloudflare Workers{' '}
             </a>
@@ -98,13 +98,14 @@ export default function Index({ config, kvMonitors, kvMonitorsLastUpdate }) {
             <a href="https://flareact.com/" target="_blank">
               Flareact{' '}
             </a>
+            提供。
           </div>
           <div>
             <a
               href="https://github.com/eidam/cf-workers-status-page"
               target="_blank"
             >
-              Get Your Status Page
+              部署一個您自己的狀態頁面
             </a>
           </div>
         </div>

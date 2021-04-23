@@ -1,24 +1,24 @@
 settings:
-  title: 'Status Page'
-  url: 'https://status-page.eidam.dev' # used for Slack messages
+  title: 'Cotpear Status Page'
+  url: 'https://status.cotpear.com' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 
-  allmonitorsOperational: 'All Systems Operational'
-  notAllmonitorsOperational: 'Not All Systems Operational'
+  allmonitorsOperational: '所有系統運作良好'
+  notAllmonitorsOperational: '部分系統運作有異'
   monitorLabelOperational: 'Operational'
   monitorLabelNotOperational: 'Not Operational'
-  monitorLabelNoData: 'No data'
-  dayInHistogramNoData: 'No data'
-  dayInHistogramOperational: 'All good'
-  dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
+  monitorLabelNoData: '無資料'
+  dayInHistogramNoData: '無資料'
+  dayInHistogramOperational: '一切良好'
+  dayInHistogramNotOperational: ' 個事件' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
+  - id: www-cotpear-com # unique identifier
+    name: 首頁 - https://www.cotpear.com
+    description: 'Cotpear 主頁' # default=empty
+    url: 'https://www.cotpear.com/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false

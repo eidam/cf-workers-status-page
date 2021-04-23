@@ -7,8 +7,8 @@ settings:
 
   allmonitorsOperational: '所有系統運作良好'
   notAllmonitorsOperational: '部分系統運作有異'
-  monitorLabelOperational: 'Operational'
-  monitorLabelNotOperational: 'Not Operational'
+  monitorLabelOperational: '良好'
+  monitorLabelNotOperational: '有狀況'
   monitorLabelNoData: '無資料'
   dayInHistogramNoData: '無資料'
   dayInHistogramOperational: '一切良好'
@@ -23,15 +23,15 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
 
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
+  - id: *-cotpear-com
+    name: Cotpear 總網絡系統 - https://*.cotpear.com
+    description: 'Cotpear 總網絡系統（未實質應用）'
+    url: 'https://*.cotpear.com'
     method: GET
     expectStatus: 200
-
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
+  - id: -cotpear-com
+    name: Cotpear 狀態 - https://status.cotpear.com
+    description: 'Cotpear 狀態'
+    url: 'https://status.cotpear.com'
     method: GET
     expectStatus: 200

@@ -23,7 +23,7 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
 
-  - id: *-cotpear-com
+  - id: point-cotpear-com
     name: Cotpear 總網絡系統 - https://*.cotpear.com
     description: 'Cotpear 總網絡系統（未實質應用）'
     url: 'https://*.cotpear.com'

@@ -23,9 +23,9 @@ export default function MonitorStatusHeader({ kvMonitorsLastUpdate }) {
         <div>{text}</div>
         {kvMonitorsLastUpdate.time && typeof window !== 'undefined' && (
           <div className="text-xs font-light">
-            checked{' '}
+            於{' '}
             {Math.round((Date.now() - kvMonitorsLastUpdate.time) / 1000)} sec
-            ago (from{' '}
+            前檢查 (從{' '}
             {locations[kvMonitorsLastUpdate.loc] || kvMonitorsLastUpdate.loc})
           </div>
         )}

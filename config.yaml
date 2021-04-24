@@ -24,9 +24,9 @@ monitors:
     followRedirect: false # should fetch follow redirects, default=false
 
   - id: point-cotpear-com
-    name: Cotpear 總網絡系統 - https://*.cotpear.com
+    name: Cotpear 總網絡系統 - https://cotpear.com
     description: 'Cotpear 總網絡系統（未實質應用）'
-    url: 'https://*.cotpear.com'
+    url: 'https://cotpear.com'
     method: GET
     expectStatus: 200
   - id: -cotpear-com

@@ -35,3 +35,9 @@ monitors:
     url: 'https://status.cotpear.com'
     method: GET
     expectStatus: 200
+  - id: yi_chi-cotpear-com
+    name: Yi Chi Profile - https://yi-chi.cotpear.com
+    description: '關於我 - 齊一個人頁面'
+    url: 'https://yi-chi.cotpear.com'
+    method: GET
+    expectStatus: 200

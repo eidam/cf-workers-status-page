@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 const kvDataKey = 'monitors_data_v1_1'
 
 export const locations = {
-  WAW: 'Warsaw',
-  SCL: 'Santiago de Chile',
-  MEL: 'Melbourne',
-  SIN: 'Singapore',
+  WAW: '華沙',
+  SCL: '聖地牙哥',
+  MEL: '墨爾本',
+  SIN: '新加坡',
 }
 
 export async function getKVMonitors() {

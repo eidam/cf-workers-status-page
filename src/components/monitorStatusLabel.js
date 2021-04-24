@@ -9,7 +9,7 @@ const classes = {
 
 export default function MonitorStatusLabel({ kvMonitor }) {
   let color = 'gray'
-  let text = 'No data'
+  let text = '無資料'
 
   if (typeof kvMonitor !== 'undefined') {
     if (kvMonitor.lastCheck.operational) {

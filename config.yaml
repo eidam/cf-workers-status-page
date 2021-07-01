@@ -15,23 +15,34 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
+  - id: facens-global-webservice-auth # unique identifier
+    name: 'Facens Global WebService Auth'
+    description: '/global/webservice/auth/login' # default=empty
+    url: 'https://www3.facens.br/global/webservice/auth/login' # URL to fetch
+    method: POST # default=GET
+    expectStatus: 401 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    
+  - id: facens-global-webservice-users # unique identifier
+    name: 'Facens Global WebService Users'
+    description: '/global/webservice/portal/getUserInfo' # default=empty
+    url: 'https://www3.facens.br/global/webservice/portal/getUserInfo' # URL to fetch
+    method: POST # default=GET
+    expectStatus: 401 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    
+  - id: facens-liga-api-v1-auth # unique identifier
+    name: 'Liga Facens API v1 Auth'
+    description: '/api/auth/login' # default=empty
+    url: 'http://www3.facens.br/liga2/api/auth/login' # URL to fetch
+    method: POST # default=GET
+    expectStatus: 400 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    
+  - id: facens-liga-api-v1-users # unique identifier
+    name: 'Liga Facens API v1 Users'
+    description: '/api/user/me' # default=empty
+    url: 'http://www3.facens.br/liga2/api/user/me' # URL to fetch
     method: GET # default=GET
-    expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
-
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
-    method: GET
-    expectStatus: 200
-
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
-    method: GET
-    expectStatus: 200
+    expectStatus: 401 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false

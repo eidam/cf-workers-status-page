@@ -1,5 +1,5 @@
 settings:
-  title: 'Status Page Facens'
+  title: 'Status Page'
   url: 'https://status-page.eidam.dev' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram

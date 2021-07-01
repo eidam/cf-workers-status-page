@@ -5,7 +5,7 @@ type = "webpack"
 webpack_config = "node_modules/flareact/webpack"
 
 [triggers]
-crons = ["* * * * *"]
+crons = ["*/15 * * * *"]
 
 [site]
 bucket = "out"

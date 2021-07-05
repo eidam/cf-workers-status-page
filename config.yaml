@@ -1,7 +1,7 @@
 settings:
   title: 'Facens API Status'
-  url: 'https://status-page.eidam.dev' # used for Slack messages
-  logo: logo-192x192.png # image in ./public/ folder
+  url: 'https://facens.status.guilhermechaguri.com' # used for Slack messages
+  logo: logo.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 

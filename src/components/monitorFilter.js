@@ -43,7 +43,7 @@ export default function MonitorFilter({ active, callback }) {
         value={input}
         onInput={handleInput}
         onKeyDown={handleKeyDown}
-        placeholder="Tap '/' to search"
+        placeholder="Spauskite '/' norint ieškoti"
         tabIndex={0}
         ref={(e) => e && active && e.focus()}
       />

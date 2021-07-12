@@ -34,7 +34,7 @@ monitors:
     description: 'Built for anything connected to the Internet.'
     url: 'https://crm.dev4you.lt'
     method: GET
-    expectStatus: 302
+    expectStatus: 200
     followRedirect: true 
   - id: www-ping-dev4you-lt
     name: Serverių monitoringas

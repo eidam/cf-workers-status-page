@@ -1,18 +1,18 @@
 settings:
-  title: 'Status Page'
-  url: 'https://status-page.eidam.dev' # used for Slack messages
+  title: 'Sistemų statusas | Dev4you.lt '
+  url: 'https://cf-workers-status-page-production.dev4you.workers.dev/' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 
-  allmonitorsOperational: 'All Systems Operational'
+  allmonitorsOperational: 'Visos sistemos veikia'
   notAllmonitorsOperational: 'Not All Systems Operational'
-  monitorLabelOperational: 'Operational'
-  monitorLabelNotOperational: 'Not Operational'
-  monitorLabelNoData: 'No data'
-  dayInHistogramNoData: 'No data'
-  dayInHistogramOperational: 'All good'
-  dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
+  monitorLabelOperational: 'Veikia'
+  monitorLabelNotOperational: 'Neveikia'
+  monitorLabelNoData: 'Nėra duomenų'
+  dayInHistogramNoData: 'Nėra duomenų'
+  dayInHistogramOperational: 'Viskas gerai'
+  dayInHistogramNotOperational: ' įvykiai' # xx incident(s) recorded
 
 monitors:
   - id: workers-cloudflare-com # unique identifier
@@ -23,15 +23,16 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
 
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
+  - id: www-dev4you-lt
+    name: www.dev4you.lt
     description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
+    url: 'https://dev4you.lt'
     method: GET
     expectStatus: 200
 
   - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
+    name: Sistemų monitoringas
+    description: 'Aprašymas"
+    url: 'https://cf-workers-status-page-production.dev4you.workers.dev/'
     method: GET
     expectStatus: 200

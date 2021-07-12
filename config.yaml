@@ -48,10 +48,3 @@ monitors:
     url: 'https://backup.dev4you.lt'
     method: GET
     expectStatus: 200  
-  - id: www-backup-1-dev4you-lt
-    name: BACKUP Vilnius
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://razina.serveriai.lt'
-    method: GET
-    expectStatus: 200  
-    followRedirect: true 

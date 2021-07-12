@@ -54,3 +54,4 @@ monitors:
     url: 'https://razina.serveriai.lt'
     method: GET
     expectStatus: 200  
+    followRedirect: true 

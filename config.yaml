@@ -6,7 +6,7 @@ settings:
   collectResponseTimes: true # collects avg response times from CRON locations
 
   allmonitorsOperational: 'Visos sistemos veikia'
-  notAllmonitorsOperational: 'Not All Systems Operational'
+  notAllmonitorsOperational: 'Fiksuojamas sistemų sutrikimas'
   monitorLabelOperational: 'Veikia'
   monitorLabelNotOperational: 'Neveikia'
   monitorLabelNoData: 'Nėra duomenų'
@@ -21,18 +21,30 @@ monitors:
     url: 'https://workers.cloudflare.com/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
+    followRedirect: true # should fetch follow redirects, default=false
 
   - id: www-dev4you-lt
-    name: www.dev4you.lt
+    name: Dev4you.lt
     description: 'Built for anything connected to the Internet.'
     url: 'https://dev4you.lt'
     method: GET
     expectStatus: 200
-
-  - id: blog-cloudflare-com
-    name: Sistemų monitoringas
-    description: 'Aprašymas'
-    url: 'https://cf-workers-status-page-production.dev4you.workers.dev/'
+  - id: www-crm-dev4you-lt
+    name: crm.dev4you.lt
+    description: 'Built for anything connected to the Internet.'
+    url: 'https://crm.dev4you.lt'
     method: GET
     expectStatus: 200
+  - id: www-ping-dev4you-lt
+    name: Serverių monitoringas
+    description: 'Built for anything connected to the Internet.'
+    url: 'https://ping.dev4you.lt'
+    method: GET
+    expectStatus: 200
+  - id: www-cf-status-lt
+    name: Sistemų monitoringas
+    description: 'Aprašymas'
+    url: 'https://cf-workers-status-page-production.dev4you.workers.dev'
+    method: GET
+    expectStatus: 200
+    followRedirect: true # should fetch follow redirects, default=false

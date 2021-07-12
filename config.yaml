@@ -41,6 +41,12 @@ monitors:
     url: 'https://ping.dev4you.lt'
     method: GET
     expectStatus: 200
+  - id: www-backup-dev4you-lt
+    name: BACKUP serveris
+    description: 'Built for anything connected to the Internet.'
+    url: 'https://backup.dev4you.lt'
+    method: GET
+    expectStatus: 200  
   - id: www-cf-status-lt
     name: Sistemų monitoringas
     description: 'Aprašymas'

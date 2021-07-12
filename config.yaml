@@ -32,7 +32,7 @@ monitors:
 
   - id: blog-cloudflare-com
     name: Sistemų monitoringas
-    description: 'Aprašymas"
+    description: 'Aprašymas'
     url: 'https://cf-workers-status-page-production.dev4you.workers.dev/'
     method: GET
     expectStatus: 200

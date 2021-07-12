@@ -2,7 +2,7 @@ settings:
   title: 'Sistemų statusas | Dev4you.lt '
   url: 'https://cf-workers-status-page-production.dev4you.workers.dev/' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
-  daysInHistogram: 90 # number of days you want to display in histogram
+  daysInHistogram: 1 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 
   allmonitorsOperational: 'Visos sistemos veikia'
@@ -43,15 +43,14 @@ monitors:
     method: GET
     expectStatus: 200
   - id: www-backup-dev4you-lt
-    name: BACKUP serveris
+    name: BACKUP Panevėžys
     description: 'Built for anything connected to the Internet.'
     url: 'https://backup.dev4you.lt'
     method: GET
     expectStatus: 200  
-  - id: www-cf-status-lt
-    name: Sistemų monitoringas
-    description: 'Aprašymas'
-    url: 'https://cf-workers-status-page-production.dev4you.workers.dev'
+  - id: www-backup-1-dev4you-lt
+    name: BACKUP Vilnius
+    description: 'Built for anything connected to the Internet.'
+    url: 'https://razina.serveriai.lt'
     method: GET
-    expectStatus: 200
-    followRedirect: true 
+    expectStatus: 200  

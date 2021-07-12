@@ -2,7 +2,7 @@ settings:
   title: 'Sistemų statusas | Dev4you.lt '
   url: 'https://cf-workers-status-page-production.dev4you.workers.dev/' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
-  daysInHistogram: 90 # number of days you want to display in histogram
+  daysInHistogram: 30 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 
   allmonitorsOperational: 'Visos sistemos veikia'
@@ -35,6 +35,7 @@ monitors:
     url: 'https://crm.dev4you.lt'
     method: GET
     expectStatus: 302
+    followRedirect: true 
   - id: www-ping-dev4you-lt
     name: Serverių monitoringas
     description: 'Built for anything connected to the Internet.'

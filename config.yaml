@@ -54,4 +54,4 @@ monitors:
     url: 'https://cf-workers-status-page-production.dev4you.workers.dev'
     method: GET
     expectStatus: 200
-    followRedirect: true # should fetch follow redirects, default=false
+    followRedirect: true 

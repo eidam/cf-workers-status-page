@@ -74,6 +74,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
        method: GET # default=GET
        expectStatus: 200 # operational status, default=200
        followRedirect: false # should fetch follow redirects, default=false
+       linkable: false # should the titles be links to the service, default=true
    ```
 
 5. Push to `main` branch to trigger the deployment

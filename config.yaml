@@ -23,18 +23,6 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
 
-  - id: point-cotpear-com
-    name: Cotpear 總網絡系統 - https://cotpear.com
-    description: 'Cotpear 總網絡系統（未實質應用）'
-    url: 'https://cotpear.com'
-    method: GET
-    expectStatus: 302
-  - id: status-cotpear-com
-    name: Cotpear 狀態 - https://status.cotpear.com
-    description: 'Cotpear 狀態'
-    url: 'https://status.cotpear.com'
-    method: GET
-    expectStatus: 200
   - id: yi_chi-cotpear-com
     name: Yi Chi Profile - https://yi-chi.cotpear.com
     description: '關於我 - 齊一個人頁面'

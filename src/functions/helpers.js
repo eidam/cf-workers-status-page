@@ -34,6 +34,7 @@ export async function notifySlack(monitor, operational) {
   const payload = {
     attachments: [
       {
+        fallback: `Monitor ${monitor.name} changed status to ${getOperationalLabel(operational)}`,
         color: operational ? '#36a64f' : '#f2c744',
         blocks: [
           {

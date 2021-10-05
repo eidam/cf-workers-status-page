@@ -1,5 +1,5 @@
 import config from '../../config.yaml'
-import { locations } from '../functions/helpers'
+import { locations } from '../functions/locations'
 
 const classes = {
   green:

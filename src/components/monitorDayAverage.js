@@ -1,4 +1,4 @@
-import { locations } from '../functions/helpers'
+import { locations } from '../functions/locations'
 
 export default function MonitorDayAverage({ location, avg }) {
   return (

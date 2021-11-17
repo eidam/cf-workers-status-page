@@ -141,8 +141,8 @@ export async function processCronTrigger(event) {
       // Save allOperational to false
       monitorsState.lastUpdate.allOperational = false
 
-      // Increment failed checks, only on status change (maybe call it .incidents instead?)
-      if (monitorStatusChanged) {
+      // Increment failed checks on status change or first fail of the day (maybe call it .incidents instead?)
+      if (monitorStatusChanged || monitorsState.monitors[monitor.id].checks[checkDay].fails == 0) {
         monitorsState.monitors[monitor.id].checks[checkDay].fails++
       }
     }

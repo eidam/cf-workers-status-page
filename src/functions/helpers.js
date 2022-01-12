@@ -64,7 +64,7 @@ export async function notifySlack(monitor, operational) {
 }
 
 export async function notifyTelegram(monitor, operational) {
-  const text = `Monitor *${monitor.name.replace(
+  const text = `Monitor *${monitor.name.replaceAll(
     '-',
     '\\-',
   )}* changed status to *${getOperationalLabel(operational)}*

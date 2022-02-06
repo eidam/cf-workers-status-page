@@ -32,7 +32,7 @@ monitors:
     expectStatus: 200
     linkable: true # allows the title to be a link, default=true
 
-   - id: stats-kzg-gg
+  - id: stats-kzg-gg
     name: stats.kzg.gg | Killzone Gaming Statistics
     url: 'https://stats.kzg.gg'
     method: GET
@@ -44,8 +44,7 @@ monitors:
     method: GET
     expectStatus: 200
 
-
-   - id: shorturl-kzg-gg
+  - id: shorturl-kzg-gg
     name: kzg.link | Killzone Gaming URL Shortner
     url: 'https://kzg.link'
     method: GET

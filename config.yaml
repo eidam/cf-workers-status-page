@@ -22,17 +22,33 @@ monitors:
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
+    
   - id: go-cotpear-com # unique identifier
-    name: go.cotpear.com
-    description: 'Go Cotpear' # default=empty
+    name: 短連結服務 - go.cotpear.com
+    description: '短連結服務(非公用服務)' # default=empty
     url: 'https://go.cotpear.com/' # URL to fetch
     method: GET # default=GET
     expectStatus: 301 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
-
+    
+  - id: pwd-cotpear-com
+    name: 密碼管理器 - https://pwd.cotpear.com
+    description: 'Cotpear 密碼管理器'
+    url: 'https://pwd.cotpear.com'
+    method: GET
+    expectStatus: 200
+    
+  - id: policies-cotpear-com
+    name: Cotpear 隱私權與政策 - https://policies.cotpear.com
+    description: 'Cotpear 隱私權與政策'
+    url: 'https://policies.cotpear.com'
+    method: GET
+    expectStatus: 200
+    
   - id: yi_chi-cotpear-com
     name: Yi Chi Profile - https://yi-chi.cotpear.com
     description: '關於我 - 齊一個人頁面'
     url: 'https://yi-chi.cotpear.com'
     method: GET
     expectStatus: 200
+ 

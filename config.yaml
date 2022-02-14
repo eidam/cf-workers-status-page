@@ -26,9 +26,9 @@ monitors:
   - id: go-cotpear-com # unique identifier
     name: 短連結服務 - go.cotpear.com
     description: '短連結服務(非公用服務)' # default=empty
-    url: 'https://go.cotpear.com/' # URL to fetch
+    url: 'https://go.cotpear.com/status' # URL to fetch
     method: GET # default=GET
-    expectStatus: 301 # operational status, default=200
+    expectStatus: 404 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
     
   - id: pwd-cotpear-com

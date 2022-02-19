@@ -39,7 +39,7 @@ monitors:
     expectStatus: 200
     linkable: true
     
-    - id: github-test
+  - id: github-test
     name: supunsathsarad.github.io
     url: 'https://supunsathsarad.github.io'
     method: GET

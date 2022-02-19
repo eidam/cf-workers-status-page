@@ -38,10 +38,3 @@ monitors:
     method: GET
     expectStatus: 200
     linkable: true
-    
-  - id: github-test
-    name: supunsathsarad.github.io
-    url: 'https://supunsathsarad.github.io'
-    method: GET
-    expectStatus: 200
-    linkable: true

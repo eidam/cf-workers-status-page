@@ -45,8 +45,10 @@ export async function processCronTrigger(event) {
     const init = {
       method: monitor.method || 'GET',
       redirect: monitor.followRedirect ? 'follow' : 'manual',
+      withCredentials: monitor.withCredentials,
       headers: {
         'User-Agent': config.settings.user_agent || 'cf-worker-status-page',
+        'Authorization': monitor.withCredentials ? ('Basic ' + monitor.bearer) : '',
       },
     }
 

@@ -1,5 +1,5 @@
 settings:
-  title: 'Status Page'
+  title: 'MEME Network Status Page'
   url: 'https://status.meme.sx' # used for Slack messages
   logo: meme-icon.svg # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram

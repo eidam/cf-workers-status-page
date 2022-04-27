@@ -29,6 +29,14 @@ monitors:
     expectStatus: 200
     linkable: true
 
+  - id: meme-explorer
+    name: explorer.meme.sx
+    description: 'MEME explorer'
+    url: 'https://explorer.meme.sx/'
+    method: GET
+    expectStatus: 200
+    linkable: true
+
   - id: meme-rpc-cdn
     name: MEME RPC CDN
     description: 'MEME Mainnet RPC CDN'

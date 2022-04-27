@@ -1,7 +1,7 @@
 settings:
   title: 'Status Page'
-  url: 'https://status-page.eidam.dev' # used for Slack messages
-  logo: logo-192x192.png # image in ./public/ folder
+  url: 'https://status.meme.sx' # used for Slack messages
+  logo: meme-icon.svg # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 
@@ -15,25 +15,92 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
-    method: GET # default=GET
+  - id: meme-website
+    name: www.meme.sx
+    description: 'The MEME.sx website'
+    url: 'https://meme.sx/'
+    method: GET
+    expectStatus: 200
+  - id: meme-wallet
+    name: wallet.meme.sx
+    description: 'MEME wallet'
+    url: 'https://wallet.meme.sx/'
+    method: GET
+    expectStatus: 200
+    linkable: true
+
+  - id: meme-rpc-cdn
+    name: MEME RPC CDN
+    description: 'MEME Mainnet RPC CDN'
+    url: 'https://rpc-meme-1.meme.sx/status'
+    method: GET
+    expectStatus: 200
+    linkable: false
+
+  - id: meme-api-cdn
+    name: MEME API CDN
+    description: 'MEME Mainnet API CDN'
+    url: 'https://rpc-meme-1.meme.sx/cosmos/bank/v1beta1/supply'
+    method: GET
+    expectStatus: 200
+    linkable: false
+
+  - id: meme-rpc01
+    name: RPC01
+    description: 'MEME Mainnet RPC 01'
+    url: 'http://157.230.58.197:26657/status'
+    method: GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
     linkable: false # allows the title to be a link, default=true
-
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
+  - id: meme-rpc02
+    name: RPC02
+    description: 'MEME Mainnet RPC 02'
+    url: 'http://157.230.58.200:26657/status'
     method: GET
     expectStatus: 200
-    linkable: true # allows the title to be a link, default=true
-
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
+    linkable: false # allows the title to be a link, default=true
+  - id: meme-rpc03
+    name: RPC03
+    description: 'MEME Mainnet RPC 03'
+    url: 'http://207.148.2.119:26657/status'
     method: GET
     expectStatus: 200
+    linkable: false
+  - id: meme-rpc04
+    name: RPC04
+    description: 'MEME Mainnet RPC 04'
+    url: 'http://155.138.255.208:26657/status' 
+    method: GET
+    expectStatus: 200
+    linkable: false    
+
+  - id: meme-rpc01
+    name: API01
+    description: 'MEME Mainnet API 01'
+    url: 'http://157.230.58.197:1317/cosmos/bank/v1beta1/supply'
+    method: GET
+    expectStatus: 200
+    followRedirect: false
+    linkable: false
+  - id: meme-api02
+    name: API02
+    description: 'MEME Mainnet API 02'
+    url: 'http://157.230.58.200:1317/cosmos/bank/v1beta1/supply'
+    method: GET
+    expectStatus: 200
+    linkable: false
+  - id: meme-api03
+    name: API03
+    description: 'MEME Mainnet API 03'
+    url: 'http://207.148.2.119:1317/cosmos/bank/v1beta1/supply'
+    method: GET
+    expectStatus: 200
+    linkable: false
+  - id: meme-api04
+    name: API04
+    description: 'MEME Mainnet API 04'
+    url: 'http://155.138.255.208:1317/cosmos/bank/v1beta1/supply'
+    method: GET
+    expectStatus: 200
+    linkable: false

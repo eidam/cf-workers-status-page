@@ -48,7 +48,7 @@ monitors:
   - id: meme-api-cdn
     name: MEME API CDN
     description: 'MEME Mainnet API CDN'
-    url: 'https://rpc-meme-1.meme.sx/cosmos/bank/v1beta1/supply'
+    url: 'https://api-meme-1.meme.sx/cosmos/bank/v1beta1/supply'
     method: GET
     expectStatus: 200
     linkable: false

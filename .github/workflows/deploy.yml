@@ -27,6 +27,7 @@ jobs:
       with:
         apiToken: ${{ secrets.CF_API_TOKEN }}
         command: publish --env production
+        wranglerVersion: beta
         preCommands: |
           wrangler kv:namespace create KV_STATUS_PAGE
           apt-get update && apt-get install -y jq

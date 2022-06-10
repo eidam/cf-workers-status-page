@@ -1,4 +1,4 @@
-name = "cf-workers-status-page"
+name = "sci-statuspage"
 workers_dev = true
 account_id = ""
 type = "webpack"

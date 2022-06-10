@@ -1,7 +1,7 @@
 settings:
   title: 'Scancam Status'
   url: 'https://status.scancam.com.au/' # used for Slack messages
-  logo: scancam-logo.png # image in ./public/ folder
+  logo: scancam-cropped.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
 

@@ -67,7 +67,7 @@ export async function notifyTelegram(monitor, operational) {
   const text = `Monitor *${monitor.name.replaceAll(
     '-',
     '\\-',
-  )}* changed status to *${getOperationalLabel(operational)}*
+  ).replaceAll('.','\\.').replaceAll(/\./g, '\\.')}* changed status to *${getOperationalLabel(operational)}*
   ${operational ? '✅' : '❌'} \`${monitor.method ? monitor.method : 'GET'} ${
     monitor.url
   }\` \\- 👀 [Status Page](${config.settings.url})`

@@ -69,13 +69,15 @@ export async function notifyTelegram(monitor, operational) {
     '\\-',
   ).replaceAll('.','\\.').replaceAll(/\./g, '\\.')}* changed status to *${getOperationalLabel(operational)}*
   ${operational ? '✅' : '❌'} \`${monitor.method ? monitor.method : 'GET'} ${
-    monitor.url
+    monitor.url.replaceAll('-', '\\-').replaceAll('.', '\\.')
   }\` \\- 👀 [Status Page](${config.settings.url})`
+
+  const text2 = `One monitor changed status to *${getOperationalLabel(operational)}*`
 
   const payload = new FormData()
   payload.append('chat_id', SECRET_TELEGRAM_CHAT_ID)
   payload.append('parse_mode', 'MarkdownV2')
-  payload.append('text', text)
+  payload.append('text', text2)
 
   const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
   return fetch(telegramUrl, {

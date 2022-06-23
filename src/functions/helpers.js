@@ -72,7 +72,9 @@ export async function notifyTelegram(monitor, operational) {
     monitor.url.replaceAll('-', '\\-').replaceAll('.', '\\.')
   }\` \\- 👀 [Status Page](${config.settings.url})` */
 
-  const text = `[${monitor.name}](${monitor.url}) is *${getOperationalLabel(operational)}* ${operational ? '✅' : '❌'} \n \n ${monitor.method ? monitor.method : 'GET'} ${monitor.url} ${operational ? '🟢' : '🔴'}`
+  const txtL1 = `[${monitor.name}](${monitor.url}) is *${getOperationalLabel(operational)}* ${operational ? '✅' : '❌'} \n \n `
+  const txtL2 = `${monitor.method ? monitor.method : 'GET'} ${monitor.url} ${operational ? '🟢' : '🔴'}`
+  const text = txtL1 + "`" + txtL2 + "`"
 
   /*const payload2 = new FormData()
   payload.append('chat_id', SECRET_TELEGRAM_CHAT_ID)
@@ -86,8 +88,7 @@ export async function notifyTelegram(monitor, operational) {
   }
 
    const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
-   const testUrl = `https://continuing-put-only-core.trycloudflare.com/add`
-  return fetch(testUrl, {
+  return fetch(telegramUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -64,25 +64,25 @@ export async function notifySlack(monitor, operational) {
 }
 
 export async function notifyTelegram(monitor, operational) {
-  const text = `Monitor *${monitor.name.replaceAll(
+  /* const text2 = `Monitor *${monitor.name.replaceAll(
     '-',
     '\\-',
   ).replaceAll('.','\\.').replaceAll(/\./g, '\\.')}* changed status to *${getOperationalLabel(operational)}*
   ${operational ? '✅' : '❌'} \`${monitor.method ? monitor.method : 'GET'} ${
     monitor.url.replaceAll('-', '\\-').replaceAll('.', '\\.')
-  }\` \\- 👀 [Status Page](${config.settings.url})`
+  }\` \\- 👀 [Status Page](${config.settings.url})` */
 
-  const text2 = `Monitor *${monitor.name}* changed status to *${getOperationalLabel(operational)}* ${operational ? '✅' : '❌'}`
+  const text = `[${monitor.name}](${monitor.url}) is *${getOperationalLabel(operational)}* ${operational ? '✅' : '❌'} \n \n ${monitor.method ? monitor.method : 'GET'} ${monitor.url} ${operational ? '🟢' : '🔴'}`
 
-  const payload2 = new FormData()
+  /*const payload2 = new FormData()
   payload.append('chat_id', SECRET_TELEGRAM_CHAT_ID)
   payload.append('parse_mode', 'Markdown')
-  payload.append('text', text2)
+  payload.append('text', text2)*/
 
   const payload = {
     "chat_id": SECRET_TELEGRAM_CHAT_ID,
     "parse_mode": "Markdown",
-    "text": text2
+    "text": text
   }
 
    const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`

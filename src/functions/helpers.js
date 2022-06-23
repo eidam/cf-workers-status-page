@@ -74,7 +74,7 @@ export async function notifyTelegram(monitor, operational) {
 
   const text2 = `Monitot *${monitor.name.replaceAll(
     '-',
-    '\\-',
+    '\\-'
   ).replaceAll('.','\\.').replaceAll(/\./g, '\\.')}* changed status to *${getOperationalLabel(operational)}*`
 
   const payload = new FormData()

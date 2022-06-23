@@ -74,16 +74,26 @@ export async function notifyTelegram(monitor, operational) {
 
   const text2 = `Monitor *${monitor.name}* changed status to *${getOperationalLabel(operational)}* ${operational ? '✅' : '❌'}`
 
-  const payload = new FormData()
+  const payload2 = new FormData()
   payload.append('chat_id', SECRET_TELEGRAM_CHAT_ID)
   payload.append('parse_mode', 'Markdown')
   payload.append('text', text2)
 
-  const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
+  const payload = {
+    "chat_id": SECRET_TELEGRAM_CHAT_ID,
+    "parse_mode": "Markdown",
+    "text": text2
+  }
+
+   const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
   return fetch(telegramUrl, {
-    body: payload,
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
   })
+
 }
 
 // Visualize your payload using https://leovoel.github.io/embed-visualizer/

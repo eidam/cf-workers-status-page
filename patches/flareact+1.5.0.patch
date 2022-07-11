@@ -1,0 +1,101 @@
+diff --git a/node_modules/flareact/configs/webpack.worker.config.js b/node_modules/flareact/configs/webpack.worker.config.js
+index 5b9f088..3bfb62f 100644
+--- a/node_modules/flareact/configs/webpack.worker.config.js
++++ b/node_modules/flareact/configs/webpack.worker.config.js
+@@ -26,6 +26,10 @@ module.exports = function (env, argv) {
+     ...baseConfig({ dev, isServer }),
+     target: "webworker",
+     entry: path.resolve(projectDir, "./index"),
++    output: {
++      path: path.resolve(projectDir, "./worker"),
++      filename:'script.js'
++    }
+   };
+ 
+   config.plugins.push(
+diff --git a/node_modules/flareact/src/bin/flareact.js b/node_modules/flareact/src/bin/flareact.js
+index ed2ea89..bb53cf0 100755
+--- a/node_modules/flareact/src/bin/flareact.js
++++ b/node_modules/flareact/src/bin/flareact.js
+@@ -17,20 +17,22 @@ dotenv.config();
+ const yargs = require("yargs");
+ 
+ let rootPath = "";
+-let webpackConfigPath =
++let webpackClientConfigPath =
+   "node_modules/flareact/configs/webpack.client.config.js";
++let webpackWorkerConfigPath =
++  "node_modules/flareact/configs/webpack.worker.config.js";
+ 
+-let isWebpackConfigFound = () => fs.existsSync(rootPath + webpackConfigPath);
++let isWebpackClientConfigFound = () => fs.existsSync(rootPath + webpackClientConfigPath);
+ 
+ for (let i = 0; i < 3; i++) {
+-  if (isWebpackConfigFound()) {
++  if (isWebpackClientConfigFound()) {
+     break;
+   }
+   rootPath += "../";
+ }
+ 
+-if (isWebpackConfigFound()) {
+-  webpackConfigPath = rootPath + webpackConfigPath;
++if (isWebpackClientConfigFound()) {
++  webpackClientConfigPath = rootPath + webpackClientConfigPath;
+ } else {
+   const firstLine =
+     "⚠ Cannot find node_modules/flareact/configs/webpack.client.config.js.";
+@@ -73,13 +75,13 @@ if (argv._.includes("dev")) {
+   concurrently(
+     [
+       {
+-        command: "wrangler dev",
+-        name: "worker",
+-        env: { WORKER_DEV: true, IS_WORKER: true },
++        command: `webpack --config ${webpackWorkerConfigPath} --mode production && webpack --config ${webpackClientConfigPath} --mode production && npx wrangler@d1 dev --local`,
++        name: "build",
++        env: { NODE_ENV: "development", WORKER_DEV: true, IS_WORKER: true },
+       },
+       {
+-        command: `webpack-dev-server --config ${webpackConfigPath} --mode development --port ${argv.port}`,
+-        name: "client",
++        command: `webpack-dev-server --config ${webpackClientConfigPath} --mode development --port ${argv.port}`,
++        name: "dev-server",
+         env: { NODE_ENV: "development" },
+       },
+     ],
+@@ -101,7 +103,7 @@ if (argv._.includes("publish")) {
+ 
+   console.log(`Publishing your Flareact project to ${destination}...`);
+ 
+-  let wranglerPublish = `wrangler publish`;
++  let wranglerPublish = `npx wrangler@d1 publish`;
+ 
+   if (argv.env) {
+     wranglerPublish += ` --env ${argv.env}`;
+@@ -110,10 +112,10 @@ if (argv._.includes("publish")) {
+   concurrently(
+     [
+       {
+-        command: `webpack --config ${webpackConfigPath} --out ./out --mode production && ${wranglerPublish}`,
+-        name: "publish",
+-        env: { NODE_ENV: "production", IS_WORKER: true },
+-      },
++        command: `webpack --config ${webpackClientConfigPath} --mode production && webpack --config ${webpackWorkerConfigPath} --mode production && ${wranglerPublish}`,
++        name: "build",
++        env: { NODE_ENV: "production",IS_WORKER: true },
++      }
+     ],
+     {
+       prefix: "name",
+@@ -134,8 +136,8 @@ if (argv._.includes("build")) {
+   concurrently(
+     [
+       {
+-        command: `webpack --config ${webpackConfigPath} --out ./out --mode production`,
+-        name: "publish",
++        command: `webpack --config ${webpackWorkerConfigPath} --mode production && webpack --config ${webpackClientConfigPath} --mode production`,
++        name: "build",
+         env: { NODE_ENV: "production" },
+       },
+     ],

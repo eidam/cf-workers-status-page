@@ -2,45 +2,29 @@ import { Store } from 'laco'
 import { useStore } from 'laco-react'
 import Head from 'flareact/head'
 
-import { getKVMonitors, useKeyPress } from '../src/functions/helpers'
+import { loadData, useKeyPress } from '../src/functions/helpers'
 import config from '../config.yaml'
 import MonitorCard from '../src/components/monitorCard'
-import MonitorFilter from '../src/components/monitorFilter'
 import MonitorStatusHeader from '../src/components/monitorStatusHeader'
 import ThemeSwitcher from '../src/components/themeSwitcher'
 
-const MonitorStore = new Store({
-  monitors: config.monitors,
-  visible: config.monitors,
-  activeFilter: false,
-})
-
-const filterByTerm = (term) =>
-  MonitorStore.set((state) => ({
-    visible: state.monitors.filter((monitor) =>
-      monitor.name.toLowerCase().includes(term),
-    ),
-  }))
-
 export async function getEdgeProps() {
-  // get KV data
-  const kvMonitors = await getKVMonitors()
+  const { monitors, checks } = await loadData()
+
+  console.log(monitors, checks)
 
   return {
     props: {
       config,
-      kvMonitors: kvMonitors ? kvMonitors.monitors : {},
-      kvMonitorsLastUpdate: kvMonitors ? kvMonitors.lastUpdate : {},
+      monitors: monitors || {},
+      checks,
     },
     // Revalidate these props once every x seconds
     revalidate: 5,
   }
 }
 
-export default function Index({ config, kvMonitors, kvMonitorsLastUpdate }) {
-  const state = useStore(MonitorStore)
-  const slash = useKeyPress('/')
-
+export default function Index({ config, monitors, checks }) {
   return (
     <div className="min-h-screen">
       <Head>
@@ -75,16 +59,15 @@ export default function Index({ config, kvMonitors, kvMonitorsLastUpdate }) {
           </div>
           <div className="flex flex-row items-center">
             {typeof window !== 'undefined' && <ThemeSwitcher />}
-            <MonitorFilter active={slash} callback={filterByTerm} />
           </div>
         </div>
-        <MonitorStatusHeader kvMonitorsLastUpdate={kvMonitorsLastUpdate} />
-        {state.visible.map((monitor, key) => {
+        <MonitorStatusHeader monitors={monitors} />
+        {monitors.map((monitor, key) => {
           return (
             <MonitorCard
               key={key}
               monitor={monitor}
-              data={kvMonitors[monitor.id]}
+              checks={checks.filter(x => x.monitor_id === monitor.id )}
             />
           )
         })}

@@ -5,7 +5,7 @@ module.exports = {
       type: 'json',
       use: 'yaml-loader',
     })
-
+    
     return config
   },
 }

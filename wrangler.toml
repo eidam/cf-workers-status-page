@@ -1,19 +1,21 @@
 name = "cf-workers-status-page"
 workers_dev = true
-account_id = ""
-type = "webpack"
-webpack_config = "node_modules/flareact/webpack"
-compatibility_date = "2021-07-23"
+compatibility_date = "2022-07-10"
+main = "./worker/script.js"
+
+routes = [
+    "status-d1.eidam.cf/*"
+]
+
+kv_namespaces = [{binding="KV_STATUS_PAGE", id="07c4d4e1aee94340abd97af34b2f78cc", preview_id="d5c948a04a3248898e05c84b684eeae2"}]
 
 [triggers]
 crons = ["* * * * *"]
 
 [site]
 bucket = "out"
-entry-point = "./"
 
-# uncomment and adjust following if you are not using GitHub Actions
-#[env.production]
-#kv-namespaces = [{binding="KV_STATUS_PAGE", id="xxxx", preview_id=""}]
-#zone_id="xxx"
-#route="xxx"
+[[ unsafe.bindings ]]
+name = "D1UNSAFE"
+type = "d1"
+id = "9fefade8-08c7-41fe-83a5-81417eb955df"

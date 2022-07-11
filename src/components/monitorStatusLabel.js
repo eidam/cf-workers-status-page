@@ -7,12 +7,12 @@ const classes = {
     'bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200',
 }
 
-export default function MonitorStatusLabel({ kvMonitor }) {
+export default function MonitorStatusLabel({ monitor }) {
   let color = 'gray'
   let text = 'No data'
 
-  if (typeof kvMonitor !== 'undefined') {
-    if (kvMonitor.lastCheck.operational) {
+  if (typeof monitor !== 'undefined') {
+    if (monitor.operational) {
       color = 'green'
       text = config.settings.monitorLabelOperational
     } else {

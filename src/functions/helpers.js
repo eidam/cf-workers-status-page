@@ -1,5 +1,6 @@
 import config from '../../config.yaml'
 import { useEffect, useState } from 'react'
+import { Database } from "../d1"; // this will be native at some point, see above
 
 const kvDataKey = 'monitors_data_v1_1'
 
@@ -7,6 +8,28 @@ export async function getKVMonitors() {
   // trying both to see performance difference
   return KV_STATUS_PAGE.get(kvDataKey, 'json')
   //return JSON.parse(await KV_STATUS_PAGE.get(kvDataKey, 'text'))
+}
+
+export async function getMonitors() {
+  const db = new Database(D1UNSAFE)
+  const { results } = await db.prepare(
+    "SELECT * FROM monitors"
+  ).all();
+
+  return results
+}
+
+export async function loadData() {
+  const db = new Database(D1UNSAFE)
+  const batch = await db.batch([
+    db.prepare(
+      "SELECT * FROM monitors"
+    ),
+    db.prepare("SELECT monitor_id, AVG(res_ms) as avg_res, count(*) as count, location FROM monitors_checks WHERE date >= ?1 GROUP BY monitor_id, date, location ORDER BY timestamp ASC")
+      .bind(`${new Date().toISOString().split('T')[0]}`)
+  ])
+
+  return { monitors: batch[0].results, checks: batch[1].results}
 }
 
 export async function setKVMonitors(data) {

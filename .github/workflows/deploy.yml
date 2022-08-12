@@ -33,6 +33,9 @@ jobs:
           echo "kv_namespaces = [{binding=\"KV_STATUS_PAGE\", id=\"${KV_NAMESPACE_ID}\"}]" >> wrangler.toml
           [ -z "$SECRET_SLACK_WEBHOOK_URL" ] && echo "Secret SECRET_SLACK_WEBHOOK_URL not set, creating dummy one..." && SECRET_SLACK_WEBHOOK_URL="default-gh-action-secret" || true
           [ -z "$SECRET_TELEGRAM_API_TOKEN" ] && echo "Secret SECRET_TELEGRAM_API_TOKEN not set, creating dummy one..." && SECRET_TELEGRAM_API_TOKEN="default-gh-action-secret" || true
+          [ -z "$SECRET_NTFY_WEBHOOK_URL" ] && echo "Secret SECRET_NTFY_WEBHOOK_URL not set, creating dummy one..." && SECRET_NTFY_WEBHOOK_URL="default-gh-action-secret" || true
+          [ -z "$SECRET_NTFY_USERNAME" ] && echo "Secret SECRET_NTFY_USERNAME not set, creating dummy one..." && SECRET_NTFY_USERNAME="default-gh-action-secret" || true
+          [ -z "$SECRET_NTFY_PASSWORD" ] && echo "Secret SECRET_NTFY_PASSWORD not set, creating dummy one..." && SECRET_NTFY_PASSWORD="default-gh-action-secret" || true
           [ -z "$SECRET_TELEGRAM_CHAT_ID" ] && echo "Secret SECRET_TELEGRAM_CHAT_ID not set, creating dummy one..." && SECRET_TELEGRAM_CHAT_ID="default-gh-action-secret" || true
           [ -z "$SECRET_DISCORD_WEBHOOK_URL" ] && echo "Secret SECRET_DISCORD_WEBHOOK_URL not set, creating dummy one..." && SECRET_DISCORD_WEBHOOK_URL="default-gh-action-secret" || true
         postCommands: |
@@ -40,6 +43,9 @@ jobs:
         secrets: |
           SECRET_SLACK_WEBHOOK_URL
           SECRET_TELEGRAM_API_TOKEN
+          SECRET_NTFY_WEBHOOK_URL
+          SECRET_NTFY_USERNAME
+          SECRET_NTFY_PASSWORD
           SECRET_TELEGRAM_CHAT_ID
           SECRET_DISCORD_WEBHOOK_URL
         environment: production
@@ -47,5 +53,8 @@ jobs:
         CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
         SECRET_SLACK_WEBHOOK_URL: ${{secrets.SECRET_SLACK_WEBHOOK_URL}}
         SECRET_TELEGRAM_API_TOKEN: ${{secrets.SECRET_TELEGRAM_API_TOKEN}}
+        SECRET_NTFY_WEBHOOK_URL: ${{secrets.SECRET_NTFY_WEBHOOK_URL}}
+        SECRET_NTFY_USERNAME: ${{secrets.SECRET_NTFY_USERNAME}}
+        SECRET_NTFY_PASSWORD: ${{secrets.SECRET_NTFY_PASSWORD}}
         SECRET_TELEGRAM_CHAT_ID: ${{secrets.SECRET_TELEGRAM_CHAT_ID}}
         SECRET_DISCORD_WEBHOOK_URL: ${{secrets.SECRET_DISCORD_WEBHOOK_URL}}

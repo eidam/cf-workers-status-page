@@ -20,6 +20,9 @@ Also, prepare the following secrets
 - Cloudflare API token with `Edit Cloudflare Workers` permissions
 - Slack incoming webhook \(optional\)
 - Discord incoming webhook \(optional\)
+- Ntfy incoming webhook \(optional\)
+- Ntfy username \(optional\)
+- Ntfy password \(optional\)
 
 ## Getting started
 
@@ -42,6 +45,15 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
 
    - Name: SECRET_DISCORD_WEBHOOK_URL (optional)
    - Value: your-discord-webhook-url
+
+   - Name: SECRET_NTFY_WEBHOOK_URL (optional)
+   - Value: your-ntfy-webhook-url
+
+  - Name: SECRET_NTFY_USERNAME (optional)
+   - Value: your-ntfy-username
+
+  - Name: SECRET_NTFY_PASSWORD (optional)
+   - Value: your-ntfy-password
    ```
 
 3. Navigate to the **Actions** settings in your repository and enable them
@@ -54,6 +66,7 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
      logo: logo-192x192.png # image in ./public/ folder
      daysInHistogram: 90 # number of days you want to display in histogram
      collectResponseTimes: false # experimental feature, enable only for <5 monitors or on paid plans
+     ntfyPriority: 'urgent' # priority for ntfy notifications
 
      # configurable texts across the status page
      allmonitorsOperational: 'All Systems Operational'
@@ -102,6 +115,9 @@ You can clone the repository yourself and use Wrangler CLI to develop/deploy, ex
 - create Worker secrets _\(optional\)_
   - `SECRET_SLACK_WEBHOOK_URL`
   - `SECRET_DISCORD_WEBHOOK_URL`
+  - `SECRET_NTFY_WEBHOOK_URL`
+  - `SECRET_NTFY_USERNAME`
+  - `SECRET_NTFY_PASSWORD`
 
 ## Workers KV free tier
 

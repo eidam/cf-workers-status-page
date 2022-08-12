@@ -7,6 +7,7 @@ import {
   getKVMonitors,
   setKVMonitors,
   notifyDiscord,
+  notifyNtfy
 } from './helpers'
 
 function getDate() {
@@ -87,6 +88,15 @@ export async function processCronTrigger(event) {
       SECRET_TELEGRAM_CHAT_ID !== 'default-gh-action-secret'
     ) {
       event.waitUntil(notifyTelegram(monitor, monitorOperational))
+    }
+
+    // Send ntfy message on monitor change
+    if (
+      monitorStatusChanged &&
+      typeof SECRET_NTFY_WEBHOOK_URL !== 'undefined' &&
+      SECRET_NTFY_WEBHOOK_URL !== 'default-gh-action-secret'
+    ) {
+      event.waitUntil(notifyNtfy(monitor, monitorOperational))
     }
 
     // Send Discord message on monitor change

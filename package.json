@@ -23,7 +23,7 @@
   "devDependencies": {
     "autoprefixer": "^10.0.2",
     "node-fetch": "^2.6.1",
-    "postcss": "^8.2.10",
+    "postcss": "^8.2.13",
     "postcss-cli": "^8.3.0",
     "prettier": "^2.2.0",
     "tailwindcss": "^2.0.1",

@@ -1,5 +1,5 @@
 settings:
-  title: 'Status Page'
+  title: 'Teatro Starlight Index Status'
   url: 'https://status-page.eidam.dev' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
@@ -15,25 +15,56 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
+  - id: Rei # unique identifier
+    name: Rei Index Status
+    description: 'Beatbox monitor, I hope Rei doesn't fall and can always captivate us with her talent, smile, beauty and personality.' # default=empty
+    url: 'https://rei-inoue.teatro-starlight-return.workers.dev/0:/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
-    linkable: false # allows the title to be a link, default=true
-
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
-    method: GET
-    expectStatus: 200
+    followRedirect: true # should fetch follow redirects, default=false
     linkable: true # allows the title to be a link, default=true
 
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
-    method: GET
-    expectStatus: 200
+  - id: Ruru # unique identifier
+    name: Ruru Index Status
+    description: 'Ballad monitor, I hope we will never be short of ballads, nor Ruru.' # default=empty
+    url: 'https://ruru-dambara.teatro-starlight-return.workers.dev/0:/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    linkable: true # allows the title to be a link, default=true
+
+  - id: Momoyo # unique identifier
+    name: Momoyo Index Status
+    description: 'SoundOrion leader's index monitor, I pray she always sings "Time Travel" for eternity.' # default=empty
+    url: 'https://momoyo-koyama.teatro-starlightreturn.workers.dev/0:/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    linkable: true # allows the title to be a link, default=true
+
+  - id: Ami # unique identifier
+    name: Ami Index Status
+    description: 'Ami's monitor, please don't fall down and sing "Have a nice journey" forever.' # default=empty
+    url: 'https://ami-komine.teatro-starlightreturn.workers.dev/0:/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    linkable: true # allows the title to be a link, default=true
+
+  - id: Hinata # unique identifier
+    name: Hinata Index Status
+    description: 'Dinosaur Monitor, I hope Hinata will always be on top, captivating us with her personality and talent. ' # default=empty
+    url: 'https://hinata-sato.corsario-teatro-starlight.workers.dev/0:/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    linkable: true # allows the title to be a link, default=true
+
+  - id: Maho # unique identifier
+    name: Maho Index Status
+    description: 'Glow monitor, I hope we never run out of glow, and neither does Maho. Please, Maho, never stop acting.' # default=empty
+    url: 'https://maho-tomita.corsario-teatro-starlight.workers.dev/0:/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: true # should fetch follow redirects, default=false
+    linkable: true # allows the title to be a link, default=true

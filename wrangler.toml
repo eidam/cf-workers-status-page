@@ -8,12 +8,14 @@ compatibility_date = "2021-07-23"
 [triggers]
 crons = ["*/2* *"]
 
+kv-namespaces = [{binding="KV_STATUS_PAGE", id="f67ac96950d540b0824ada11817e913d", preview_id=""}]
+
 [site]
 bucket = "out"
 entry-point = "./"
 
 # uncomment and adjust following if you are not using GitHub Actions
 # [env.production]
-kv-namespaces = [{binding="KV_STATUS_PAGE", id="f67ac96950d540b0824ada11817e913d", preview_id=""}]
+# kv-namespaces = [{binding="KV_STATUS_PAGE", id="f67ac96950d540b0824ada11817e913d", preview_id=""}]
 # zone_id="xxx"
 # route="xxx"

@@ -37,3 +37,9 @@ monitors:
     url: 'https://blog.cloudflare.com/'
     method: GET
     expectStatus: 200
+    
+  - id: plex-mrry-io
+    name: Plex Server
+    url: 'https://plex.mrry.io/'
+    method: GET
+    expectStatus: 200

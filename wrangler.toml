@@ -10,7 +10,7 @@ crons = ["*/2 * * * *"]
 
 [site]
 bucket = "out"
-main = "workers-site/index.js"
+entry-point = "./"
 
 # uncomment and adjust following if you are not using GitHub Actions
 #[env.production]

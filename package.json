@@ -27,6 +27,6 @@
     "postcss-cli": "^8.3.0",
     "prettier": "^2.2.0",
     "tailwindcss": "^2.0.1",
-    "yaml-loader": "^0.6.0"
+    "yaml-loader": "^0.8.0"
   }
 }

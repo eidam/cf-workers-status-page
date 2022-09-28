@@ -32,8 +32,8 @@ monitors:
     expectStatus: 200
     linkable: true # allows the title to be a link, default=true
 
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
+  - id: store-grizzisland-com
+    name: Grizzisland Store
+    url: 'https://store.grizzisland.com/'
     method: GET
     expectStatus: 200

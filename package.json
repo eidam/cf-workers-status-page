@@ -18,7 +18,8 @@
     "laco": "^1.2.1",
     "laco-react": "^1.1.0",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "twitter-api-v2": "^1.12.9"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.2",

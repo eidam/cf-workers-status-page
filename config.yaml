@@ -24,10 +24,10 @@ monitors:
     followRedirects: true
     linkable: true # allows the title to be a link, default=true
     
-  - id: requests-wongway-io
-    name: requests.wongway.io
+  - id: request-wongway-io
+    name: request.wongway.io
     description: 'Wongway Media Requests'
-    url: 'https://requests.wongway.io'
+    url: 'https://request.wongway.io'
     method: GET
     expectStatus: 200
     followRedirects: true

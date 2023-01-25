@@ -15,6 +15,15 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
+  - id: chat-wongway-io
+    name: chat.wongway.io
+    description: 'Wongway Chat'
+    url: 'https://chat.wongway.io/login'
+    method: GET
+    expectStatus: 200
+    followRedirects: true
+    linkable: true
+    
   - id: emby-wongway-io
     name: emby.wongway.io
     description: 'Wongway Media Server'
@@ -22,7 +31,7 @@ monitors:
     method: GET
     expectStatus: 200
     followRedirects: true
-    linkable: true # allows the title to be a link, default=true
+    linkable: true
     
   - id: request-wongway-io
     name: request.wongway.io
@@ -31,15 +40,33 @@ monitors:
     method: GET
     expectStatus: 200
     followRedirects: true
-    linkable: true # allows the title to be a link, default=true
+    linkable: true
     
   - id: recipes-wongway-io
     name: recipes.wongway.io
     description: 'Wongway Recipes Service'
-    url: 'https://recipes.wongway.io/account/login'
+    url: 'https://recipes.wongway.io/accounts/login/'
     method: GET
     expectStatus: 200
     followRedirects: true
-    linkable: true # allows the title to be a link, default=true
+    linkable: true
+    
+  - id: read-wongway-io
+    name: read.wongway.io
+    description: 'Wongway Book Service'
+    url: 'https://read.wongway.io/login?next=%2F'
+    method: GET
+    expectStatus: 200
+    followRedirects: true
+    linkable: true
+    
+  - id: read-wongway-io
+    name: read.wongway.io
+    description: 'Wongway Book Service'
+    url: 'https://read.wongway.io/login?next=%2F'
+    method: GET
+    expectStatus: 200
+    followRedirects: true
+    linkable: true
     
     

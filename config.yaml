@@ -18,7 +18,7 @@ monitors:
   - id: emby-wongway-io
     name: emby.wongway.io
     description: 'Wongway Media Server'
-    url: 'https://emby.wongway.io'
+    url: 'https://emby.wongway.io/web/index.html#!/startup/login.html?serverId=3e9c5d2f832c41329ec9c1d78ae8530b'
     method: GET
     expectStatus: 200
     followRedirects: true
@@ -27,7 +27,7 @@ monitors:
   - id: request-wongway-io
     name: request.wongway.io
     description: 'Wongway Media Requests'
-    url: 'https://request.wongway.io'
+    url: 'https://request.wongway.io/login'
     method: GET
     expectStatus: 200
     followRedirects: true
@@ -36,7 +36,7 @@ monitors:
   - id: recipes-wongway-io
     name: recipes.wongway.io
     description: 'Wongway Recipes Service'
-    url: 'https://recipes.wongway.io'
+    url: 'https://recipes.wongway.io/account/login'
     method: GET
     expectStatus: 200
     followRedirects: true

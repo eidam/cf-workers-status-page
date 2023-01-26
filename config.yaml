@@ -24,6 +24,24 @@ monitors:
     followRedirects: true
     linkable: true
     
+  - id: cloud-wongway-io
+    name: cloud.wongway.io
+    description: 'Wongway Cloud Storage'
+    url: 'https://cloud.wongway.io/login'
+    method: GET
+    expectStatus: 200
+    followRedirects: true
+    linkable: true
+    
+  - id: hass-wongway-io
+    name: hass.wongway.io
+    description: 'Wongway Home-Assistant'
+    url: 'https://hass.wongway.io'
+    method: GET
+    expectStatus: 200
+    followRedirects: true
+    linkable: true
+      
   - id: emby-wongway-io
     name: emby.wongway.io
     description: 'Wongway Media Server'
@@ -59,14 +77,4 @@ monitors:
     expectStatus: 200
     followRedirects: true
     linkable: true
-    
-  - id: read-wongway-io
-    name: read.wongway.io
-    description: 'Wongway Book Service'
-    url: 'https://read.wongway.io/login?next=%2F'
-    method: GET
-    expectStatus: 200
-    followRedirects: true
-    linkable: true
-    
     

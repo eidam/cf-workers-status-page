@@ -17,11 +17,11 @@ settings:
 monitors:
   - id: api-zim-dev # unique identifier
     name: api.zim.dev
-    description: 'api.zim.dev' # default=empty
-    url: 'https://api.zim.dev/' # URL to fetch
+#     description: 'api.zim.dev' # default=empty
+    url: 'https://api.zim.dev' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
+    followRedirect: true # should fetch follow redirects, default=false
     linkable: false # allows the title to be a link, default=true
 
   - id: zim-dev
@@ -30,10 +30,11 @@ monitors:
     url: 'https://zim.dev'
     method: GET
     expectStatus: 200
-    linkable: true # allows the title to be a link, default=true
+    linkable: false # allows the title to be a link, default=true
 
   - id: driftdb-zim-dev
     name: driftdb.zim.dev
     url: 'https://driftdb.zim.dev/'
     method: GET
     expectStatus: 200
+    linkable: false

@@ -15,6 +15,25 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
+  
+  - id: outline-livewick # unique identifier
+    name: livewick.outlinecc.com
+    description: 'Un nuevo servicio de Streaming' # default=empty
+    url: 'https://livewick.outlinecc.com/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: false # should fetch follow redirects, default=false
+    linkable: false # allows the title to be a link, default=true
+    
+  - id: outline-sketchbattle # unique identifier
+    name: sketchbattle.outlinecc.com
+    description: 'You write code. They handle the rest.' # default=empty
+    url: 'https://sketchbattle.outlinecc.com/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: false # should fetch follow redirects, default=false
+    linkable: false # allows the title to be a link, default=true
+    
   - id: workers-cloudflare-com # unique identifier
     name: workers.cloudflare.com
     description: 'You write code. They handle the rest.' # default=empty

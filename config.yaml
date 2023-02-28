@@ -27,7 +27,7 @@ monitors:
     
   - id: outline-sketchbattle # unique identifier
     name: sketchbattle.outlinecc.com
-    description: 'You write code. They handle the rest.' # default=empty
+    description: 'Un nuevo evento de dibujo.' # default=empty
     url: 'https://sketchbattle.outlinecc.com/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200

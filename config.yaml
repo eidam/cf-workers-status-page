@@ -15,7 +15,16 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  
+
+  - id: adsb # unique identifier
+    name: adsbmap.gusdleon.com
+    description: 'Que avión es ese???' # default=empty
+    url: 'https://adsbmap.gusdleon.com/tar1090/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: false # should fetch follow redirects, default=false
+    linkable: false # allows the title to be a link, default=true
+
   - id: outline-livewick # unique identifier
     name: livewick.outlinecc.com
     description: 'Un nuevo servicio de Streaming' # default=empty
@@ -24,7 +33,7 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
     linkable: false # allows the title to be a link, default=true
-    
+
   - id: outline-sketchbattle # unique identifier
     name: sketchbattle.outlinecc.com
     description: 'Un nuevo evento de dibujo.' # default=empty
@@ -33,7 +42,7 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
     linkable: false # allows the title to be a link, default=true
-    
+
   - id: workers-cloudflare-com # unique identifier
     name: workers.cloudflare.com
     description: 'You write code. They handle the rest.' # default=empty

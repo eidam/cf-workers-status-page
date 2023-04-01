@@ -1,9 +1,7 @@
-# Cloudflare Worker - Status Page
+# Cloudflare Worker - Status Page - status.joostvanderlaan.nl
 
-
-test
-
-Monitor your websites, showcase status including daily history, and get Slack notification whenever your website status changes. Using **Cloudflare Workers**, **CRON Triggers,** and **KV storage**. Check [my status page](https://status-page.eidam.dev) out! 🚀
+Monitor websites, showcase status including daily history, and get Slack notification whenever your website status changes. Using **Cloudflare Workers**, **CRON Triggers,** and **KV storage**.  
+Check [https://status.joostvanderlaan.nl/](https://status.joostvanderlaan.nl/) out! 🚀
 
 ![Status Page](.gitbook/assets/status_page_screenshot.png)
 
@@ -126,48 +124,60 @@ The Workers Free plan includes limited KV usage, but the quota is sufficient for
 
 WIP - Support for Durable Objects - Cloudflare's product for low-latency coordination and consistent storage for the Workers platform. There is a working prototype, however, we are waiting for at least open beta.
 
-There is also a managed version of this project, currently in beta. Feel free to check it out https://statusflare.com (https://twitter.com/statusflare_com).
+There is also a managed version of this project, currently in beta. Feel free to check it out <https://statusflare.com> (<https://twitter.com/statusflare_com>).
 
 ## Running project locally
+
 **Requirements**
+
 - Linux or WSL
 - Yarn (`npm i -g yarn`)
 - Node 14+
 
 ### Steps to get server up and running
+
 **Install wrangler**
+
 ```
 npm i -g wrangler
 ```
 
 **Login With Wrangler to Cloudflare**
+
 ```
 wrangler login
 ```
 
 **Create your KV namespace in cloudflare**
+
 ```
 On the workers page navigate to KV, and create a namespace
 ```
 
 **Update your wrangler.toml with**
+
 ```
 kv-namespaces = [{binding="KV_STATUS_PAGE", id="<KV_ID>", preview_id="<KV_ID>"}]
 ```
+
 _Note: you may need to change `kv-namespaces` to `kv_namespaces`_
 
 **Install packages**
+
 ```
 yarn install
 ```
 
 **Create CSS**
+
 ```
 yarn run css
 ```
 
 **Run**
+
 ```
 yarn run dev
 ```
+
 _Note: If the styles do not come through try using `localhost:8787` instead of `localhost:8080`_

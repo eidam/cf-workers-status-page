@@ -15,25 +15,25 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: pan-gongyun-xyz # unique identifier
-    name: pan.gongyun.xyz
-    description: '公云存储主页' # default=empty
-    url: 'https://pan.gongyun.xyz/' # URL to fetch
+  - id: workers-cloudflare-com # unique identifier
+    name: workers.cloudflare.com
+    description: 'You write code. They handle the rest.' # default=empty
+    url: 'https://workers.cloudflare.com/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
-    linkable: true # allows the title to be a link, default=true
+    linkable: false # allows the title to be a link, default=true
 
-  - id: wiki-gongyun-xyz
-    name: wiki.gongyun.xyz
-    description: '公云存储使用文档'
-    url: 'https://wiki.gongyun.xyz/'
+  - id: www-cloudflare-com
+    name: www.cloudflare.com
+    description: 'Built for anything connected to the Internet.'
+    url: 'https://www.cloudflare.com'
     method: GET
     expectStatus: 200
     linkable: true # allows the title to be a link, default=true
 
-  - id: pan.spx233.top
-    name: panbaidu-url-pull
-    url: 'http://pan.spx233.top'
+  - id: blog-cloudflare-com
+    name: The Cloudflare Blog
+    url: 'https://blog.cloudflare.com/'
     method: GET
     expectStatus: 200

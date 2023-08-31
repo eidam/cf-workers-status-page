@@ -27,7 +27,7 @@ monitors:
     # default=GET
     expectStatus: 200
     # operational status, default=200
-    followRedirect: true
+    followRedirect: false
     # should fetch follow redirects, default=false
     linkable: true
     # allows the title to be a link, default=true
@@ -63,4 +63,5 @@ monitors:
   - id: hass
     name: ha
     url: 'https://ha.tcoutu.ca/'
+    followRedirect: false
     linkable: false

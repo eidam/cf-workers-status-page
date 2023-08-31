@@ -37,3 +37,12 @@ monitors:
     url: 'https://blog.cloudflare.com/'
     method: GET
     expectStatus: 200
+    
+  - id: linksbd.cf # unique identifier
+    name: linksbd.cf
+    description: 'Make Short Link With Powerfull API With Workers' # default=empty
+    url: 'https://linksbd.cf/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: false # should fetch follow redirects, default=false
+    linkable: false # allows the title to be a link, default=true

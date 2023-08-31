@@ -30,6 +30,7 @@ monitors:
     url: 'https://mail.tcoutu.ca/'
     method: GET
     expectStatus: 200
+    followRedirect: true
     linkable: true # allows the title to be a link, default=true
 
   - id: ncloud
@@ -37,16 +38,19 @@ monitors:
     url: 'https://nc.tcoutu.ca/'
     method: GET
     expectStatus: 200
+    followRedirect: true
     linkable: false
 
-  - id: jffin
+  - id: jfin
     name: jf
     url: 'https://jf.tcoutu.ca/'
+    followRedirect: true
     linkable: false
 
   - id: qbt
     name: qb
     url: 'https://qb.tcoutu.ca/'
+    linkable: false
   
   - id: hass
     name: ha

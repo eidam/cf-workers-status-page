@@ -15,14 +15,22 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: masto # unique identifier
+  - id: masto
+    # unique identifier
     name: Mastodon
-    description: 'Mastodon social networking service' # default=empty
-    url: 'https://masto.tcoutu.ca:443/' # URL to fetch
-    method: GET # default=GET
-    expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
-    linkable: true # allows the title to be a link, default=true
+    # Shows up on the webpage
+    description: 'Mastodon social networking service'
+    # default=empty
+    url: 'https://masto.tcoutu.ca/'
+    # URL to fetch
+    method: GET
+    # default=GET
+    expectStatus: 200
+    # operational status, default=200
+    followRedirect: true
+    # should fetch follow redirects, default=false
+    linkable: true
+    # allows the title to be a link, default=true
 
   - id: email
     name: Mail
@@ -31,7 +39,7 @@ monitors:
     method: GET
     expectStatus: 200
     followRedirect: true
-    linkable: true # allows the title to be a link, default=true
+    linkable: true
 
   - id: ncloud
     name: nc

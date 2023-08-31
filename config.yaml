@@ -27,7 +27,7 @@ monitors:
     # default=GET
     expectStatus: 200
     # operational status, default=200
-    followRedirect: false
+    followRedirect: true
     # should fetch follow redirects, default=false
     linkable: true
     # allows the title to be a link, default=true

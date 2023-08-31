@@ -24,31 +24,31 @@ monitors:
     followRedirect: false # should fetch follow redirects, default=false
     linkable: true # allows the title to be a link, default=true
 
-  - id: mail
+  - id: email
     name: Mail
     description: 'Email services'
-    url: 'https://mail.tcoutu.ca'
+    url: 'https://mail.tcoutu.ca/'
     method: GET
     expectStatus: 200
     linkable: true # allows the title to be a link, default=true
 
-  - id: nc
+  - id: ncloud
     name: nc
     url: 'https://nc.tcoutu.ca/'
     method: GET
     expectStatus: 200
     linkable: false
 
-  - id: jf
+  - id: jffin
     name: jf
-    url: 'jf.tcoutu.ca'
+    url: 'https://jf.tcoutu.ca/'
     linkable: false
 
-  - id: qb
+  - id: qbt
     name: qb
-    url: 'https://qb.tcoutu.ca'
+    url: 'https://qb.tcoutu.ca/'
   
-  - id: ha
+  - id: hass
     name: ha
-    url: 'ha.tcoutu.ca'
+    url: 'https://ha.tcoutu.ca/'
     linkable: false

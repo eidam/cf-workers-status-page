@@ -1,6 +1,6 @@
 settings:
   title: 'Status Page'
-  url: 'https://status.tcoutu.ca' # used for Slack messages
+  url: 'https://statuspage.tcoutu.ca' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 20 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations

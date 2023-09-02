@@ -80,7 +80,32 @@ export async function notifyTelegram(monitor, operational) {
   const telegramUrl = `https://api.telegram.org/bot${SECRET_TELEGRAM_API_TOKEN}/sendMessage`
   return fetch(telegramUrl, {
     body: payload,
+    method: 'POST'
+  })
+}
+
+export async function notifyNtfy(monitor, operational) {
+  const text = `${monitor.method ? monitor.method : 'GET'} ${
+    monitor.url
+  }`
+  const headers =  {
+    'Title': `Monitor ${monitor.name} changed status to ${getOperationalLabel(operational)} ${operational ? '✅' : '❌'}`,
+    'Priority': config.settings.ntfyPriority,
+    'Click': `${config.settings.url}`,
+    'Tags': 'status-page'
+  }
+
+  if (typeof SECRET_NTFY_USERNAME !== 'undefined' &&
+    SECRET_NTFY_USERNAME !== 'default-gh-action-secret' &&
+    typeof SECRET_NTFY_PASSWORD !== 'undefined' &&
+    SECRET_NTFY_PASSWORD !== 'default-gh-action-secret') {
+    headers.authorization = `Basic ${Buffer.from(`${SECRET_NTFY_USERNAME}:${SECRET_NTFY_PASSWORD}`).toString('base64')}`
+  }
+
+  fetch(SECRET_NTFY_WEBHOOK_URL, {
+    body: text,
     method: 'POST',
+    headers
   })
 }
 

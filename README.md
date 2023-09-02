@@ -75,6 +75,8 @@ You can either deploy with **Cloudflare Deploy Button** using GitHub Actions or 
        expectStatus: 200 # operational status, default=200
        followRedirect: false # should fetch follow redirects, default=false
        linkable: false # should the titles be links to the service, default=true
+       withCredentials: false # specify if authentication is needed, set as false when not required
+       bearer: 'dXNlcjpwYXNz' # base64 encoded string of `username:password`, required if authentication is supported
    ```
 
 5. Push to `main` branch to trigger the deployment

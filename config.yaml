@@ -15,25 +15,21 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
+  - id: icpush-net # unique identifier
+    name: icpush.net
+    description: 'icpush.' # default=empty
+    url: 'https://www.icpush.net/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
     linkable: false # allows the title to be a link, default=true
 
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
+  - id: southchips-com
+    name: www.southchips.com
+    description: 'southchips'
+    url: 'https://www.southchips.com'
     method: GET
     expectStatus: 200
     linkable: true # allows the title to be a link, default=true
 
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
-    method: GET
-    expectStatus: 200
+

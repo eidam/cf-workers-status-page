@@ -37,3 +37,9 @@ monitors:
     url: 'https://blog.cloudflare.com/'
     method: GET
     expectStatus: 200
+
+  - id: baidu.com
+    name: Test Baidu
+    url: 'https://www.baidu.com/'
+    method: GET
+    expectStatus: 200

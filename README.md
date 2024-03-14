@@ -109,6 +109,9 @@ The Workers Free plan includes limited KV usage, but the quota is sufficient for
 
 - Change the CRON trigger to 2 minutes interval (`crons = ["*/2 * * * *"]`) in [wrangler.toml](./wrangler.toml)
 
+Or you can increase the `kvWriteCooldownMinutes` to hugely reduce the number of writes to KV, however, it will also reduce the accuracy of the status page.
+
+
 ## Known issues
 
 - **Max 25 monitors to watch in case you are using Slack notifications**, due to the limit of subrequests Cloudflare Worker can make \(50\).

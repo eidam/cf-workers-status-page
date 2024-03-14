@@ -4,6 +4,8 @@ settings:
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
+  # Min time between KV writes, unless status changes. Helps stay within free tier limits. Default: 60 minutes.
+  kvWriteCooldownMinutes: 60
 
   allmonitorsOperational: 'All Systems Operational'
   notAllmonitorsOperational: 'Not All Systems Operational'

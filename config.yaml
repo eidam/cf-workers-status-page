@@ -38,8 +38,14 @@ monitors:
     method: GET
     expectStatus: 200
 
-  - id: bing.com
+  - id: bing-com
     name: Test Bing
-    url: 'https://www.bing.com/'
+    url: 'https://www.bing.com'
+    method: GET
+    expectStatus: 200
+
+  - id: home-leox-top
+    name: home.leox.top
+    url: 'https://home.leox.top'
     method: GET
     expectStatus: 200

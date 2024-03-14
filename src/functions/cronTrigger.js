@@ -1,5 +1,4 @@
 import config from '../../config.yaml'
-
 import {
   notifySlack,
   notifyTelegram,
@@ -13,147 +12,163 @@ function getDate() {
   return new Date().toISOString().split('T')[0]
 }
 
-export async function processCronTrigger(event) {
-  // Get Worker PoP and save it to monitorsStateMetadata
-  const checkLocation = await getCheckLocation()
-  const checkDay = getDate()
+async function checkMonitorStatus(monitor, init) {
+  const requestStartTime = Date.now()
+  const checkResponse = await fetch(monitor.url, init)
+  const requestTime = Math.round(Date.now() - requestStartTime)
+  const operational = checkResponse.status === (monitor.expectStatus || 200)
+  return {
+    operational,
+    requestTime,
+    status: checkResponse.status,
+    statusText: checkResponse.statusText,
+  }
+}
 
-  // Get monitors state from KV
-  let monitorsState = await getKVMonitors()
+async function sendNotifications(
+  event,
+  monitor,
+  monitorOperational,
+  monitorStatusChanged,
+) {
+  if (monitorStatusChanged) {
+    const shouldNotifySlack =
+      typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined' &&
+      SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret'
+    if (shouldNotifySlack) {
+      event.waitUntil(notifySlack(monitor, monitorOperational))
+    }
 
-  // Create empty state objects if not exists in KV storage yet
-  if (!monitorsState) {
-    monitorsState = { lastUpdate: {}, monitors: {} }
+    const shouldNotifyTelegram =
+      typeof SECRET_TELEGRAM_API_TOKEN !== 'undefined' &&
+      SECRET_TELEGRAM_API_TOKEN !== 'default-gh-action-secret'
+    if (shouldNotifyTelegram) {
+      event.waitUntil(notifyTelegram(monitor, monitorOperational))
+    }
+
+    const shouldNotifyDiscord =
+      typeof SECRET_DISCORD_WEBHOOK_URL !== 'undefined' &&
+      SECRET_DISCORD_WEBHOOK_URL !== 'default-gh-action-secret'
+    if (shouldNotifyDiscord) {
+      event.waitUntil(notifyDiscord(monitor, monitorOperational))
+    }
+  }
+}
+
+function updateMonitorState(
+  monitorsState,
+  monitor,
+  operational,
+  status,
+  statusText,
+  checkDay,
+  requestTime,
+  checkLocation,
+) {
+  let stateChanged = false
+  const monitorState = monitorsState.monitors[monitor.id]
+  if (monitorState.lastCheck.operational !== operational) {
+    monitorState.lastCheck = { status, statusText, operational }
+    stateChanged = true
+  }
+  if (config.settings.collectResponseTimes && operational) {
+    if (!monitorState.checks[checkDay]) {
+      monitorState.checks[checkDay] = { fails: 0, res: {} }
+      stateChanged = true
+    }
+    if (!monitorState.checks[checkDay].res[checkLocation]) {
+      monitorState.checks[checkDay].res[checkLocation] = { n: 0, ms: 0, a: 0 }
+    }
+    const locData = monitorState.checks[checkDay].res[checkLocation]
+    locData.n++
+    locData.ms += requestTime
+    locData.a = Math.round(locData.ms / locData.n)
+    // stateChanged = true
+  } else if (!operational) {
+    if (!monitorState.checks[checkDay]) {
+      monitorState.checks[checkDay] = { fails: 1, res: {} }
+      stateChanged = true
+    } else if (monitorState.checks[checkDay].fails === 0 || stateChanged) {
+      monitorState.checks[checkDay].fails++
+      stateChanged = true
+    }
   }
 
-  // Reset default all monitors state to true
-  monitorsState.lastUpdate.allOperational = true
+  // Returning the possibly updated monitorsState
+  return { updated: stateChanged, monitorsState }
+}
+
+export async function processCronTrigger(event) {
+  const checkLocation = await getCheckLocation()
+  const checkDay = getDate()
+  let monitorsState = (await getKVMonitors()) || {
+    lastUpdate: { time: 0 },
+    monitors: {},
+  }
+  let isUpdateRequired = false
+
+  const now = Date.now()
+  const cooldownMinutes = (config.settings.kvWriteCooldownMinutes || 60) * 60000
+  if (now - monitorsState.lastUpdate.time > cooldownMinutes) {
+    isUpdateRequired = true
+  }
 
   for (const monitor of config.monitors) {
-    // Create default monitor state if does not exist yet
-    if (typeof monitorsState.monitors[monitor.id] === 'undefined') {
+    const init = {
+      method: monitor.method || 'GET',
+      headers: {
+        'User-Agent': config.settings.user_agent || 'cf-worker-status-page',
+      },
+      redirect: monitor.followRedirect ? 'follow' : 'manual',
+    }
+    const {
+      operational,
+      requestTime,
+      status,
+      statusText,
+    } = await checkMonitorStatus(monitor, init)
+    const monitorOperational = operational // This was not defined previously, assuming it's the result of the operational check.
+    const monitorStatusChanged =
+      monitorsState.monitors[monitor.id]?.lastCheck?.operational !==
+      monitorOperational
+
+    if (!monitorsState.monitors[monitor.id]) {
       monitorsState.monitors[monitor.id] = {
         firstCheck: checkDay,
         lastCheck: {},
         checks: {},
       }
+      isUpdateRequired = true
     }
 
-    console.log(`Checking ${monitor.name} ...`)
+    const updateResult = updateMonitorState(
+      monitorsState,
+      monitor,
+      operational,
+      status,
+      statusText,
+      checkDay,
+      requestTime,
+      checkLocation,
+    )
 
-    // Fetch the monitors URL
-    const init = {
-      method: monitor.method || 'GET',
-      redirect: monitor.followRedirect ? 'follow' : 'manual',
-      headers: {
-        'User-Agent': config.settings.user_agent || 'cf-worker-status-page',
-      },
-    }
+    monitorsState = updateResult.monitorsState
+    isUpdateRequired = isUpdateRequired || updateResult.updated
 
-    // Perform a check and measure time
-    const requestStartTime = Date.now()
-    const checkResponse = await fetch(monitor.url, init)
-    const requestTime = Math.round(Date.now() - requestStartTime)
-
-    // Determine whether operational and status changed
-    const monitorOperational =
-      checkResponse.status === (monitor.expectStatus || 200)
-    const monitorStatusChanged =
-      monitorsState.monitors[monitor.id].lastCheck.operational !==
-      monitorOperational
-
-    // Save monitor's last check response status
-    monitorsState.monitors[monitor.id].lastCheck = {
-      status: checkResponse.status,
-      statusText: checkResponse.statusText,
-      operational: monitorOperational,
-    }
-
-    // Send Slack message on monitor change
-    if (
-      monitorStatusChanged &&
-      typeof SECRET_SLACK_WEBHOOK_URL !== 'undefined' &&
-      SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret'
-    ) {
-      event.waitUntil(notifySlack(monitor, monitorOperational))
-    }
-
-    // Send Telegram message on monitor change
-    if (
-      monitorStatusChanged &&
-      typeof SECRET_TELEGRAM_API_TOKEN !== 'undefined' &&
-      SECRET_TELEGRAM_API_TOKEN !== 'default-gh-action-secret' &&
-      typeof SECRET_TELEGRAM_CHAT_ID !== 'undefined' &&
-      SECRET_TELEGRAM_CHAT_ID !== 'default-gh-action-secret'
-    ) {
-      event.waitUntil(notifyTelegram(monitor, monitorOperational))
-    }
-
-    // Send Discord message on monitor change
-    if (
-      monitorStatusChanged &&
-      typeof SECRET_DISCORD_WEBHOOK_URL !== 'undefined' &&
-      SECRET_DISCORD_WEBHOOK_URL !== 'default-gh-action-secret'
-    ) {
-      event.waitUntil(notifyDiscord(monitor, monitorOperational))
-    }
-
-    // make sure checkDay exists in checks in cases when needed
-    if (
-      (config.settings.collectResponseTimes || !monitorOperational) &&
-      !monitorsState.monitors[monitor.id].checks.hasOwnProperty(checkDay)
-    ) {
-      monitorsState.monitors[monitor.id].checks[checkDay] = {
-        fails: 0,
-        res: {},
-      }
-    }
-
-    if (config.settings.collectResponseTimes && monitorOperational) {
-      // make sure location exists in current checkDay
-      if (
-        !monitorsState.monitors[monitor.id].checks[checkDay].res.hasOwnProperty(
-          checkLocation,
-        )
-      ) {
-        monitorsState.monitors[monitor.id].checks[checkDay].res[
-          checkLocation
-        ] = {
-          n: 0,
-          ms: 0,
-          a: 0,
-        }
-      }
-
-      // increment number of checks and sum of ms
-      const no = ++monitorsState.monitors[monitor.id].checks[checkDay].res[
-        checkLocation
-      ].n
-      const ms = (monitorsState.monitors[monitor.id].checks[checkDay].res[
-        checkLocation
-      ].ms += requestTime)
-
-      // save new average ms
-      monitorsState.monitors[monitor.id].checks[checkDay].res[
-        checkLocation
-      ].a = Math.round(ms / no)
-    } else if (!monitorOperational) {
-      // Save allOperational to false
-      monitorsState.lastUpdate.allOperational = false
-
-      // Increment failed checks on status change or first fail of the day (maybe call it .incidents instead?)
-      if (monitorStatusChanged || monitorsState.monitors[monitor.id].checks[checkDay].fails == 0) {
-        monitorsState.monitors[monitor.id].checks[checkDay].fails++
-      }
+    try {
+      await sendNotifications(event, monitor, operational, monitorStatusChanged)
+    } catch (e) {
+      console.error('Failed to send notifications', e)
     }
   }
 
-  // Save last update information
-  monitorsState.lastUpdate.time = Date.now()
-  monitorsState.lastUpdate.loc = checkLocation
+  if (isUpdateRequired) {
+    monitorsState.lastUpdate.time = now
+    monitorsState.lastUpdate.loc = checkLocation
+    await setKVMonitors(monitorsState)
+  } else {
+    console.log('Skipping write status to KV!')
+  }
 
-  // Save monitorsState to KV storage
-  await setKVMonitors(monitorsState)
-
-  return new Response('OK')
+  return new Response('OK', { status: 200 })
 }

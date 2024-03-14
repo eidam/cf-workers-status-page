@@ -38,8 +38,8 @@ monitors:
     method: GET
     expectStatus: 200
 
-  - id: baidu.com
-    name: Test Baidu
-    url: 'https://www.baidu.com/'
+  - id: bing.com
+    name: Test Bing
+    url: 'https://www.bing.com/'
     method: GET
     expectStatus: 200

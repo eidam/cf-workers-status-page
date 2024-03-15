@@ -7,7 +7,7 @@ compatibility_date = "2021-07-23"
 
 [triggers]
 # crons = ["* * * * *"]
-crons = ["*/2 * * * *"]
+crons = ["*/30 * * * *"]
 
 [site]
 bucket = "out"

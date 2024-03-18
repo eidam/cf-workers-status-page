@@ -1,6 +1,6 @@
 settings:
   title: 'Status Page'
-  url: 'https://status-page.leox.top' # used for Slack messages
+  url: 'https://status-page.zzonez.com' # used for Slack messages
   logo: logo-192x192.png # image in ./public/ folder
   daysInHistogram: 90 # number of days you want to display in histogram
   collectResponseTimes: true # collects avg response times from CRON locations
@@ -15,15 +15,15 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: home-leox-top
-    name: home.leox.top
-    url: 'https://home.leox.top'
+  - id: s-zzonez-com
+    name: s.zzonez.com
+    url: 'https://s.zzonez.com'
     method: GET
     expectStatus: 200
 
-  - id: 101-200-63-226
-    name: 101.200.63.226
-    url: 'http://101.200.63.226'
+  - id: chat-zzonez-com
+    name: chat.zzonez.com
+    url: 'https://chat.zzonez.com'
     method: GET
     expectStatus: 200
 

@@ -26,9 +26,8 @@ jobs:
       with:
         apiToken: ${{ secrets.CF_API_TOKEN }}
         preCommands: |
-          wrangler kv:namespace create KV_STATUS_PAGE
-          apt-get update && apt-get install -y jq
-          export KV_NAMESPACE_ID=$(wrangler kv:namespace list | jq -c 'map(select(.title | contains("KV_STATUS_PAGE")))' | jq -r ".[0].id")
+          wrangler kv:namespace create KV_STATUS_PAGE || true
+          export KV_NAMESPACE_ID=$(npx @cloudflare/wrangler@1 kv:namespace list 2> >(tee stderr.log >&2) | head -1 | node -pe "JSON.parse(fs.readFileSync('/dev/stdin').toString()).find(kv => kv.title.includes('KV_STATUS_PAGE')).id")
           echo "[env.production]" >> wrangler.toml
           echo "kv_namespaces = [{binding=\"KV_STATUS_PAGE\", id=\"${KV_NAMESPACE_ID}\"}]" >> wrangler.toml
           [ -z "$SECRET_SLACK_WEBHOOK_URL" ] && echo "Secret SECRET_SLACK_WEBHOOK_URL not set, creating dummy one..." && SECRET_SLACK_WEBHOOK_URL="default-gh-action-secret" || true

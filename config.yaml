@@ -15,6 +15,12 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
+  - id: 1panel-zzonez-com
+    name: 1panel.zzonez.com
+    url: 'https://1panel.zzonez.com'
+    method: GET
+    expectStatus: 200
+
   - id: s-zzonez-com
     name: s.zzonez.com
     url: 'https://s.zzonez.com'

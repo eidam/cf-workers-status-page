@@ -15,16 +15,16 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
+  - id: smoant_com # unique identifier
+    name: smoant.com
+    description: '如果有问题可以查看网站是否正' # default=empty
     url: 'https://smoant.com/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
-    linkable: false # allows the title to be a link, default=true
+    linkable: true # allows the title to be a link, default=true
 
-  - id: www-cloudflare-com
+  - id: cloupor_com
     name: cloupor.com
     description: 'Built for anything connected to the Internet.'
     url: 'https://cloupor.com'
@@ -32,8 +32,56 @@ monitors:
     expectStatus: 200
     linkable: true # allows the title to be a link, default=true
 
-  - id: blog-cloudflare-com
-    name: antbar
+monitors:
+  - id: smoant_com # unique identifier
+    name: smoant.com
+    description: '如果有问题可以查看网站是否正' # default=empty
+    url: 'https://smoant.com/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    followRedirect: false # should fetch follow redirects, default=false
+    linkable: false # allows the title to be a link, default=true
+
+  - id: cloupor_com
+    name: cloupor.com
+    description: 'Built for anything connected to the Internet.'
+    url: 'https://cloupor.com'
+    method: GET
+    expectStatus: 200
+    linkable: true # allows the title to be a link, default=true
+
+  - id: antbar_com
+    name: antbar.com
     url: 'https://antbar.com/'
+    method: GET
+    expectStatus: 200
+
+  - id: clouportech_com
+    name: clouportech.com
+    url: 'https://clouportech.com/'
+    method: GET
+    expectStatus: 200
+
+  - id: antbar_id
+    name: antbar.id
+    url: 'https://antbar.id/'
+    method: GET
+    expectStatus: 200
+
+  - id: antbar_vn
+    name: antbar.vn
+    url: 'https://antbar.vn/'
+    method: GET
+    expectStatus: 200
+
+  - id: udnbar_com
+    name: udnbar.com
+    url: 'https://udnbar.com/'
+    method: GET
+    expectStatus: 200
+
+  - id: smoantmall_com
+    name: smoantmall.com
+    url: 'https://smoantmall.com/'
     method: GET
     expectStatus: 200

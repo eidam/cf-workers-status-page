@@ -15,25 +15,29 @@ settings:
   dayInHistogramNotOperational: ' incident(s)' # xx incident(s) recorded
 
 monitors:
-  - id: workers-cloudflare-com # unique identifier
-    name: workers.cloudflare.com
-    description: 'You write code. They handle the rest.' # default=empty
-    url: 'https://workers.cloudflare.com/' # URL to fetch
+  - id: slotegrator-pro # unique identifier
+    name: slotegrator.pro
+    description: 'Main commercial website' # default=empty
+    url: 'https://slotegrator.pro/' # URL to fetch
     method: GET # default=GET
     expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
-    linkable: false # allows the title to be a link, default=true
+    #followRedirect: false # should fetch follow redirects, default=false
+    #linkable: false # allows the title to be a link, default=true
 
-  - id: www-cloudflare-com
-    name: www.cloudflare.com
-    description: 'Built for anything connected to the Internet.'
-    url: 'https://www.cloudflare.com'
-    method: GET
-    expectStatus: 200
-    linkable: true # allows the title to be a link, default=true
-
-  - id: blog-cloudflare-com
-    name: The Cloudflare Blog
-    url: 'https://blog.cloudflare.com/'
-    method: GET
-    expectStatus: 200
+  - id: static-slotegrator-pro # unique identifier
+    name: static.slotegrator.pro
+    description: 'Img storage for main website' # default=empty
+    url: 'https://static.slotegrator.pro/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    #followRedirect: false # should fetch follow redirects, default=false
+    #linkable: false # allows the title to be a link, default=true  
+    
+  - id: onlinegamblinglicense-org # unique identifier
+    name: onlinegamblinglicense.org
+    description: 'Consulting commercial website' # default=empty
+    url: 'https://onlinegamblinglicense.org/' # URL to fetch
+    method: GET # default=GET
+    expectStatus: 200 # operational status, default=200
+    #followRedirect: false # should fetch follow redirects, default=false
+    #linkable: false # allows the title to be a link, default=true
